@@ -1,5 +1,5 @@
 [build]
-  publish = "your-public-folder" # E.g., "dist", "public", etc.
+  publish = "" # E.g., "dist", "public", etc.
   command = "npm run build" # If applicable; otherwise, leave empty
 
 [[redirects]]
