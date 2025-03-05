@@ -1,8 +1,8 @@
 [build]
-  command = ""
-  publish = "."
+  publish = "your-public-folder" # E.g., "dist", "public", etc.
+  command = "npm run build" # If applicable; otherwise, leave empty
 
 [[redirects]]
-  from = "/forms/contact.php"
-  to = "/.netlify/functions/contact"
+  from = "/*"
+  to = "/index.html"
   status = 200
