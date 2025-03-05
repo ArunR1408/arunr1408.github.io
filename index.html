@@ -578,11 +578,26 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js" async></script>
 
-</body>
+<body>
+  <p>Your age is: <span id="age"></span></p>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const birthDate = new Date('2003-09-18');
-      const age = new Date().getFullYear() - birthDate.getFullYear();
+      const today = new Date();
+
+      let age = today.getFullYear() - birthDate.getFullYear();
+
+      // Check if birthday has not occurred yet this year
+      const hasBirthdayPassed = today.getMonth() > birthDate.getMonth() ||
+                                (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+
+      if (!hasBirthdayPassed) {
+        age--; // Decrease age if birthday is yet to come
+      }
+
       document.getElementById('age').textContent = age;
     });
+  </script>
+</body>
+
   </script>
