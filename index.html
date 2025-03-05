@@ -487,7 +487,7 @@
           </div>
 
           <div class="col-lg-8 mt-5 mt-lg-0">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form name="contact" method="POST" data-netlify="true" class="php-email-form">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -502,6 +502,8 @@
               <div class="form-group mt-3">
                 <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
               </div>
+              <!-- Netlify required hidden field -->
+              <input type="hidden" name="form-name" value="contact">
               <div class="my-3">
                 <div class="loading">Loading</div>
                 <div class="error-message"></div>
