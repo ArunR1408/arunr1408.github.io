@@ -157,7 +157,41 @@ h6 {
 --------------------------------------------------------------*/
 /**
 * Desktop Navigation 
-*/
+:root {
+  --bg: #fff;
+  --fg: #333;
+  --primary: #0d6efd;
+  --accent: #e25555;
+  --card-bg: #f9f9f9;
+  --dark-bg: #121212;
+  --dark-fg: #eee;
+  --dark-card: #1f1f1f;
+}
+
+/* Theme */
+body { background: var(--bg); color: var(--fg); transition: background 0.3s, color 0.3s; }
+body.dark { background: var(--dark-bg); color: var(--dark-fg); }
+
+/* Scroll Progress */
+.scroll-progress-container { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 9999; }
+.scroll-progress-bar { width: 0%; height: 100%; background: var(--primary); transition: width 0.1s; }
+
+/* Theme Toggle */
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: rgba(255,255,255,0.6); border: none; padding: .5rem; border-radius: 50%; cursor: pointer; z-index: 10000; transition: background 0.3s; }
+body.dark .theme-toggle { background: rgba(0,0,0,0.6); }
+.theme-toggle i { font-size: 1.25rem; color: var(--primary); }
+body.dark .theme-toggle i { color: var(--dark-fg); }
+
+/* Preloader shimmer */
+.preloader-shimmer { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 9998; }
+.shimmer-item { width: 50px; height: 50px; background: linear-gradient(90deg, #eee, #ddd, #eee); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+
+/* Tech-stack badges */
+.tech-stack .badge { display: inline-block; background: var(--accent); color: #fff; padding: 0.4em 0.8em; margin: 0 .25em .5em 0; border-radius: 0.25rem; font-size: 0.875rem; }
+
+/* Portfolio hover lift */
+.portfolio-wrap:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); transition: all 0.3s; }
 .nav-menu {
   padding: 0;
   display: block;
