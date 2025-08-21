@@ -24,6 +24,24 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Arun R",
+    "url": "https://arunr1408.github.io/",
+    "sameAs": [
+      "https://www.linkedin.com/in/arunr1408/",
+      "https://github.com/ArunR1408",
+      "https://x.com/ArunR1408",
+      "https://www.instagram.com/arun__ravi__"
+    ],
+    "jobTitle": "Electronics & Computer Engineering Student",
+    "description": "Passionate about Python, IoT, Machine Learning & Embedded Systems.",
+    "image": "assets/img/profile-img.jpg"
+  }
+  </script>
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Arun R - Electronics and Computer Engineer">
   <meta property="og:description" content="Portfolio of Arun R, Electronics and Computer Engineering student specializing in Python, IoT, and Machine Learning">
@@ -34,6 +52,12 @@
 
 
 <body>
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress-container"><div class="scroll-progress-bar"></div></div>
+  <!-- Theme Toggle -->
+  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode"><i class="bi bi-sun"></i></button>
+  <!-- Preloader Shimmer -->
+  <div id="preloader" class="preloader-shimmer"><div class="shimmer-item"></div></div>
 
   <!-- ======= Mobile nav toggle button ======= -->
   <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
@@ -548,21 +572,20 @@
     </div>
   </footer><!-- End Footer -->
 
-  <div id="preloader"></div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js" async></script>
-  <script src="assets/vendor/aos/aos.js" async></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" async></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js" async></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" async></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js" async></script>
-  <script src="assets/vendor/typed.js/typed.min.js" async></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js" async></script>
-  <script src="assets/vendor/php-email-form/validate.js" async></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js" defer></script>
+  <script src="assets/vendor/aos/aos.js" defer></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js" defer></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" defer></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js" defer></script>
+  <script src="assets/vendor/typed.js/typed.min.js" defer></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js" defer></script>
+  <script src="assets/vendor/php-email-form/validate.js" defer></script>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js" async></script>
+  <!-- Main JS (defer) -->
+  <script src="assets/js/main.js" defer></script>
 
 
