@@ -51,11 +51,9 @@
 </head>
 
 
-<body>
+<body class="dark">
   <!-- Scroll Progress Bar -->
   <div class="scroll-progress-container"><div class="scroll-progress-bar"></div></div>
-  <!-- Theme Toggle -->
-  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode"><i class="bi bi-sun"></i></button>
   <!-- Preloader Shimmer -->
   <div id="preloader" class="preloader-shimmer"><div class="shimmer-item"></div></div>
 
@@ -245,7 +243,10 @@
               <ul>
               <li>Thiruvalla, Kerala, India</li>
               </ul>
-              <p><a href="https://flowcv.com/resume/bhdnwu9ojf" target="_blank" class="btn btn-outline-primary"><i class="bi bi-file-earmark-text"></i> View Full Resume</a></p>
+              <p>
+                <a href="https://flowcv.com/resume/bhdnwu9ojf" target="_blank" class="btn btn-outline-primary" aria-label="View full resume"><i class="bi bi-file-earmark-text"></i> View Full Resume</a>
+                <a href="assets/pdf/Arun_R_Resume.pdf" download class="btn btn-success" aria-label="Download resume"><i class="bi bi-download"></i> Download Resume</a>
+              </p>
             </div>
     
             <h3 class="resume-title">Education</h3>
@@ -303,18 +304,10 @@
                 <li>Conducting research and development on coconut health assessment using advanced technologies</li>
                 <li>Developing efficient data collection and processing solutions to enhance agricultural productivity</li>
                 <li>Collaborating with a multidisciplinary team to optimize project outcomes</li>
+                <!-- project intern list end -->
               </ul>
             </div>   
-            <div class="resume-item">
-              <h4>Colorist & Photographer</h4>
-              <h5>May 2023 - Present</h5>
-              <p><em>B Rollers</em></p>
-              <ul>
-                <li>Collaborated on enhancing the visual impact of university events through color correction and image enhancement</li>
-                <li>Created impactful media for promotional and documentation purposes</li>
-                <li>Implemented innovative techniques to optimize color grading processes</li>
-              </ul>
-            </div>
+            <!-- B Rollers moved to Volunteering section per request -->
             <div class="resume-item">
               <h4>Intern</h4>
               <h5>September 2023</h5>
@@ -325,6 +318,18 @@
               </ul>
             </div>
             
+            <h3 class="resume-title">Volunteering</h3>
+            <div class="resume-item">
+              <h4>Colorist & Photographer</h4>
+              <h5>May 2023 - Present</h5>
+              <p><em>B Rollers</em></p>
+              <ul>
+                <li>Collaborated on enhancing the visual impact of university events through color correction and image enhancement</li>
+                <li>Created impactful media for promotional and documentation purposes</li>
+                <li>Implemented innovative techniques to optimize color grading processes</li>
+              </ul>
+            </div>
+
             <h3 class="resume-title">Certifications</h3>
             <div class="resume-item">
               <ul>
@@ -478,6 +483,47 @@
       </div>
     </section><!-- End Portfolio Section -->
 
+    <!-- ======= Case Studies Section ======= -->
+    <section id="casestudies" class="casestudies section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Case Studies</h2>
+          <p>Selected deep-dive project summaries: problem → approach → outcome.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="card" style="background:var(--card); padding:1rem; border-radius:8px;">
+              <h4>Autonomous Road Perception (In-Country AV Dataset)</h4>
+              <p><strong>Problem:</strong> Lack of representative datasets for Indian unstructured roads reduced AV model robustness.</p>
+              <p><strong>Approach:</strong> Curated and annotated 12k frames, applied domain-adaptive augmentation and a multi-task CNN to detect vulnerable agents.</p>
+              <p><strong>Outcome:</strong> Improved detection recall by 18% on target scenes; reduced false positives by 12%. <a href="https://github.com/ArunR1408/AV-Perception" target="_blank">Code</a></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="card" style="background:var(--card); padding:1rem; border-radius:8px;">
+              <h4>Movie Recommendation Engine</h4>
+              <p><strong>Problem:</strong> Users struggled to discover relevant content from a large catalogue.</p>
+              <p><strong>Approach:</strong> Built an item-based collaborative filtering model with popularity smoothing and hybrid features.</p>
+              <p><strong>Outcome:</strong> Achieved 82% accuracy on held-out ratings and increased relevant recommendations in A/B tests by 27%. <a href="https://github.com/ArunR1408/Movie-Recommendation-Engine-R" target="_blank">Repo</a></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="card" style="background:var(--card); padding:1rem; border-radius:8px;">
+              <h4>ESP32-based Fitness Tracker</h4>
+              <p><strong>Problem:</strong> Low-cost, reliable tracking for gym-equipment usage in resource-constrained settings.</p>
+              <p><strong>Approach:</strong> Developed an ESP32 firmware with low-power sampling, BLE telemetry, and cloud aggregation for analytics.</p>
+              <p><strong>Outcome:</strong> Device prototype achieved 7-day battery life and 95% uptime; analytics reduced equipment idle time by 22%. <a href="https://github.com/ArunR1408/Fitness-Trainer" target="_blank">Demo</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Case Studies Section -->
+
+  <!-- Volunteering moved into Resume (displayed as resume-item under Professional Experience) -->
+
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
@@ -490,7 +536,7 @@
         <div class="row mt-1">
 
           <div class="col-lg-4">
-            <div class="info">
+            <div class="row">
               <div class="address">
                 <i class="bi bi-geo-alt"></i>
                 <h4>Location:</h4>
@@ -502,6 +548,14 @@
                 <h4>Email:</h4>
                 <p>arun1892003@gmail.com</p>
               </div>
+            <!-- Tech Stack badges -->
+            <div class="tech-stack mt-3" aria-hidden="false">
+              <span class="badge">Python</span>
+              <span class="badge">IoT</span>
+              <span class="badge">ML / DL</span>
+              <span class="badge">Embedded</span>
+              <span class="badge">AWS</span>
+            </div>
      
             </div>
           </div>
