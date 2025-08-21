@@ -6,8 +6,8 @@
 */
 (function() {
   "use strict";
-  // Theme toggle, scroll progress & shimmer preloader (robust)
-  (function initThemeAndPreloader(){
+  // Preloader & scroll progress (dark mode is enforced via HTML/body class)
+  (function initPreloaderAndProgress(){
     // remove any existing preloader immediately if page already loaded
     const removePreloader = () => {
       try {
@@ -21,32 +21,18 @@
     window.addEventListener('load', removePreloader);
     setTimeout(removePreloader, 3000);
 
-    // Theme toggle: guard against missing element
+    // ensure dark class exists (site is dark-only now)
     document.addEventListener('DOMContentLoaded', () => {
-      const toggleBtn = document.getElementById('theme-toggle');
+      try { document.body.classList.add('dark'); } catch(e){}
       const progressBar = document.querySelector('.scroll-progress-bar');
-
-      const applyTheme = theme => {
-        document.body.classList.toggle('dark', theme === 'dark');
-        try { localStorage.setItem('theme', theme); } catch(e){}
-        if (toggleBtn) toggleBtn.innerHTML = theme === 'dark' ? '<i class="bi bi-moon"></i>' : '<i class="bi bi-sun"></i>';
-      };
-
-      const saved = (function(){
-        try { return localStorage.getItem('theme'); } catch(e){ return null; }
-      })() || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-
-      applyTheme(saved);
-
-      if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark'));
-      }
-
       if (progressBar) {
-        window.addEventListener('scroll', () => {
+        const update = () => {
           const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100 || 0;
           progressBar.style.width = pct + '%';
-        });
+        };
+        window.addEventListener('scroll', update);
+        // initial update in case page loaded scrolled
+        update();
       }
     });
   })();
