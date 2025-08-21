@@ -6,6 +6,50 @@
 */
 (function() {
   "use strict";
+  // Theme toggle, scroll progress & shimmer preloader (robust)
+  (function initThemeAndPreloader(){
+    // remove any existing preloader immediately if page already loaded
+    const removePreloader = () => {
+      try {
+        document.querySelectorAll('#preloader').forEach(el => el.remove());
+      } catch (e) {
+        // ignore
+      }
+    };
+
+    // ensure preloader removed on load, and as a fallback after 3s
+    window.addEventListener('load', removePreloader);
+    setTimeout(removePreloader, 3000);
+
+    // Theme toggle: guard against missing element
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.getElementById('theme-toggle');
+      const progressBar = document.querySelector('.scroll-progress-bar');
+
+      const applyTheme = theme => {
+        document.body.classList.toggle('dark', theme === 'dark');
+        try { localStorage.setItem('theme', theme); } catch(e){}
+        if (toggleBtn) toggleBtn.innerHTML = theme === 'dark' ? '<i class="bi bi-moon"></i>' : '<i class="bi bi-sun"></i>';
+      };
+
+      const saved = (function(){
+        try { return localStorage.getItem('theme'); } catch(e){ return null; }
+      })() || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+      applyTheme(saved);
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark'));
+      }
+
+      if (progressBar) {
+        window.addEventListener('scroll', () => {
+          const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100 || 0;
+          progressBar.style.width = pct + '%';
+        });
+      }
+    });
+  })();
 
   /**
    * Easy selector helper function
@@ -124,16 +168,6 @@
       }
     }
   });
-
-  /**
-   * Preloader
-   */
-  let preloader = select('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove()
-    });
-  }
 
   /**
    * Hero type effect
