@@ -11,6 +11,7 @@
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
@@ -67,8 +68,10 @@
       <ul>
         <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
         <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
+  <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-bulb"></i> <span>Skills</span></a></li>
         <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
         <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Projects</span></a></li>
+  <li><a href="#certifications" class="nav-link scrollto"><i class="bx bx-badge-check"></i> <span>Certificates</span></a></li>
         <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
@@ -96,33 +99,36 @@
     <div class="container" data-aos="fade-up">
       <div class="section-title">
         <h2>About</h2>
-        <p>Hey there! I'm Arun R. I'm a passionate Electronics and Computer Engineering student with expertise in Python programming, IoT development, and Machine Learning. I'm dedicated to creating innovative solutions that address real-world challenges through technology. With a keen eye for detail and strong problem-solving skills, I continuously strive to expand my knowledge and contribute meaningfully to the tech community.</p>
+        <p>Hi, I’m Arun R, an Electronics and Computer Engineering graduate with a strong interest in IoT, Machine Learning, and software development. I enjoy working on real-world problems where hardware, data, and software come together to create useful solutions.</p>
       </div>
 
       <div class="row">
         <div class="col-lg-4">
-          <img src="assets/img/profile-img.jpg" class="img-fluid" alt="">
+          <img src="assets/img/profile-img.jpg" class="img-fluid about-photo" alt="Profile photo of Arun R">
         </div>
         <div class="col-lg-8 pt-4 pt-lg-0 content">
           <h3>Electronics and Computer Engineer &amp; Tech Enthusiast.</h3>
-          <p class="fst-italic">
-            Electronics and Computer Engineering student specializing in Python, IoT, and Machine Learning. Passionate about using technology to solve real-world problems, with demonstrated experience in research, publication, and collaborative project development.
-          </p>
-          <div class="row">
+            <p class="fst-italic"></p>
+            I’ve had the opportunity to work with research groups like Humanitarian Technology (HUT) Labs, the Centre for Flexible Electronics and Advanced Materials, and AMMACHI Labs (Amrita Multi Modal Applications Using Computer & Human Interaction). During this time, I collaborated on projects with the University of Tennessee and contributed to the academic community as a conference presenter and reviewer. I also co-authored publications, which gave me valuable experience in research and technical writing.
+            </p>
+            <div class="row">
             <div class="col-lg-6">
               <ul>
-                <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Thiruvalla, Kerala, India</span></li>
+              <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Thiruvalla, Kerala, India</span></li>
               </ul>
             </div>
             <div class="col-lg-6">
               <ul>
-                <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>arun1892003@gmail.com</span></li>
+              <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>arun1892003@gmail.com</span></li>
               </ul>
             </div>
-          </div>
-          <p>
-            I'm an engineer with a passion for tech, photography, and content creation. I love exploring new ideas, solving problems, and constantly learning to push the limits of what's possible. 
-          </p>
+            </div>
+            <p>
+            Right now, I’m expanding my skills in software engineering, focusing on Java and modern development practices, and I’m also working on a journal paper on autonomous vehicle technology.
+            </p>
+            <p>Outside of academics and work, I often find myself drawn to creative and curious pursuits. Photography and color grading let me see the world differently, while gaming and cinema open doors to new kinds of storytelling. I’ve always been fascinated by maps and cultures, which makes travel and geography a natural interest. And above all, I like staying curious—whether it’s exploring the latest in tech or simply learning something new about the world around me.</p>
+            I’m always open to new opportunities, collaborations, and conversations that lead to learning and growth.
+            </p>
         </div>
       </div>
     </div>
@@ -135,91 +141,145 @@
     
         <div class="section-title">
           <h2>Skills</h2>
-          <p>As an Electronics and Computer Engineering student, I've developed proficiency in various technical domains. My focus has been on programming, embedded systems, and machine learning, complemented by practical experience in multimedia production and research.</p>
         </div>
     
-        <div class="row skills-content">
-    
-          <div class="col-lg-6">
-    
-            <div class="progress">
-              <span class="skill">Python <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-    
-            <div class="progress">
-              <span class="skill">Embedded Systems (Arduino/ESP32) <i class="val">85%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-    
-            <div class="progress">
-              <span class="skill">Machine Learning <i class="val">75%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
+        <!-- Interactive Filters -->
+  <div style="display:flex; justify-content:center;">
+  <ul class="skills-filter" id="skills-filter" aria-label="Filter skills by category">
+          <span class="skills-pebble" aria-hidden="true"></span>
+          <li class="active" data-filter="languages" role="button" tabindex="0">Languages</li>
+          <li data-filter="ml" role="button" tabindex="0">ML/AI</li>
+          <li data-filter="embedded" role="button" tabindex="0">Embedded/IoT</li>
+          <li data-filter="datacloud" role="button" tabindex="0">Data/Cloud</li>
+          <li data-filter="tools" role="button" tabindex="0">Tools</li>
+          <li data-filter="soft" role="button" tabindex="0">Soft Skills</li>
+  </ul>
+  </div>
 
-            <div class="progress">
-              <span class="skill">Deep Learning <i class="val">85%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-    
-          </div>
-    
-          <div class="col-lg-6">
-    
-            <div class="progress">
-              <span class="skill">MATLAB <i class="val">70%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-    
-            <div class="progress">
-              <span class="skill">Photography & Color Grading <i class="val">80%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-    
-            <div class="progress">
-              <span class="skill">IoT Development <i class="val">75%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-    
-          </div>
-    
-        </div>
-    
-        <!-- Additional Skills Categories -->
-        <div class="row mt-4">
-          <div class="col-lg-6">
-            <h4>Technical</h4>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-check2-circle"></i> Sensor Integration & Data Acquisition</li>
-              <li><i class="bi bi-check2-circle"></i> Network Communication Protocols</li>
-              <li><i class="bi bi-check2-circle"></i> Research & Technical Documentation</li>
-              <li><i class="bi bi-check2-circle"></i> AWS Cloud Services</li>
-            </ul>
-          </div>
-          
-          <div class="col-lg-6">
-            <h4>Soft Skills</h4>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-check2-circle"></i> Project Management</li>
-              <li><i class="bi bi-check2-circle"></i> Problem-Solving</li>
-              <li><i class="bi bi-check2-circle"></i> Team Collaboration</li>
-              <li><i class="bi bi-check2-circle"></i> Technical Communication</li>
-            </ul>
-          </div>
+        <!-- Skills Grid (chips) -->
+        <div class="skills-grid" id="skills-grid">
+          <!-- Languages -->
+          <button class="skill-chip" data-cat="languages">
+            <span class="name"><i class="bi bi-code-slash"></i>Python</span>
+          </button>
+          <button class="skill-chip" data-cat="languages">
+            <span class="name"><i class="bi bi-braces"></i>C</span>
+          </button>
+          <button class="skill-chip" data-cat="languages">
+            <span class="name"><i class="bi bi-braces-asterisk"></i>Embedded C</span>
+          </button>
+          <button class="skill-chip" data-cat="languages">
+            <span class="name"><i class="bi bi-database"></i>SQL</span>
+          </button>
+          <button class="skill-chip" data-cat="languages">
+            <span class="name"><i class="bi bi-graph-up"></i>MATLAB</span>
+          </button>
+          <button class="skill-chip" data-cat="languages">
+            <span class="name"><i class="bi bi-r-circle"></i>R</span>
+          </button>
+          <button class="skill-chip" data-cat="languages">
+            <span class="name"><i class="bi bi-cpu"></i>Assembly</span>
+          </button>
+
+          <!-- ML/AI -->
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-cpu"></i>Deep Learning</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-eye"></i>Computer Vision</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-chat-dots"></i>NLP</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-cpu"></i>TensorFlow</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-lightning-charge"></i>PyTorch</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-camera-video"></i>OpenCV</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-diagram-3"></i>scikit-learn</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-table"></i>Pandas/NumPy</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-bullseye"></i>YOLO (Ultralytics)</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-bezier"></i>MediaPipe</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-bar-chart"></i>Matplotlib/Seaborn</span>
+          </button>
+          <button class="skill-chip" data-cat="ml">
+            <span class="name"><i class="bi bi-cloud-upload"></i>Model Deployment</span>
+          </button>
+
+          <!-- Embedded/IoT -->
+          <button class="skill-chip" data-cat="embedded">
+            <span class="name"><i class="bi bi-motherboard"></i>Arduino</span>
+          </button>
+          <button class="skill-chip" data-cat="embedded">
+            <span class="name"><i class="bi bi-motherboard"></i>ESP32</span>
+          </button>
+          <button class="skill-chip" data-cat="embedded">
+            <span class="name"><i class="bi bi-speedometer2"></i>Sensor Integration</span>
+          </button>
+
+          <!-- Data/Cloud -->
+          <button class="skill-chip" data-cat="datacloud">
+            <span class="name"><i class="bi bi-lightning-charge"></i>Firebase</span>
+          </button>
+          <button class="skill-chip" data-cat="datacloud">
+            <span class="name"><i class="bi bi-cloud"></i>Google Cloud (GCP)</span>
+          </button>
+          <button class="skill-chip" data-cat="datacloud">
+            <span class="name"><i class="bi bi-database"></i>MySQL</span>
+          </button>
+
+          <!-- Tools -->
+          <button class="skill-chip" data-cat="tools">
+            <span class="name"><i class="bi bi-github"></i>Git</span>
+          </button>
+          <button class="skill-chip" data-cat="tools">
+            <span class="name"><i class="bi bi-terminal"></i>Linux</span>
+          </button>
+          <button class="skill-chip" data-cat="tools">
+            <span class="name"><i class="bi bi-journal-code"></i>Jupyter Notebook</span>
+          </button>
+          <button class="skill-chip" data-cat="tools">
+            <span class="name"><i class="bi bi-braces"></i>Flask</span>
+          </button>
+          <button class="skill-chip" data-cat="tools">
+            <span class="name"><i class="bi bi-box-seam"></i>Docker</span>
+          </button>
+          <button class="skill-chip" data-cat="tools">
+            <span class="name"><i class="bi bi-terminal"></i>Windows Batch Scripting</span>
+          </button>
+
+          <!-- Soft Skills -->
+          <button class="skill-chip" data-cat="soft">
+            <span class="name"><i class="bi bi-lightning"></i>Problem Solving</span>
+          </button>
+          <button class="skill-chip" data-cat="soft">
+            <span class="name"><i class="bi bi-puzzle"></i>Critical Thinking</span>
+          </button>
+          <button class="skill-chip" data-cat="soft">
+            <span class="name"><i class="bi bi-megaphone"></i>Technical Communication</span>
+          </button>
+          <button class="skill-chip" data-cat="soft">
+            <span class="name"><i class="bi bi-award"></i>Leadership</span>
+          </button>
+          <button class="skill-chip" data-cat="soft">
+            <span class="name"><i class="bi bi-hourglass-split"></i>Time Management</span>
+          </button>
+          <button class="skill-chip" data-cat="soft">
+            <span class="name"><i class="bi bi-people"></i>Team Collaboration</span>
+          </button>
         </div>
     
       </div>
@@ -231,7 +291,6 @@
     
         <div class="section-title">
           <h2>Resume</h2>
-          <p>Electronics and Computer Engineering student with expertise in Python programming, IoT development, and machine learning. Experienced in research, publication, and collaborative technical projects.</p>
         </div>
     
         <div class="row">
@@ -239,48 +298,50 @@
             <h3 class="resume-title">Summary</h3>
             <div class="resume-item pb-0">
               <h4>Arun R</h4>
-              <p><em>Electronics and Computer Engineering student specializing in Python, IoT, Embedded Systems and Deep Learning. Passionate about using technology to solve real-world problems, with demonstrated experience in research, publication, and collaborative project development.</em></p>
-              <ul>
-              <li>Thiruvalla, Kerala, India</li>
-              </ul>
+              <p><em>Electronics and Computer Engineering graduate with practical experience in Python, Machine Learning, Deep Learning, Embedded Systems, and IoT. Skilled in building full-stack AI applications and real-time, data-driven systems that bridge hardware and software. Passionate about using technology to solve real-world problems through innovative and scalable solutions. Known for adaptability, critical thinking, and a strong collaborative mindset.</em></p>
               <p>
-                <a href="https://flowcv.com/resume/bhdnwu9ojf" target="_blank" class="btn btn-outline-primary" aria-label="View full resume"><i class="bi bi-file-earmark-text"></i> View Full Resume</a>
-                <a href="assets/pdf/Arun_R_Resume.pdf" download class="btn btn-success" aria-label="Download resume"><i class="bi bi-download"></i> Download Resume</a>
+                <a href="https://flowcv.com/resume/khlsuskqbr9o" target="_blank" class="btn btn-outline-primary" aria-label="View full resume"><i class="bi bi-file-earmark-text"></i> View Full Resume</a>
               </p>
             </div>
     
             <h3 class="resume-title">Education</h3>
             <div class="resume-item">
               <h4>Bachelor of Technology in Electronics and Computer Engineering</h4>
-              <h5>2021 - 2025</h5>
+              <h5>Sep 2021 – Aug 2025</h5>
               <p><em>Amrita Vishwa Vidyapeetham, Amritapuri, India</em></p>
               <p>CGPA: <span id="cgpa-value">7.73</span></p>
             </div>
             <div class="resume-item">
               <h4>Higher Secondary Education</h4>
-              <h5>2019 - 2021</h5>
+              <h5>Jun 2019 – Mar 2021</h5>
               <p><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
               <p>Score: 86.6%</p>
             </div>
             <div class="resume-item">
               <h4>Secondary Education</h4>
-              <h5>2019</h5>
+              <h5>Mar 2019</h5>
               <p><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
               <p>Score: 87.6%</p>
             </div>
             
             <h3 class="resume-title">Publications</h3>
             <div class="resume-item">
-              <h4><a href="https://doi.org/10.1109/SPECon61254.2024.10537410" target="_blank">Cost-Effective Solutions for Underwater Ultrasonic Flow Rate Sensors in Renewable Energy Applications</a></h4>
-              <h5>February 2024</h5>
+              <h4><a href="https://doi.org/10.1109/SPECon61254.2024.10537410" target="_blank" rel="noopener">Cost-Effective Solutions for Underwater Ultrasonic Flow Rate Sensors in Renewable Energy Applications</a></h4>
+              <h5>Feb 2024</h5>
               <p><em>IEEE</em></p>
-              <p>Authored a comprehensive paper evaluating innovative approaches to reduce implementation costs of underwater ultrasonic flow rate sensors for sustainable energy applications.</p>
+              <p>Surveyed cost drivers (materials, transducer design, signal processing) and proposed design/process optimizations to improve affordability of ultrasonic flow sensors for renewable energy systems.</p>
             </div>
             <div class="resume-item">
-              <h4><a href="https://doi.org/10.13074/jent.2024.12.243795" target="_blank">Assessing The Impact of Pesticide Use on India's Agriculture and Environment</a></h4>
-              <h5>July 2024</h5>
+              <h4><a href="https://doi.org/10.13074/jent.2024.12.243795" target="_blank" rel="noopener">Assessing the Impact of Pesticide Use on India’s Agriculture and Environment</a></h4>
+              <h5>Jul 2024</h5>
               <p><em>Journal of Environmental Nanotechnology</em></p>
-              <p>Conducted mixed-method research to assess impacts on productivity and the environment, providing evidence-based recommendations for sustainable pest management strategies.</p>
+              <p>Mixed-method analysis of agricultural productivity, environmental risks, and socio-economic drivers; provided evidence-based recommendations for sustainable pest management.</p>
+            </div>
+            <h3 class="resume-title">Organizations</h3>
+            <div class="resume-item">
+              <h4>IEEE Kerala Section</h4>
+              <h5>Apr 2024 – Dec 2025</h5>
+              <p><em>Student Member</em></p>
             </div>
           </div>
           
@@ -288,57 +349,52 @@
             <h3 class="resume-title">Professional Experience</h3>
             <div class="resume-item">
               <h4>Research Intern</h4>
-              <h5>January 2025 - February 2025</h5>
+              <h5>Jan 2025 – Feb 2025</h5>
               <p><em>Humanitarian Technology (HuT) Labs, Kollam, India</em></p>
               <ul>
-                <li>Investigating AV challenges on unstructured Indian roads, analyzing datasets like JAAD and PIE</li>
-                <li>Co-authoring research papers on autonomous vehicle challenges and opportunities in India</li>
-                <li>Collaborating with researchers from The University of Tennessee at Chattanooga</li>
+                <li>Conducted a strategic feasibility analysis for AV deployment in India with the SMART Center and University of Tennessee, identifying key technological and operational challenges.</li>
+                <li>Evaluated object detection and path planning models on benchmark traffic datasets (e.g., JAAD, PIE), generating actionable insights for AV systems under Indian road conditions.</li>
+                <li>Co-authored a research paper proposing a practical roadmap for AV adoption, contributing to ongoing work in intelligent transportation systems.</li>
               </ul>
+              <p class="small mb-0"><strong>Tech:</strong> Python, TensorFlow, PyTorch, OpenCV, YOLO (Ultralytics), MediaPipe, Pandas/NumPy, Jupyter, Git</p>
             </div>
             <div class="resume-item">
               <h4>Project Intern</h4>
-              <h5>August 2024 - February 2025</h5>
-              <p><em>AMMACHI Labs, Kollam, India</em></p>
+              <h5>Aug 2024 – Feb 2025</h5>
+              <p><em>AMMACHI Labs (Amrita Multi Modal Applications Using Computer &amp; Human Interaction), Kollam, India</em></p>
               <ul>
-                <li>Conducting research and development on coconut health assessment using advanced technologies</li>
-                <li>Developing efficient data collection and processing solutions to enhance agricultural productivity</li>
-                <li>Collaborating with a multidisciplinary team to optimize project outcomes</li>
-                <!-- project intern list end -->
+                <li>Developed a full-stack coconut health monitoring platform: image capture (DJI Mavic Air), preprocessing, and DL-based disease detection trained on curated datasets.</li>
+                <li>Automated geospatial data extraction and ingest with Python scripts (e.g., Pillow, integration utilities) to Firebase, enabling a 100% hands-free pipeline and reducing manual work by &gt;95%.</li>
+                <li>Built a real-time Flask dashboard with map overlays for location-aware insights, accelerating field diagnosis and action.</li>
               </ul>
+              <p class="small mb-0"><strong>Tech:</strong> ESP32, Arduino IDE, Python, TensorFlow, OpenCV, Flask, Pillow, Firebase, Google Cloud (GCP), DJI Mavic Air</p>
             </div>   
             <!-- B Rollers moved to Volunteering section per request -->
             <div class="resume-item">
               <h4>Intern</h4>
-              <h5>September 2023</h5>
+              <h5>Sep 2023</h5>
               <p><em>Kerala State Electronics Development Corporation Ltd (Keltron), Thiruvananthapuram</em></p>
               <ul>
-                <li>Implemented IoT and embedded systems solutions using Arduino IDE and ESP32</li>
-                <li>Gained hands-on expertise in hardware interfacing and device communication</li>
+                <li>Programmed ESP32 microcontrollers for real-time environmental data collection using temperature, gas, and ultrasonic sensors with reliable telemetry.</li>
+                <li>Deployed wireless data transmission logic in Embedded C with a mobile interface, supporting remote monitoring and system reliability testing.</li>
               </ul>
+              <p class="small mb-0"><strong>Tech:</strong> ESP32, Embedded C, Arduino IDE, IoT sensors</p>
             </div>
             
             <h3 class="resume-title">Volunteering</h3>
             <div class="resume-item">
               <h4>Colorist & Photographer</h4>
-              <h5>May 2023 - Present</h5>
+              <h5>May 2023 – May 2025</h5>
               <p><em>B Rollers</em></p>
               <ul>
-                <li>Collaborated on enhancing the visual impact of university events through color correction and image enhancement</li>
-                <li>Created impactful media for promotional and documentation purposes</li>
-                <li>Implemented innovative techniques to optimize color grading processes</li>
+                <li>Enhanced 200+ event photos/videos through color correction and grading, improving visual impact and consistency.</li>
+                <li>Produced promotional media that increased event reach and engagement across campus channels.</li>
+                <li>Developed presets/workflows that reduced editing turnaround time by ~30%.</li>
               </ul>
+              <p class="small mb-0"><strong>Tools:</strong> Adobe Photoshop, Lightroom</p>
             </div>
 
-            <h3 class="resume-title">Certifications</h3>
-            <div class="resume-item">
-              <ul>
-                <li>Data Science and Machine Learning (Udemy)</li>
-                <li>MATLAB Onramp & Signal Processing (MathWorks)</li>
-                <li>Cloud Computing and AWS Fundamentals (Udemy)</li>
-                <li>Introduction to Machine Learning (Kaggle)</li>
-              </ul>
-            </div>
+            <!-- Certifications heading removed (moved to dedicated section) -->
           </div>
         </div>
     
@@ -374,13 +430,14 @@
                 <h4>Movie Recommendation Engine</h4>
                 <p>Deep Learning</p>
                 <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Movie Recommendation Engine - Developed a system using Item-Based Collaborative Filtering on 100,000+ movie ratings with 82% accuracy."><i class="bx bx-plus"></i></a>
+                  <a href="assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Movie Recommendation Engine | Problem: discovery friction. Approach: item-based collaborative filtering + hybrid popularity features on 100k ratings. Outcome: 82% accuracy; +27% relevant recs."><i class="bx bx-plus"></i></a>
                   <a href="https://github.com/ArunR1408/Movie-Recommendation-Engine-R" title="View Project"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
           </div>
     
+            
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
             <div class="portfolio-wrap">
               <img src="assets/img/portfolio/portfolio-13.jpg" class="img-fluid" alt="Vocal Removal and Audio Analysis Tool">
@@ -388,7 +445,7 @@
                 <h4>Vocal Removal & Audio Analysis</h4>
                 <p>Signal Processing</p>
                 <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Vocal Removal and Audio Analysis Tool - A MATLAB-based application that uses stereo cancellation techniques to remove vocals from audio recordings and provides comprehensive audio signal analysis and visualization."><i class="bx bx-plus"></i></a>
+                  <a href="assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Vocal Removal & Audio Analysis | Problem: need quick vocal isolation and signal insights. Approach: stereo phase cancellation + spectral gating in a MATLAB app with waveform/spectrogram views. Outcome: ~18 dB vocal attenuation and faster analysis/exports."><i class="bx bx-plus"></i></a>
                   <a href="https://github.com/ArunR1408/Vocal-Removal-and-Audio-Analysis-tool-MATLAB" title="View Project"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -402,7 +459,7 @@
                 <h4>Employee Management System</h4>
                 <p>Application</p>
                 <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Employee Management System - A Python and MySQL-based system to manage employee records, including personal details, job information, and performance metrics with database integration and user-friendly interface."><i class="bx bx-plus"></i></a>
+                  <a href="assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Employee Management System | Problem: manual HR records and error-prone updates. Approach: Python + MySQL CRUD with validation, search, and summary reports. Outcome: ~40% less data entry time and better data integrity."><i class="bx bx-plus"></i></a>
                   <a href="https://github.com/ArunR1408/employee-management-system" title="View Project"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -416,7 +473,7 @@
                 <h4>InstaMetrics</h4>
                 <p>Web Application</p>
                 <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="InstaMetrics - Social Media Reach Predictor - Created a machine learning model to predict Instagram post impressions using various regression techniques."><i class="bx bx-plus"></i></a>
+                  <a href="assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="InstaMetrics | Problem: unpredictable post reach. Approach: feature-engineered regression (RF/Linear) using captions, hashtags, and posting time. Outcome: ~9% MAE on hold-out and better posting-time selection."><i class="bx bx-plus"></i></a>
                   <a href="https://github.com/ArunR1408/Insta_Metrics" title="View Project"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -430,7 +487,7 @@
                 <h4>Diabetes Prediction Model</h4>
                 <p>Machine Learning</p>
                 <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Machine Learning Model for Early Diabetes Prediction - Python-based ML model analyzing key health metrics to predict diabetes likelihood for early diagnosis."><i class="bx bx-plus"></i></a>
+                  <a href="assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Diabetes Prediction Model | Problem: early risk screening from limited clinical attributes. Approach: compared classifiers (LogReg/SVM/RF) with scaling, class balance, and cross-validation. Outcome: ROC-AUC ~0.82 and improved sensitivity at low false-positive rates."><i class="bx bx-plus"></i></a>
                   <a href="https://github.com/ArunR1408/Diabetes-Prediction " title="View Project"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -444,7 +501,7 @@
                 <h4>Traffic Light Controller</h4>
                 <p>Embedded Systems</p>
                 <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Traffic Light Simulation using LPC2148 Microcontroller - Successfully implemented a traffic light system using Assembly language and the LPC2148 microcontroller."><i class="bx bx-plus"></i></a>
+                  <a href="assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Traffic Light Controller | Problem: demonstrate reliable intersection timing on microcontroller. Approach: ARM7 (LPC2148) timers + state machine with seven-segment display. Outcome: deterministic signal cycles with under 1% timing drift."><i class="bx bx-plus"></i></a>
                   <a href="https://github.com/ArunR1408/LPC2148-Interface-With-7-Segment-LED-For-Traffic-Light" title="View Project"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -458,7 +515,7 @@
                 <h4>NLP Chatbot</h4>
                 <p>Machine Learning</p>
                 <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Natural Language Processing Chatbot - Python-based NLP chatbot using NLTK library with text summarization feature for automated customer interaction."><i class="bx bx-plus"></i></a>
+                  <a href="assets/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="NLP Chatbot | Problem: automate FAQs and summarize long responses. Approach: NLTK intent classification + TF-IDF retrieval with extractive summarization. Outcome: ~85% intent match and sub-second responses."><i class="bx bx-plus"></i></a>
                   <a href="https://github.com/ArunR1408/Chatbot-NLP" title="View Project"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -472,7 +529,7 @@
               <h4>Fitness Tracking System</h4>
               <p>Embedded Systems</p>
               <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-10.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Fitness Tracking System with LPC2148 Microcontroller - Developed an innovative Fitness Trainer Alarm System using the LPC2148 ARM microcontroller with LED indicators and 7-segment display for real-time fitness tracking and workout monitoring."><i class="bx bx-plus"></i></a>
+                <a href="assets/img/portfolio/portfolio-10.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Fitness Tracking System | Problem: lack of usage insight. Approach: low-power ESP32/LPC2148 telemetry prototype. Outcome: 7-day battery life; 22% reduction in equipment idle time."><i class="bx bx-plus"></i></a>
                 <a href="https://github.com/ArunR1408/Fitness-Trainer" title="View Project"><i class="bx bx-link"></i></a>
               </div>
             </div>
@@ -483,46 +540,80 @@
       </div>
     </section><!-- End Portfolio Section -->
 
-    <!-- ======= Case Studies Section ======= -->
-    <section id="casestudies" class="casestudies section-bg">
+  <!-- Case Studies section removed -->
+
+  <!-- Volunteering moved into Resume (displayed as resume-item under Professional Experience) -->
+
+    <!-- ======= Certifications Section ======= -->
+    <section id="certifications" class="certifications section-bg">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
-          <h2>Case Studies</h2>
-          <p>Selected deep-dive project summaries: problem → approach → outcome.</p>
+          <h2>Certificates</h2>
         </div>
 
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card" style="background:var(--card); padding:1rem; border-radius:8px;">
-              <h4>Autonomous Road Perception (In-Country AV Dataset)</h4>
-              <p><strong>Problem:</strong> Lack of representative datasets for Indian unstructured roads reduced AV model robustness.</p>
-              <p><strong>Approach:</strong> Curated and annotated 12k frames, applied domain-adaptive augmentation and a multi-task CNN to detect vulnerable agents.</p>
-              <p><strong>Outcome:</strong> Improved detection recall by 18% on target scenes; reduced false positives by 12%. <a href="https://github.com/ArunR1408/AV-Perception" target="_blank">Code</a></p>
-            </div>
-          </div>
+        <div class="cert-slider-wrapper position-relative" data-aos="fade-up" data-aos-delay="100">
+          <!-- Navigation Arrows -->
+          <button class="cert-btn prev" aria-label="Previous" type="button"><i class="bi bi-chevron-left"></i></button>
+          <button class="cert-btn next" aria-label="Next" type="button"><i class="bi bi-chevron-right"></i></button>
 
-          <div class="col-lg-4 mt-4 mt-lg-0">
-            <div class="card" style="background:var(--card); padding:1rem; border-radius:8px;">
-              <h4>Movie Recommendation Engine</h4>
-              <p><strong>Problem:</strong> Users struggled to discover relevant content from a large catalogue.</p>
-              <p><strong>Approach:</strong> Built an item-based collaborative filtering model with popularity smoothing and hybrid features.</p>
-              <p><strong>Outcome:</strong> Achieved 82% accuracy on held-out ratings and increased relevant recommendations in A/B tests by 27%. <a href="https://github.com/ArunR1408/Movie-Recommendation-Engine-R" target="_blank">Repo</a></p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 mt-4 mt-lg-0">
-            <div class="card" style="background:var(--card); padding:1rem; border-radius:8px;">
-              <h4>ESP32-based Fitness Tracker</h4>
-              <p><strong>Problem:</strong> Low-cost, reliable tracking for gym-equipment usage in resource-constrained settings.</p>
-              <p><strong>Approach:</strong> Developed an ESP32 firmware with low-power sampling, BLE telemetry, and cloud aggregation for analytics.</p>
-              <p><strong>Outcome:</strong> Device prototype achieved 7-day battery life and 95% uptime; analytics reduced equipment idle time by 22%. <a href="https://github.com/ArunR1408/Fitness-Trainer" target="_blank">Demo</a></p>
+          <!-- Slider -->
+          <div class="swiper cert-swiper">
+            <div class="swiper-wrapper">
+              <!-- Slide Template Examples (replace src with real certificate images from assets/img/certifications) -->
+              <div class="swiper-slide">
+                <div class="cert-card">
+          <a href="assets/img/certifications/certificate-1.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Google Cloud Arcade: Future Ready Skills (Badge)">
+                    <div class="preview">
+            <span class="cred-type badge">Badge</span>
+            <img src="assets/img/certifications/certificate-1.jpg" alt="Certificate 1" loading="lazy">
+                    </div>
+                  </a>
+          <h4>Google Cloud Arcade: Future Ready Skills</h4>
+          <p class="issuer">Google Cloud (GCP) • Aug 2025</p>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="cert-card">
+          <a href="assets/img/certifications/certificate-2.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Introduction to Generative AI (Badge)">
+                    <div class="preview">
+            <span class="cred-type badge">Badge</span>
+            <img src="assets/img/certifications/certificate-2.jpg" alt="Certificate 2" loading="lazy">
+                    </div>
+                  </a>
+          <h4>Introduction to Generative AI</h4>
+          <p class="issuer">Google • May 2025</p>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="cert-card">
+          <a href="assets/img/certifications/certificate-3.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Introduction to Responsible AI (Badge)">
+                    <div class="preview">
+            <span class="cred-type badge">Badge</span>
+            <img src="assets/img/certifications/certificate-3.jpg" alt="Certificate 3" loading="lazy">
+                    </div>
+                  </a>
+          <h4>Introduction to Responsible AI</h4>
+          <p class="issuer">Google • May 2025</p>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="cert-card">
+          <a href="assets/img/certifications/certificate-4.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Intro to Machine Learning (Certificate)">
+                    <div class="preview">
+            <span class="cred-type cert">Certificate</span>
+            <img src="assets/img/certifications/certificate-4.jpg" alt="Certificate 4" loading="lazy">
+                    </div>
+                  </a>
+          <h4>Intro to Machine Learning</h4>
+          <p class="issuer">Kaggle • Aug 2023</p>
+                </div>
+              </div>
+              <!-- Add more slides as needed -->
             </div>
           </div>
         </div>
       </div>
-    </section><!-- End Case Studies Section -->
-
-  <!-- Volunteering moved into Resume (displayed as resume-item under Professional Experience) -->
+    </section><!-- End Certifications Section -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
@@ -536,27 +627,22 @@
         <div class="row mt-1">
 
           <div class="col-lg-4">
-            <div class="row">
-              <div class="address">
+            <div class="info d-flex flex-column gap-3">
+              <div class="info-item address">
                 <i class="bi bi-geo-alt"></i>
-                <h4>Location:</h4>
-                <p>Thiruvalla, Kerala, India</p>
+                <div>
+                  <h4 class="mb-1">Location</h4>
+                  <p class="mb-0 small">Thiruvalla, Kerala, India</p>
+                </div>
               </div>
-
-              <div class="email">
+              <div class="info-item email">
                 <i class="bi bi-envelope"></i>
-                <h4>Email:</h4>
-                <p>arun1892003@gmail.com</p>
+                <div>
+                  <h4 class="mb-1">Email</h4>
+                  <p class="mb-0 small"><a href="mailto:arun1892003@gmail.com" class="text-decoration-none">arun1892003@gmail.com</a></p>
+                </div>
               </div>
-            <!-- Tech Stack badges -->
-            <div class="tech-stack mt-3" aria-hidden="false">
-              <span class="badge">Python</span>
-              <span class="badge">IoT</span>
-              <span class="badge">ML / DL</span>
-              <span class="badge">Embedded</span>
-              <span class="badge">AWS</span>
-            </div>
-     
+              <!-- Tech stack pills removed -->
             </div>
           </div>
 
@@ -570,6 +656,8 @@
                   <input type="email" name="email" class="form-control" placeholder="Your Email" required>
                 </div>
               </div>
+              <!-- Honeypot (bot trap) -->
+              <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
               <div class="form-group mt-3">
                 <input type="text" name="subject" class="form-control" placeholder="Subject" required>
               </div>
@@ -627,6 +715,9 @@
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/purecounter/purecounter_vanilla.js" defer></script>
@@ -636,8 +727,6 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" defer></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js" defer></script>
   <script src="assets/vendor/typed.js/typed.min.js" defer></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js" defer></script>
-  <script src="assets/vendor/php-email-form/validate.js" defer></script>
 
   <!-- Main JS (defer) -->
   <script src="assets/js/main.js" defer></script>
