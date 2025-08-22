@@ -67,11 +67,14 @@ html, body {
   color: var(--fg) !important;
 }
 
-/* Make hero name and typed text slightly lighter for better contrast */
+/* Make hero name and typed text slightly lighter and unselectable for better UX */
 #hero h1, #hero .typed {
   color: rgba(230,238,246,0.98) !important; /* near-white using --fg */
   font-weight: 700;
+  -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
+/* Make entire hero tagline unselectable */
+#hero p { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
 /* Vendor overrides: glightbox / plyr light backgrounds -> dark theme */
 .glightbox-container,
@@ -182,18 +185,11 @@ section { background: transparent; }
 /*--------------------------------------------------------------
 # Preloader
 --------------------------------------------------------------*/
-#preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-  overflow: hidden;
-  background: var(--bg);
-}
+#preloader { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; overflow: hidden; background: var(--bg); }
+/* When using shimmer preloader, suppress legacy spinner circle to avoid flicker */
+#preloader.preloader-shimmer:before { display: none !important; content: none !important; }
 
-#preloader:before {
+#preloader:not(.preloader-shimmer):before {
   content: "";
   position: fixed;
   top: calc(50% - 30px);
@@ -290,15 +286,59 @@ section { background: transparent; }
 
 
 /* Preloader shimmer */
-.preloader-shimmer { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 9998; }
-.shimmer-item { width: 50px; height: 50px; background: linear-gradient(90deg, #eee, #ddd, #eee); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+.preloader-shimmer { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 99999; }
+.shimmer-item { width: 54px; height: 54px; border-radius: 12px; background: linear-gradient(90deg, rgba(78,168,255,0.14), rgba(255,255,255,0.1), rgba(78,168,255,0.14)); background-size: 200% 100%; animation: shimmer 1.25s infinite ease-in-out; box-shadow: 0 6px 26px -8px rgba(0,0,0,0.55); }
 @keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
 
 /* Tech-stack badges */
 .tech-stack .badge { display: inline-block; background: var(--accent); color: #fff; padding: 0.4em 0.8em; margin: 0 .25em .5em 0; border-radius: 0.25rem; font-size: 0.875rem; }
 
 /* Portfolio hover lift */
-.portfolio-wrap:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); transition: all 0.3s; }
+.portfolio-wrap { will-change: transform, box-shadow; transition: transform .3s ease, box-shadow .3s ease; backface-visibility: hidden; }
+.portfolio-wrap:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 10px 22px rgba(0,0,0,0.25); }
+
+/* Buttons micro-interactions */
+.btn { transition: transform .16s ease, box-shadow .2s ease; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+.btn:active { transform: translateY(0) scale(0.98); box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
+
+/* Skill chips interactions */
+.skill-chip { transition: transform .18s ease, box-shadow .22s ease, background-color .22s ease; will-change: transform; }
+.skill-chip:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.22); }
+.skill-chip:active { transform: translateY(0) scale(0.98); }
+
+/* Portfolio filter items interactions */
+.portfolio #portfolio-flters li { transition: color .2s ease, transform .16s ease, background-color .22s ease; }
+.portfolio #portfolio-flters li:hover { color: #fff; }
+.portfolio #portfolio-flters li:active { transform: scale(0.98); }
+
+/* Mobile/touch polish */
+* { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+button, a, .skill-chip, .cert-btn, .portfolio #portfolio-flters li, .nav-menu a { touch-action: manipulation; }
+/* Clear focus rings except when keyboard navigating */
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 10px; }
+
+/* Slightly faster transitions for a snappier feel */
+.btn, .skill-chip, .cert-btn, .portfolio .portfolio-wrap, .nav-menu a, .portfolio #portfolio-flters li { transition-timing-function: cubic-bezier(.2,.8,.2,1); }
+
+/* Certifications slider arrows flair */
+.cert-btn { transition: transform .16s ease, background-color .2s ease, box-shadow .2s ease; }
+.cert-btn:hover { transform: scale(1.08); box-shadow: 0 8px 18px rgba(0,0,0,0.25); }
+.cert-btn:active { transform: scale(0.96); }
+
+/* Global touch/Android-style ripple and press states */
+.ripple-host { position: relative; overflow: hidden; }
+.ripple { position: absolute; border-radius: 9999px; transform: scale(0); pointer-events: none; opacity: 0.28; background: currentColor; mix-blend-mode: normal; }
+.ripple.ripple-anim { animation: ripple-expand .6s cubic-bezier(.2,.8,.2,1); }
+@keyframes ripple-expand { from { transform: scale(0); opacity: .28; } to { transform: scale(1); opacity: 0; } }
+.pressing { transform: translateY(0) scale(0.98) !important; filter: saturate(1.02); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ripple.ripple-anim { animation-duration: .01ms !important; }
+  .pressing { transform: none !important; }
+}
 .nav-menu {
   padding: 0;
   display: block;
@@ -382,6 +422,23 @@ section { background: transparent; }
 .nav-menu li:hover>a span {
   display: block;
 }
+
+/* Force navbar text/icon colors to always be white (desktop + mobile) */
+.nav-menu a,
+.nav-menu a:focus,
+.nav-menu a i,
+.nav-menu a span,
+.nav-menu .active,
+.nav-menu .active:focus,
+.nav-menu .active i,
+.nav-menu .active span,
+.nav-menu a:hover,
+.nav-menu li:hover>a {
+  color: #ffffff !important;
+}
+/* Slight hover transform for nav items for better responsiveness */
+.nav-menu a { transition: background-color .25s ease, transform .16s ease; will-change: transform; }
+.nav-menu a:hover { transform: translateX(2px); }
 
 /**
 * Mobile Navigation 
@@ -558,6 +615,12 @@ section {
   color: var(--muted);
 }
 
+/* Accented, muted dark-blue subtitle for About */
+.about-subtitle {
+  color: #3b6a94; /* muted dark blue accent */
+  opacity: 0.9;   /* keep it dark and dull */
+}
+
 .about .content ul {
   list-style: none;
   padding: 0;
@@ -583,6 +646,17 @@ section {
 .about .content p:last-child {
   margin-bottom: 0;
 }
+
+/* About subtle divider for flow */
+.about-divider {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.08), rgba(255,255,255,0));
+  margin: 10px 0 18px;
+}
+
+/* Small gap before the "Outside of academics and work" paragraph */
+.about .content p.spaced-before { margin-top: 10px; }
 
 /*--------------------------------------------------------------
 # Facts
@@ -849,6 +923,7 @@ section {
 .portfolio #portfolio-flters li.filter-active {
   color: var(--primary);
 }
+
 
 .portfolio #portfolio-flters li:last-child {
   margin-right: 0;
