@@ -21,6 +21,15 @@
     window.addEventListener('load', removePreloader);
     setTimeout(removePreloader, 3000);
 
+    // safety: if preloader is added late or fails to remove, observe and clear
+    const obs = new MutationObserver(() => {
+      const p = document.getElementById('preloader');
+      if (p) removePreloader();
+    });
+    try { obs.observe(document.documentElement, { childList: true, subtree: true }); } catch(e) {}
+    // stop observing after a while
+    setTimeout(() => { try { obs.disconnect(); } catch(e){} }, 6000);
+
     // ensure dark class exists (site is dark-only now)
     document.addEventListener('DOMContentLoaded', () => {
       try { document.body.classList.add('dark'); } catch(e){}
@@ -170,6 +179,68 @@
       backDelay: 2000
     });
   }
+
+  /**
+   * Global touch/hover/press micro-interactions (ripple + press states)
+   * Applies to buttons, links, chips, nav items, and cards.
+   */
+  window.addEventListener('DOMContentLoaded', () => {
+    const supportsTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const interactiveSelectors = [
+      '.btn', '.skill-chip', '.portfolio .portfolio-wrap', '.nav-menu a', '.cert-btn', '.portfolio .portfolio-wrap .portfolio-links a', '.contact .info-item', '.social-links a', '#portfolio-flters li'
+    ];
+    const hosts = document.querySelectorAll(interactiveSelectors.join(','));
+    hosts.forEach(h => h.classList.add('ripple-host'));
+
+    const makeRipple = (host, x, y) => {
+      const r = document.createElement('span');
+      r.className = 'ripple';
+      const rect = host.getBoundingClientRect();
+      const maxDim = Math.max(rect.width, rect.height);
+      const size = maxDim * 2; // cover diagonals
+      r.style.width = r.style.height = size + 'px';
+      r.style.left = (x - rect.left - size / 2) + 'px';
+      r.style.top = (y - rect.top - size / 2) + 'px';
+      host.appendChild(r);
+      // trigger animation
+      requestAnimationFrame(() => {
+        r.classList.add('ripple-anim');
+      });
+      r.addEventListener('animationend', () => r.remove());
+    };
+
+    const pressStart = (e) => {
+      const host = e.currentTarget;
+      host.classList.add('pressing');
+      const point = (e.touches && e.touches[0]) || e;
+      makeRipple(host, point.clientX, point.clientY);
+    };
+    const pressEnd = (e) => { e.currentTarget.classList.remove('pressing'); };
+
+    hosts.forEach(h => {
+      h.addEventListener(supportsTouch ? 'touchstart' : 'pointerdown', pressStart, { passive: true });
+      h.addEventListener(supportsTouch ? 'touchend' : 'pointerup', pressEnd, { passive: true });
+      h.addEventListener(supportsTouch ? 'touchcancel' : 'pointercancel', pressEnd, { passive: true });
+      // mouse leave cleanup
+      h.addEventListener('mouseleave', () => h.classList.remove('pressing'));
+      h.addEventListener('blur', () => h.classList.remove('pressing'));
+    });
+
+    // Navbar subtle drag feedback on touch: translate a bit while swiping over nav
+    const nav = document.querySelector('#navbar');
+    if (nav && supportsTouch) {
+      let active = false; let startX = 0;
+      nav.addEventListener('touchstart', (e) => { active = true; startX = e.touches[0].clientX; }, { passive: true });
+      nav.addEventListener('touchmove', (e) => {
+        if (!active) return;
+        const dx = Math.max(-6, Math.min(6, e.touches[0].clientX - startX));
+        nav.style.transform = `translateX(${dx}px)`;
+      }, { passive: true });
+      const reset = () => { active = false; nav.style.transform = ''; };
+      nav.addEventListener('touchend', reset, { passive: true });
+      nav.addEventListener('touchcancel', reset, { passive: true });
+    }
+  });
 
   /**
    * Skills animation
@@ -412,6 +483,7 @@
           el.classList.remove('filter-active');
         });
         this.classList.add('filter-active');
+
 
         portfolioIsotope.arrange({
           filter: this.getAttribute('data-filter')
