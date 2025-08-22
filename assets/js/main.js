@@ -175,7 +175,7 @@
    * Skills animation
    */
   let skilsContent = select('.skills-content');
-  if (skilsContent) {
+  if (skilsContent && window.Waypoint) {
     new Waypoint({
       element: skilsContent,
       offset: '80%',
@@ -187,6 +187,212 @@
       }
     })
   }
+
+  /**
+   * Skills filter (chips)
+   */
+  window.addEventListener('DOMContentLoaded', () => {
+    const filterEl = document.getElementById('skills-filter');
+    const gridEl = document.getElementById('skills-grid');
+    if (!filterEl || !gridEl) return;
+    const chips = Array.from(gridEl.querySelectorAll('.skill-chip'));
+    // Pebble indicator setup
+    const pebble = filterEl.querySelector('.skills-pebble');
+    const movePebble = (target) => {
+      if (!pebble || !target) return;
+      const wrapRect = filterEl.getBoundingClientRect();
+      const tRect = target.getBoundingClientRect();
+      const x = tRect.left - wrapRect.left + filterEl.scrollLeft;
+      const y = Math.max(0, tRect.top - wrapRect.top + filterEl.scrollTop);
+      pebble.style.setProperty('--sx', `${x}px`);
+      pebble.style.setProperty('--sy', `${y}px`);
+      pebble.style.width = `${tRect.width}px`;
+      pebble.style.height = `${tRect.height}px`;
+      // Place pebble behind items (z-index handled in CSS)
+    };
+    // Follow pebble under pointer for fluid dragging, anchored to nearest tab row
+    const followPebble = (clientX, clientY) => {
+      if (!pebble) return;
+      const wrapRect = filterEl.getBoundingClientRect();
+      const nearest = nearestCatAt(clientX, clientY) || filterEl.querySelector('li.active');
+      if (!nearest) return;
+      const r = nearest.getBoundingClientRect();
+      const width = r.width; const height = r.height;
+      // center pebble around pointer X, clamp within wrapper
+      const desiredLeft = clientX - wrapRect.left - width / 2;
+      const minLeft = 0; const maxLeft = wrapRect.width - width;
+      const x = Math.max(minLeft, Math.min(maxLeft, desiredLeft)) + filterEl.scrollLeft;
+      const y = Math.max(0, r.top - wrapRect.top + filterEl.scrollTop);
+      pebble.style.setProperty('--sx', `${x}px`);
+      pebble.style.setProperty('--sy', `${y}px`);
+      pebble.style.width = `${width}px`;
+      pebble.style.height = `${height}px`;
+    };
+    // Initialize pebble to active
+    const initActive = () => {
+      const act = filterEl.querySelector('li.active') || filterEl.querySelector('li[data-filter]');
+      if (act) movePebble(act);
+    };
+  const setFilter = (cat) => {
+      chips.forEach(chip => {
+        const match = cat === 'all' || chip.getAttribute('data-cat') === cat;
+        if (match) {
+          chip.removeAttribute('hidden');
+        } else {
+          chip.setAttribute('hidden', '');
+        }
+      });
+      // AOS refresh if present
+      if (window.AOS && typeof AOS.refresh === 'function') {
+        try { AOS.refresh(); } catch(e){}
+      }
+      // keep pebble aligned with active tab
+      const act = filterEl.querySelector('li.active');
+      if (act) movePebble(act);
+    };
+    let animTimer = null;
+    const animateGridSwap = (cb) => {
+      // make animation robust against rapid re-triggers
+      if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+      gridEl.classList.add('animating-out');
+      animTimer = setTimeout(() => {
+        cb();
+        requestAnimationFrame(() => {
+          gridEl.classList.remove('animating-out');
+        });
+        animTimer = null;
+      }, 200);
+    };
+
+    filterEl.addEventListener('click', (e) => {
+      const li = e.target.closest('li[data-filter]');
+      if (!li) return;
+      filterEl.querySelectorAll('li').forEach(el => el.classList.remove('active'));
+      li.classList.add('active');
+      movePebble(li);
+      animateGridSwap(() => setFilter(li.getAttribute('data-filter')));
+    });
+    // keyboard support
+    filterEl.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const li = document.activeElement.closest('li[data-filter]');
+      if (!li) return;
+      e.preventDefault();
+      filterEl.querySelectorAll('li').forEach(el => el.classList.remove('active'));
+      li.classList.add('active');
+      movePebble(li);
+      animateGridSwap(() => setFilter(li.getAttribute('data-filter')));
+    });
+  // initial -> default to Languages
+  setFilter('languages');
+  initActive();
+  // realign on resize
+  window.addEventListener('resize', initActive);
+
+  // Drag-to-select for pebble
+  const cats = Array.from(filterEl.querySelectorAll('li[data-filter]'));
+  let dragging = false;
+  let rafPending = false;
+  let lastTarget = filterEl.querySelector('li.active');
+  let dragArmed = false;
+  let armStart = { x:0, y:0 };
+  const nearestCatAt = (clientX, clientY) => {
+    let nearest = null; let best = Infinity;
+    for (const li of cats) {
+      const r = li.getBoundingClientRect();
+      const cx = r.left + r.width/2; const cy = r.top + r.height/2;
+      const dx = clientX - cx; const dy = clientY - cy;
+      const d = dx*dx + dy*dy;
+      if (d < best) { best = d; nearest = li; }
+    }
+    return nearest;
+  };
+  const applyActive = (li) => {
+    if (!li || li === lastTarget) return;
+    filterEl.querySelectorAll('li').forEach(el => el.classList.remove('active'));
+    li.classList.add('active');
+    lastTarget = li;
+    movePebble(li);
+    setFilter(li.getAttribute('data-filter'));
+  };
+  let lastPoint = { x: 0, y: 0 };
+  const onPointerMove = (e) => {
+    if (!dragging) return;
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      rafPending = false;
+  // subtle visual feedback without blocking updates
+  gridEl.classList.add('drag-fade');
+      lastPoint = { x: e.clientX, y: e.clientY };
+      // fluidly follow pointer without changing category yet
+      followPebble(e.clientX, e.clientY);
+    });
+  };
+  const endDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    filterEl.classList.remove('dragging');
+  gridEl.classList.remove('drag-fade');
+  // restore slower transitions after drag ends
+  if (pebble) pebble.style.transitionDuration = '';
+    // snap to nearest and animate content update
+    const target = nearestCatAt(lastPoint.x, lastPoint.y) || filterEl.querySelector('li.active');
+    if (target) {
+      filterEl.querySelectorAll('li').forEach(el => el.classList.remove('active'));
+      target.classList.add('active');
+      movePebble(target);
+      animateGridSwap(() => setFilter(target.getAttribute('data-filter')));
+    }
+    // ripple flair
+    if (pebble) {
+      pebble.classList.remove('snap');
+      // retrigger animation
+      void pebble.offsetWidth;
+      pebble.classList.add('snap');
+      setTimeout(() => pebble.classList.remove('snap'), 420);
+    }
+    window.removeEventListener('pointermove', onPointerMove);
+    window.removeEventListener('pointerup', endDrag);
+    window.removeEventListener('pointercancel', endDrag);
+  };
+  const startDrag = (e) => {
+    dragging = true;
+    filterEl.classList.add('dragging');
+    // speed up pebble tracking during drag for responsiveness
+    if (pebble) pebble.style.transitionDuration = '180ms, 180ms, 180ms';
+    // position pebble under pointer immediately without changing active/content yet
+    followPebble(e.clientX, e.clientY);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+  };
+  // Start drag on pebble or filter background
+  const armMove = (e) => {
+    const dx = e.clientX - armStart.x; const dy = e.clientY - armStart.y;
+    if (!dragArmed && Math.hypot(dx, dy) > 6) {
+      dragArmed = true;
+      startDrag(e);
+      // after drag starts, stop arm listeners
+      window.removeEventListener('pointermove', armMove, true);
+      window.removeEventListener('pointerup', armUp, true);
+      window.removeEventListener('pointercancel', armUp, true);
+    }
+  };
+  const armUp = () => {
+    window.removeEventListener('pointermove', armMove, true);
+    window.removeEventListener('pointerup', armUp, true);
+    window.removeEventListener('pointercancel', armUp, true);
+  };
+  filterEl.addEventListener('pointerdown', (e) => {
+    // arm drag; do not prevent click, and do not start drag immediately
+    dragArmed = false;
+    armStart = { x: e.clientX, y: e.clientY };
+    window.addEventListener('pointermove', armMove, true);
+    window.addEventListener('pointerup', armUp, true);
+    window.addEventListener('pointercancel', armUp, true);
+  });
+  });
 
   /**
    * Porfolio isotope and filter
@@ -270,6 +476,94 @@
   });
 
   /**
+   * Certifications slider (responsive multi-slide)
+   */
+  const certSwiperEl = document.querySelector('.cert-swiper');
+  if (certSwiperEl) {
+    const certSwiper = new Swiper(certSwiperEl, {
+      speed: 600,
+      loop: false,
+      spaceBetween: 24,
+      slidesPerView: 3,
+      watchOverflow: true,
+  autoHeight: false,
+      observer: true,
+      observeParents: true,
+      observeSlideChildren: true,
+  pagination: false,
+      breakpoints: {
+        0: { slidesPerView: 1 },
+        576: { slidesPerView: 1.4 },
+        768: { slidesPerView: 2 },
+        992: { slidesPerView: 3 },
+        1400: { slidesPerView: 3 } 
+      }
+    });
+    const prevBtn = document.querySelector('.cert-btn.prev');
+    const nextBtn = document.querySelector('.cert-btn.next');
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => certSwiper.slidePrev());
+      nextBtn.addEventListener('click', () => certSwiper.slideNext());
+
+      // Precisely center arrows on the middle of the certificate image preview
+      const wrapper = document.querySelector('.cert-slider-wrapper');
+      const positionArrows = () => {
+        if (!wrapper) return;
+        // Prefer the first visible slide's preview; fallback to any preview
+        const previews = Array.from(wrapper.querySelectorAll('.swiper-slide .preview'));
+        const preview = previews.find(p => {
+          const r = p.getBoundingClientRect();
+          return r.width > 0 && r.height > 0;
+        }) || previews[0];
+        if (!preview) return;
+        const wRect = wrapper.getBoundingClientRect();
+        const pRect = preview.getBoundingClientRect();
+        const centerY = (pRect.top + pRect.height / 2) - wRect.top; // relative to wrapper
+        prevBtn.style.top = centerY + 'px';
+        nextBtn.style.top = centerY + 'px';
+      };
+
+      // Ensure the swiper container height matches current visible slide row (remove leftover gap)
+      const adjustHeight = () => {
+        try {
+          const slides = Array.from(wrapper.querySelectorAll('.swiper-slide'));
+          const visibleHeights = slides
+            .filter(s => {
+              const r = s.getBoundingClientRect();
+              return r.width > 0 && r.height > 0;
+            })
+            .map(s => {
+              const card = s.querySelector('.cert-card');
+              return card ? card.getBoundingClientRect().height : s.getBoundingClientRect().height;
+            });
+          const maxH = visibleHeights.length ? Math.max(...visibleHeights) : 0;
+          certSwiperEl.style.height = Math.ceil(maxH) + 'px';
+        } catch (e) { /* noop */ }
+      };
+
+      // Recalculate on load, resize, and swiper events
+      window.addEventListener('load', positionArrows);
+      window.addEventListener('resize', positionArrows);
+  const recalc = () => { positionArrows(); adjustHeight(); };
+  certSwiper.on('resize', recalc);
+  certSwiper.on('slideChangeTransitionEnd', recalc);
+  certSwiper.on('transitionEnd', recalc);
+      // When images load (object-fit: contain), heights can change
+      wrapper.querySelectorAll('.preview img').forEach(img => {
+        if (img.complete) return; // already loaded
+        img.addEventListener('load', recalc, { once: true });
+      });
+      // Initial positions shortly after init to allow layout to settle
+      setTimeout(recalc, 60);
+      // Second tick after fonts/images/AOS might tweak layout
+      setTimeout(recalc, 220);
+      // Also recalc on window events
+      window.addEventListener('load', recalc);
+      window.addEventListener('resize', recalc);
+    }
+  }
+
+  /**
    * Animation on scroll
    */
   window.addEventListener('load', () => {
@@ -285,5 +579,51 @@
    * Initiate Pure Counter 
    */
   new PureCounter();
+
+  /**
+   * Contact form: Formspree submission with toast feedback
+   */
+  window.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('#contact form[action^="https://formspree.io/"]');
+    const container = document.getElementById('toast-container');
+    if (!form || !container) return;
+
+    const showToast = (msg, type = 'success') => {
+      const el = document.createElement('div');
+      el.className = `toast toast-${type}`;
+      el.setAttribute('role', 'status');
+      el.innerHTML = `${type === 'success' ? '<i class="bi bi-check-circle"></i>' : '<i class="bi bi-x-circle"></i>'}<span>${msg}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.transition = 'opacity .4s ease, transform .4s ease';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(6px)';
+        setTimeout(() => el.remove(), 400);
+      }, 3600);
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Block bots via honeypot
+      const hp = form.querySelector('input[name="_gotcha"]');
+      if (hp && hp.value) return; 
+      const data = new FormData(form);
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: data
+        });
+        if (res.ok) {
+          showToast('Message sent successfully. I\'ll get back to you soon.', 'success');
+          form.reset();
+        } else {
+          showToast('Could not send message. Please try again later.', 'error');
+        }
+      } catch (err) {
+        showToast('Network error. Please check your connection and retry.', 'error');
+      }
+    });
+  });
 
 })()
