@@ -614,6 +614,19 @@ section {
   font-size: 26px;
   color: var(--muted);
 }
+/* About: make photo and text not selectable/clickable (except links/buttons) */
+.about .about-photo { 
+  pointer-events: none; 
+  -webkit-user-drag: none; 
+  user-select: none; 
+  -webkit-touch-callout: none; 
+}
+.about .content { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+.about .content a, .about .content button, .about .content .btn { 
+  pointer-events: auto; 
+  -webkit-user-select: auto; -moz-user-select: auto; -ms-user-select: auto; user-select: auto; 
+}
+/* Do not block pointer events on text to keep any links clickable */
 
 /* Accented, muted dark-blue subtitle for About */
 .about-subtitle {
@@ -837,6 +850,17 @@ section {
   margin-top: 20px;
   margin-bottom: 20px;
   color: var(--fg);
+}
+/* Resume: disable text selection for authored content while keeping controls interactive */
+.resume .resume-title,
+.resume .resume-item p,
+.resume .resume-item h4,
+.resume .resume-item h5,
+.resume .resume-item ul,
+.resume .resume-item li { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+.resume .resume-item a, .resume .resume-item .btn { 
+  pointer-events: auto; 
+  -webkit-user-select: auto; -moz-user-select: auto; -ms-user-select: auto; user-select: auto; 
 }
 
 .resume .resume-item {
