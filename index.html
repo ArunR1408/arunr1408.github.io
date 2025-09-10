@@ -55,8 +55,14 @@
 <body class="dark">
   <!-- Scroll Progress Bar -->
   <div class="scroll-progress-container"><div class="scroll-progress-bar"></div></div>
-  <!-- Preloader Shimmer -->
-  <div id="preloader" class="preloader-shimmer"><div class="shimmer-item"></div></div>
+  <!-- Preloader (circle variant). Keep shimmer as alternate by swapping classes. -->
+  <div id="preloader" class="preloader-circle" aria-hidden="true">
+    <div class="loader" role="status" aria-label="Loading">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
 
   <!-- ======= Mobile nav toggle button ======= -->
   <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
@@ -81,8 +87,8 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center">
     <div class="container" data-aos="zoom-in" data-aos-delay="100">
-      <h1>Arun R</h1>
-      <p>I'm <span class="typed" data-typed-items="Developer, Pythoneer, Photographer, Enthusiast"></span></p>
+    <h1 class="hero-name" tabindex="0" role="button" aria-label="Animate name">Arun R</h1>
+  <p>I'm <span class="typed" data-typed-items="Developer, Pythoneer, Photographer, Tech Enthusiast, Engineer, Curious Explorer, Problem Solver, Colorist, Researcher"></span></p>
       <div class="social-links">
         <a href="https://www.linkedin.com/in/arunr1408/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         <a href="https://github.com/ArunR1408" class="github"><i class="bx bxl-github"></i></a>
@@ -104,16 +110,16 @@
 
       <div class="row">
         <div class="col-lg-4">
-          <img src="assets/img/profile-img.jpg" class="img-fluid about-photo" alt="Profile photo of Arun R">
+          <img src="assets/img/profile-img.jpg" class="img-fluid about-photo" alt="Profile photo of Arun R" data-aos="fade-in" data-aos-delay="120">
         </div>
-        <div class="col-lg-8 pt-4 pt-lg-0 content">
+        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-up" data-aos-delay="180">
           <h3 class="about-subtitle">Electronics and Computer Engineer &amp; Tech Enthusiast.</h3>
           <hr class="about-divider" aria-hidden="true" />
-          <p>I’ve had the opportunity to work with research groups like Humanitarian Technology (HuT) Labs, the Centre for Flexible Electronics and Advanced Materials, and AMMACHI Labs (Amrita Multi Modal Applications Using Computer &amp; Human Interaction). During this time, I collaborated on projects with the University of Tennessee and contributed to the academic community as a conference presenter and reviewer. I also co-authored publications, which gave me valuable experience in research and technical writing.</p>
+          <p data-aos="fade-up" data-aos-delay="200">I’ve had the opportunity to work with research groups like Humanitarian Technology (HUT) Labs, the Centre for Flexible Electronics and Advanced Materials, and AMMACHI Labs (Amrita Multi Modal Applications Using Computer &amp; Human Interaction). During this time, I collaborated on projects with the University of Tennessee and contributed to the academic community as a conference presenter and reviewer. I also co-authored publications, which gave me valuable experience in research and technical writing.</p>
           <!-- Removed City & Email (already present in Contact) -->
-          <p>Right now, I’m expanding my skills in software engineering, focusing on Java and modern development practices, and I’m also working on a journal paper on autonomous vehicle technology.</p>
-          <p class="spaced-before">Outside of academics and work, I often find myself drawn to creative and curious pursuits. Photography and color grading let me see the world differently, while gaming and cinema open doors to new kinds of storytelling. I’ve always been fascinated by maps and cultures, which makes travel and geography a natural interest. And above all, I like staying curious—whether it’s exploring the latest in tech or simply learning something new about the world around me.</p>
-          <p>I’m always open to new opportunities, collaborations, and conversations that lead to learning and growth.</p>
+          <p data-aos="fade-up" data-aos-delay="240">Right now, I’m expanding my skills in software engineering, focusing on Java and modern development practices, and I’m also working on a journal paper on autonomous vehicle technology.</p>
+          <p class="spaced-before" data-aos="fade-up" data-aos-delay="280">Outside of academics and work, I often find myself drawn to creative and curious pursuits. Photography and color grading let me see the world differently, while gaming and cinema open doors to new kinds of storytelling. I’ve always been fascinated by maps and cultures, which makes travel and geography a natural interest. And above all, I like staying curious—whether it’s exploring the latest in tech or simply learning something new about the world around me.</p>
+          <p data-aos="fade-up" data-aos-delay="320">I’m always open to new opportunities, collaborations, and conversations that lead to learning and growth.</p>
         </div>
       </div>
     </div>
@@ -280,72 +286,96 @@
     
         <div class="row">
           <div class="col-lg-6">
-            <h3 class="resume-title">Summary</h3>
-            <div class="resume-item pb-0">
+            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="60">Summary</h3>
+            <div class="resume-item pb-0" data-aos="fade-up" data-aos-delay="100">
               <p><em>Electronics and Computer Engineering graduate with practical experience in Python, Machine Learning, Deep Learning, Embedded Systems, and IoT. Skilled in building full-stack AI applications and real-time, data-driven systems that bridge hardware and software. Passionate about using technology to solve real-world problems through innovative and scalable solutions. Known for adaptability, critical thinking, and a strong collaborative mindset.</em></p>
               <p>
                 <a href="https://flowcv.com/resume/khlsuskqbr9o" target="_blank" class="btn btn-outline-primary" aria-label="View full resume"><i class="bi bi-file-earmark-text"></i> View Full Resume</a>
               </p>
             </div>
     
-            <h3 class="resume-title">Education</h3>
-            <div class="resume-item">
+            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="140">Education</h3>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="180">
               <h4>Bachelor of Technology in Electronics and Computer Engineering</h4>
               <h5>Aug 2021 – Aug 2025</h5>
               <p><em>Amrita Vishwa Vidyapeetham, Amritapuri, India</em></p>
               <p>CGPA: <span id="cgpa-value">7.73</span></p>
             </div>
-            <div class="resume-item">
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="220">
               <h4>Higher Secondary Education</h4>
               <h5>Jun 2019 – Mar 2021</h5>
               <p><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
               <p>Score: 86.6%</p>
             </div>
-            <div class="resume-item">
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="260">
               <h4>Secondary Education</h4>
               <h5>Mar 2019</h5>
               <p><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
               <p>Score: 87.6%</p>
             </div>
             
-            <h3 class="resume-title">Publications</h3>
-            <div class="resume-item">
-              <h4><a href="https://doi.org/10.1109/SPECon61254.2024.10537410" target="_blank" rel="noopener">Cost-Effective Solutions for Underwater Ultrasonic Flow Rate Sensors in Renewable Energy Applications</a></h4>
-              <h5>Feb 2024</h5>
-              <p><em>IEEE</em></p>
-              <p>Surveyed cost drivers (materials, transducer design, signal processing) and proposed design/process optimizations to improve affordability of ultrasonic flow sensors for renewable energy systems.</p>
-            </div>
-            <div class="resume-item">
+            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="300">Publications</h3>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="340">
               <h4><a href="https://doi.org/10.13074/jent.2024.12.243795" target="_blank" rel="noopener">Assessing the Impact of Pesticide Use on India’s Agriculture and Environment</a></h4>
               <h5>Jul 2024</h5>
               <p><em>Journal of Environmental Nanotechnology</em></p>
               <p>Mixed-method analysis of agricultural productivity, environmental risks, and socio-economic drivers; provided evidence-based recommendations for sustainable pest management.</p>
             </div>
-            <h3 class="resume-title">Organizations</h3>
-            <div class="resume-item">
-              <h4>IEEE Kerala Section</h4>
-              <h5>Apr 2024 – Dec 2025</h5>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="380">
+              <h4><a href="https://doi.org/10.1109/SPECon61254.2024.10537410" target="_blank" rel="noopener">Cost-Effective Solutions for Underwater Ultrasonic Flow Rate Sensors in Renewable Energy Applications</a></h4>
+              <h5>Feb 2024</h5>
+              <p><em>IEEE</em></p>
+              <p>Surveyed cost drivers (materials, transducer design, signal processing) and proposed design/process optimizations to improve affordability of ultrasonic flow sensors for renewable energy systems.</p>
+            </div>
+            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="420">Organizations</h3>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="460">
+              <div class="exp-header">
+                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo1.png" alt="IEEE logo"></span>
+                <div>
+                  <h4>Institute of Electrical and Electronics Engineers (IEEE) — Kerala Section</h4>
+                  <h5>Apr 2024 – Dec 2025</h5>
+                </div>
+              </div>
               <p><em>Student Member</em></p>
             </div>
           </div>
           
           <div class="col-lg-6">
-            <h3 class="resume-title">Professional Experience</h3>
-            <div class="resume-item">
-              <h4>Research Intern</h4>
-              <h5>Jan 2025 – Feb 2025</h5>
-              <p><em>Humanitarian Technology (HuT) Labs, Kollam, India</em></p>
+            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="60">Professional Experience</h3>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="100">
+              <div class="exp-header">
+                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo6.png" alt="TCSL logo"></span>
+                <div>
+                  <h4>Tata Consultancy Services Limited (TCS)</h4>
+                  <h5>Assistant System Engineer-Trainee • 2025 – Present</h5>
+                </div>
+              </div>
+              <p class="small mb-0"><em>The start of a new chapter.</em></p>
+            </div>
+
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="100">
+              <div class="exp-header">
+                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo2.png" alt="HuT Labs logo"></span>
+                <div>
+                  <h4>Humanitarian Technology (HuT) Labs</h4>
+                  <h5>Research Intern • Jan 2025 – Feb 2025</h5>
+                </div>
+              </div>
               <ul>
-                <li>Conducted a strategic feasibility analysis for AV deployment in India with the SMART Center and University of Tennessee, identifying key technological and operational challenges.</li>
+                <li>Conducted a strategic feasibility analysis for Autonomous Vehicle (AV) deployment in India with the SMART Center and University of Tennessee, identifying key technological and operational challenges.</li>
                 <li>Evaluated object detection and path planning models on benchmark traffic datasets (e.g., JAAD, PIE), generating actionable insights for AV systems under Indian road conditions.</li>
                 <li>Co-authored a research paper proposing a practical roadmap for AV adoption, contributing to ongoing work in intelligent transportation systems.</li>
               </ul>
               <p class="small mb-0"><strong>Tech:</strong> Python, TensorFlow, PyTorch, OpenCV, YOLO (Ultralytics), MediaPipe, Pandas/NumPy, Jupyter, Git</p>
             </div>
-            <div class="resume-item">
-              <h4>Project Intern</h4>
-              <h5>Aug 2024 – Feb 2025</h5>
-              <p><em>AMMACHI Labs (Amrita Multi Modal Applications Using Computer &amp; Human Interaction), Kollam, India</em></p>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="140">
+              <div class="exp-header">
+                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo3.png" alt="AMMACHI Labs logo"></span>
+                <div>
+                  <h4>Amrita Multi Modal Applications Using Computer &amp; Human Interaction — AMMACHI Labs</h4>
+                  <h5>Project Intern • Aug 2024 – Feb 2025</h5>
+                </div>
+              </div>
               <ul>
                 <li>Developed a full-stack coconut health monitoring platform: image capture (DJI Mavic Air), preprocessing, and DL-based disease detection trained on curated datasets.</li>
                 <li>Automated geospatial data extraction and ingest with Python scripts (e.g., Pillow, integration utilities) to Firebase, enabling a 100% hands-free pipeline and reducing manual work by &gt;95%.</li>
@@ -354,10 +384,14 @@
               <p class="small mb-0"><strong>Tech:</strong> ESP32, Arduino IDE, Python, TensorFlow, OpenCV, Flask, Pillow, Firebase, Google Cloud (GCP), DJI Mavic Air</p>
             </div>   
             <!-- B Rollers moved to Volunteering section per request -->
-            <div class="resume-item">
-              <h4>Intern</h4>
-              <h5>Sep 2023</h5>
-              <p><em>Kerala State Electronics Development Corporation Ltd (Keltron), Thiruvananthapuram</em></p>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="180">
+              <div class="exp-header">
+                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo5.png" alt="Keltron"></span>
+                <div>
+                  <h4>Kerala State Electronics Development Corporation Ltd (Keltron)</h4>
+                  <h5>Intern • Sep 2023</h5>
+                </div>
+              </div>
               <ul>
                 <li>Programmed ESP32 microcontrollers for real-time environmental data collection using temperature, gas, and ultrasonic sensors with reliable telemetry.</li>
                 <li>Deployed wireless data transmission logic in Embedded C with a mobile interface, supporting remote monitoring and system reliability testing.</li>
@@ -365,11 +399,15 @@
               <p class="small mb-0"><strong>Tech:</strong> ESP32, Embedded C, Arduino IDE, IoT sensors</p>
             </div>
             
-            <h3 class="resume-title">Volunteering</h3>
-            <div class="resume-item">
-              <h4>Colorist & Photographer</h4>
-              <h5>Apr 2023 – May 2025</h5>
-              <p><em>B Rollers</em></p>
+            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="220">Volunteering</h3>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="260">
+              <div class="exp-header">
+                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo4.png" alt="B Rollers logo"></span>
+                <div>
+                  <h4>B Rollers</h4>
+                  <h5>Colorist & Photographer • Apr 2023 – May 2025</h5>
+                </div>
+              </div>
               <ul>
                 <li>Enhanced 200+ event photos/videos through color correction and grading, improving visual impact and consistency.</li>
                 <li>Produced promotional media that increased event reach and engagement across campus channels.</li>
@@ -547,10 +585,9 @@
               <div class="swiper-slide">
                 <div class="cert-card">
           <a href="assets/img/certifications/certificate-1.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Google Cloud Arcade: Future Ready Skills (Badge)">
-                    <div class="preview">
-            <span class="cred-type badge">Badge</span>
-            <img src="assets/img/certifications/certificate-1.jpg" alt="Certificate 1" loading="lazy">
-                    </div>
+        <div class="preview">
+      <img src="assets/img/certifications/certificate-1.jpg" alt="Google Cloud Arcade: Future Ready Skills certificate" loading="lazy">
+        </div>
                   </a>
           <h4>Google Cloud Arcade: Future Ready Skills</h4>
           <p class="issuer">Google Cloud (GCP) • Aug 2025</p>
@@ -559,10 +596,9 @@
               <div class="swiper-slide">
                 <div class="cert-card">
           <a href="assets/img/certifications/certificate-2.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Introduction to Generative AI (Badge)">
-                    <div class="preview">
-            <span class="cred-type badge">Badge</span>
-            <img src="assets/img/certifications/certificate-2.jpg" alt="Certificate 2" loading="lazy">
-                    </div>
+        <div class="preview">
+      <img src="assets/img/certifications/certificate-2.jpg" alt="Introduction to Generative AI certificate" loading="lazy">
+        </div>
                   </a>
           <h4>Introduction to Generative AI</h4>
           <p class="issuer">Google • May 2025</p>
@@ -571,10 +607,9 @@
               <div class="swiper-slide">
                 <div class="cert-card">
           <a href="assets/img/certifications/certificate-3.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Introduction to Responsible AI (Badge)">
-                    <div class="preview">
-            <span class="cred-type badge">Badge</span>
-            <img src="assets/img/certifications/certificate-3.jpg" alt="Certificate 3" loading="lazy">
-                    </div>
+        <div class="preview">
+      <img src="assets/img/certifications/certificate-3.jpg" alt="Introduction to Responsible AI certificate" loading="lazy">
+        </div>
                   </a>
           <h4>Introduction to Responsible AI</h4>
           <p class="issuer">Google • May 2025</p>
@@ -583,10 +618,9 @@
               <div class="swiper-slide">
                 <div class="cert-card">
           <a href="assets/img/certifications/certificate-4.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Intro to Machine Learning (Certificate)">
-                    <div class="preview">
-            <span class="cred-type cert">Certificate</span>
-            <img src="assets/img/certifications/certificate-4.jpg" alt="Certificate 4" loading="lazy">
-                    </div>
+        <div class="preview">
+      <img src="assets/img/certifications/certificate-4.jpg" alt="Intro to Machine Learning certificate" loading="lazy">
+        </div>
                   </a>
           <h4>Intro to Machine Learning</h4>
           <p class="issuer">Kaggle • Aug 2023</p>
