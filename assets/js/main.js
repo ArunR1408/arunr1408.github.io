@@ -130,10 +130,135 @@
    * Mobile nav toggle
    */
   on('click', '.mobile-nav-toggle', function(e) {
-    select('body').classList.toggle('mobile-nav-active')
-    this.classList.toggle('bi-list')
-    this.classList.toggle('bi-x')
+    const body = select('body');
+    const isActive = body.classList.toggle('mobile-nav-active');
+  // keep the hamburger icon class present
+  this.classList.add('bi-list')
+    // Manage overlay for outside-tap-to-close on mobile
+    if (isActive) {
+      // create overlay
+      let ol = document.createElement('div');
+      ol.className = 'mobile-nav-overlay';
+      ol.style.position = 'fixed';
+      ol.style.inset = '0';
+      ol.style.zIndex = '9996';
+      ol.style.background = 'transparent';
+      ol.addEventListener('click', () => {
+  // close nav when clicking outside
+  body.classList.remove('mobile-nav-active');
+  const tgl = select('.mobile-nav-toggle');
+  if (tgl) { tgl.classList.add('bi-list'); }
+        // cleanup drag handlers if present
+        const headerElCleanup = document.getElementById('header');
+        if (headerElCleanup && headerElCleanup._mobileDragCleanup) headerElCleanup._mobileDragCleanup();
+        ol.remove();
+      }, { passive: true });
+      document.body.appendChild(ol);
+      // enable drag-to-close on the header/sidebar
+      const headerEl = document.getElementById('header');
+      if (headerEl) {
+        headerEl.style.transition = 'transform .28s cubic-bezier(.2,.8,.2,1)';
+        let startX = 0;
+        let currentX = 0;
+        let dragging = false;
+
+        const beginDrag = (clientX) => {
+          dragging = true;
+          startX = clientX;
+          headerEl.style.willChange = 'transform';
+        };
+
+        const moveDrag = (clientX) => {
+          if (!dragging) return;
+          currentX = clientX;
+          const dx = Math.min(0, currentX - startX); // negative or zero
+          headerEl.style.transform = `translateX(${dx}px)`;
+        };
+
+        const endDrag = () => {
+          if (!dragging) return;
+          dragging = false;
+          const dx = currentX - startX;
+          headerEl.style.willChange = '';
+          const threshold = Math.max(-120, -headerEl.offsetWidth * 0.4);
+          if (dx < threshold) {
+            body.classList.remove('mobile-nav-active');
+            const tgl = select('.mobile-nav-toggle');
+            if (tgl) { tgl.classList.add('bi-list'); }
+            headerEl.style.transform = '';
+            const existing = document.querySelector('.mobile-nav-overlay'); if (existing) existing.remove();
+          } else {
+            headerEl.style.transform = '';
+          }
+        };
+
+        // document-level handlers to improve reliability
+        const docDown = (e) => {
+          const clientX = (e.touches && e.touches[0]) ? e.touches[0].clientX : (e.clientX || (e.changedTouches && e.changedTouches[0] && e.changedTouches[0].clientX));
+          // start drag only if initial contact is within header bounds
+          const rect = headerEl.getBoundingClientRect();
+          if (clientX >= rect.left && clientX <= rect.right) {
+            beginDrag(clientX);
+          }
+        };
+
+        const docMove = (e) => {
+          if (!dragging) return;
+          const clientX = (e.touches && e.touches[0]) ? e.touches[0].clientX : e.clientX;
+          // prevent vertical scroll while dragging
+          if (e.cancelable) e.preventDefault();
+          moveDrag(clientX);
+        };
+
+        const docUp = (e) => {
+          if (!dragging) return endDrag();
+          endDrag();
+        };
+
+        document.addEventListener('touchstart', docDown, { passive: true });
+        document.addEventListener('touchmove', docMove, { passive: false });
+        document.addEventListener('touchend', docUp, { passive: true });
+        document.addEventListener('pointerdown', docDown);
+        document.addEventListener('pointermove', docMove);
+        document.addEventListener('pointerup', docUp);
+
+        // store handlers for cleanup
+        headerEl._mobileDragCleanup = () => {
+          document.removeEventListener('touchstart', docDown);
+          document.removeEventListener('touchmove', docMove);
+          document.removeEventListener('touchend', docUp);
+          document.removeEventListener('pointerdown', docDown);
+          document.removeEventListener('pointermove', docMove);
+          document.removeEventListener('pointerup', docUp);
+          headerEl.style.transition = '';
+          headerEl.style.transform = '';
+          delete headerEl._mobileDragCleanup;
+        };
+      }
+    } else {
+      // remove any existing overlay and cleanup drag handlers
+      const existing = document.querySelector('.mobile-nav-overlay');
+      if (existing) existing.remove();
+      const headerElCleanup = document.getElementById('header');
+      if (headerElCleanup && headerElCleanup._mobileDragCleanup) headerElCleanup._mobileDragCleanup();
+    }
   })
+
+  // Close mobile nav with Escape key and cleanup handlers/overlay
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      const body = document.body;
+      if (body.classList.contains('mobile-nav-active')) {
+        body.classList.remove('mobile-nav-active');
+        const tgl = select('.mobile-nav-toggle');
+        if (tgl) { tgl.classList.add('bi-list'); }
+        const existing = document.querySelector('.mobile-nav-overlay');
+        if (existing) existing.remove();
+        const headerElCleanup = document.getElementById('header');
+        if (headerElCleanup && headerElCleanup._mobileDragCleanup) headerElCleanup._mobileDragCleanup();
+      }
+    }
+  });
 
   /**
    * Scrool with ofset on links with a class name .scrollto
@@ -146,8 +271,13 @@
       if (body.classList.contains('mobile-nav-active')) {
         body.classList.remove('mobile-nav-active')
         let navbarToggle = select('.mobile-nav-toggle')
-        navbarToggle.classList.toggle('bi-list')
-        navbarToggle.classList.toggle('bi-x')
+        // ensure toggle shows hamburger
+        navbarToggle.classList.add('bi-list')
+        navbarToggle.classList.remove('bi-x')
+        const existing = document.querySelector('.mobile-nav-overlay');
+        if (existing) existing.remove();
+        const headerElCleanup = document.getElementById('header');
+        if (headerElCleanup && headerElCleanup._mobileDragCleanup) headerElCleanup._mobileDragCleanup();
       }
       scrollto(this.hash)
     }
@@ -170,9 +300,24 @@
   const typed = select('.typed')
   if (typed) {
     let typed_strings = typed.getAttribute('data-typed-items')
-    typed_strings = typed_strings.split(',')
+    typed_strings = typed_strings.split(',').map(s => s.trim())
+    // Wrap with a/an article where it improves grammar; leave titles like 'Developer' without article if desired
+    const withArticle = (phrase) => {
+      // If phrase already starts with a known article, return as-is
+      if (/^(a|an|the)\s/i.test(phrase)) return phrase;
+      const first = phrase.charAt(0).toLowerCase();
+      const vowels = ['a','e','i','o','u'];
+      // heuristics for words like 'ML Engineer' -> 'an ML Engineer'
+      const startsWithVowelSound = vowels.includes(first) || /^(ml|ai|iot|r?&d)/i.test(phrase);
+      // use 'the' for specific roles when it reads better under "I'm ..."
+      const useDefinite = /^(founder|lead|lead developer|maintainer)$/i.test(phrase);
+      if (useDefinite) return `the ${phrase}`;
+      const article = startsWithVowelSound ? 'an' : 'a';
+      return `${article} ${phrase}`;
+    };
+    const enhanced = typed_strings.map(withArticle);
     new Typed('.typed', {
-      strings: typed_strings,
+      strings: enhanced,
       loop: true,
       typeSpeed: 100,
       backSpeed: 50,
@@ -225,6 +370,30 @@
       h.addEventListener('mouseleave', () => h.classList.remove('pressing'));
       h.addEventListener('blur', () => h.classList.remove('pressing'));
     });
+
+    // Hero name: wavy flair on hover/touch/keyboard (no bounce)
+    const heroName = document.querySelector('.hero-name');
+    if (heroName) {
+      // For touch/click, toggle a class briefly to show the flair when there's no hover
+      const pulseFlair = () => {
+        heroName.classList.add('touch-flair');
+        clearTimeout(heroName._flairTimer);
+        heroName._flairTimer = setTimeout(() => heroName.classList.remove('touch-flair'), 1200);
+      };
+      heroName.addEventListener('click', pulseFlair);
+      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        heroName.addEventListener('touchstart', () => {
+          pulseFlair();
+        }, { passive: true });
+      }
+      // Keyboard accessibility: show flair when focusing via keyboard
+      heroName.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pulseFlair();
+        }
+      });
+    }
 
     // Navbar subtle drag feedback on touch: translate a bit while swiping over nav
     const nav = document.querySelector('#navbar');
