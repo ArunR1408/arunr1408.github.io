@@ -56,9 +56,39 @@ body.dark {
   --section-bg: #0b0c0d;
 }
 
-/* About section image offset */
-.about .about-photo { position: relative; top: 16px; }
+/* About section image: shaped, framed, and interactive */
+.about .about-photo {
+  position: relative;
+  top: 16px;
+  max-width: 360px;
+  width: 100%;
+  display: block;
+  border-radius: 18px; /* rounded rectangle */
+  object-fit: cover;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 18px 40px rgba(2,6,23,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, filter .35s ease;
+  -webkit-user-drag: none;
+}
 @media (min-width: 992px) { .about .about-photo { top: 32px; } }
+
+/* Fallback fade-in for about photo when AOS is unavailable */
+.about .about-photo { opacity: 0; transform: translateY(8px); transition: opacity .6s ease, transform .6s ease; }
+body.aos-animate .about .about-photo, html.aos-enabled .about .about-photo { opacity: 1; transform: translateY(0); }
+
+.about .about-photo:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 26px 56px rgba(2,6,23,0.55); filter: saturate(1.03); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .about .about-photo { transition: none !important; transform: none !important; }
+  .about .about-photo:hover { transform: none !important; box-shadow: 0 18px 40px rgba(2,6,23,0.45); }
+}
+
+/* Fallback fade-in for About text */
+.about .content { opacity: 0; transform: translateY(8px); transition: opacity .6s ease, transform .6s ease; }
+body.aos-animate .about .content, html.aos-enabled .about .content { opacity: 1; transform: translateY(0); }
 
 /* apply base variables */
 /* Ensure html and body use the theme variables (override vendor defaults) */
@@ -73,8 +103,11 @@ html, body {
   font-weight: 700;
   -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
-/* Make entire hero tagline unselectable */
-#hero p { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+/* Make entire hero tagline unselectable and color-match to typed */
+#hero p { 
+  -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; 
+  color: rgba(230,238,246,0.98) !important;
+}
 
 /* Vendor overrides: glightbox / plyr light backgrounds -> dark theme */
 .glightbox-container,
@@ -189,6 +222,25 @@ section { background: transparent; }
 /* When using shimmer preloader, suppress legacy spinner circle to avoid flicker */
 #preloader.preloader-shimmer:before { display: none !important; content: none !important; }
 
+/* New: aesthetic circular preloader variant */
+#preloader.preloader-circle { display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, rgba(15,17,19,0.65), rgba(0,0,0,0.55)); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+#preloader.preloader-circle .loader { position: relative; width: 96px; height: 96px; display: inline-block; }
+#preloader.preloader-circle .loader .ring { position: absolute; inset: 0; border-radius: 50%; border: 6px solid rgba(255,255,255,0.06); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
+#preloader.preloader-circle .loader .ring-1 { border-top-color: var(--primary); animation: preloader-spin 1.6s linear infinite; }
+#preloader.preloader-circle .loader .ring-2 { top: 8px; left: 8px; right: 8px; bottom: 8px; border-left-color: rgba(78,168,255,0.6); animation: preloader-spin 2.2s linear reverse infinite; }
+#preloader.preloader-circle .loader .dot { position: absolute; width: 14px; height: 14px; background: var(--primary); border-radius: 50%; top: -7px; left: calc(50% - 7px); box-shadow: 0 8px 20px rgba(78,168,255,0.18); animation: preloader-bob 1.6s ease-in-out infinite; }
+
+@keyframes preloader-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes preloader-bob {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(8px); opacity: 0.85; }
+}
+
+/* Fallback legacy spinner for non-circle state (kept for compatibility) */
 #preloader:not(.preloader-shimmer):before {
   content: "";
   position: fixed;
@@ -204,24 +256,13 @@ section { background: transparent; }
   animation: animate-preloader 1s linear infinite;
 }
 
-@-webkit-keyframes animate-preloader {
-  0% {
-    transform: rotate(0deg);
-  }
+@-webkit-keyframes animate-preloader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes animate-preloader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes animate-preloader {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #preloader.preloader-circle .loader .ring { animation: none !important; }
+  #preloader.preloader-circle .loader .dot { animation: none !important; }
 }
 
 /*--------------------------------------------------------------
@@ -249,17 +290,31 @@ section { background: transparent; }
 
 @media (max-width: 991px) {
   #header {
-    width: 300px;
-    background: var(--card);
-    border-right: 1px solid rgba(255,255,255,0.04);
-    left: -300px;
+  width: 300px;
+  background: var(--card);
+  border-right: 1px solid rgba(255,255,255,0.04);
+  /* use transform for smooth, GPU-accelerated opening/closing */
+  transform: translateX(-100%);
+  will-change: transform;
+  transition: transform .36s cubic-bezier(.2,.8,.2,1);
   }
+}
+
+/* Allow horizontal touch gestures on the sidebar for drag-to-close */
+@media (max-width: 991px) {
+  #header { touch-action: pan-y; -webkit-touch-callout: none; }
 }
 
 @media (min-width: 991px) {
   #main {
     margin-left: 100px;
   }
+}
+
+/* Overlay that captures outside taps to close mobile sidebar */
+.mobile-nav-overlay { display: none; }
+@media (max-width: 991px) {
+  .mobile-nav-overlay { display: block; }
 }
 
 /*--------------------------------------------------------------
@@ -468,12 +523,19 @@ button, a, .skill-chip, .cert-btn, .portfolio #portfolio-flters li, .nav-menu a 
 }
 
 .mobile-nav-active #header {
-  left: 0;
+  transform: translateX(0);
 }
 
 .mobile-nav-active .mobile-nav-toggle {
   color: #fff;
   background-color: #0563bb;
+}
+
+/* subtle active animation for the hamburger when sidebar is open */
+.mobile-nav-toggle { transition: transform .32s cubic-bezier(.2,.8,.2,1), background-color .28s; }
+.mobile-nav-active .mobile-nav-toggle { transform: rotate(6deg) scale(1.02); box-shadow: 0 6px 18px rgba(5,99,187,0.16); }
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-toggle, .mobile-nav-active .mobile-nav-toggle { transition: none; transform: none; }
 }
 
 /*--------------------------------------------------------------
@@ -768,6 +830,22 @@ section {
   /* centered by outer flex wrapper; no manual offset */
   /* disable text selection while dragging */
   -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+}
+
+/* Hero name: subtle glow on hover/touch (underline removed) */
+.hero-name {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transition: color .25s ease, text-shadow .25s ease;
+}
+.hero-name:hover,
+.hero-name:focus-visible,
+.hero-name.touch-flair {
+  text-shadow: 0 0 16px rgba(80,180,255,.35), 0 0 28px rgba(80,180,255,.18);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-name { transition: none; }
 }
 .skills-filter .skills-pebble {
   position: absolute;
@@ -1529,6 +1607,37 @@ select.form-control {
   text-align: center;
   padding: 30px 0;
 }
+
+/* Experience logos in resume */
+.resume-item .exp-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.resume-item .exp-logo {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  flex: 0 0 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: 0 6px 18px rgba(2,6,23,0.25);
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.resume-item .exp-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.resume-item .exp-logo:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(2,6,23,0.32);
+}
+.resume-item .exp-header h4 { margin: 0; font-size: 1.05rem; }
+.resume-item .exp-header h5 { margin: 0; font-weight: 600; font-size: .95rem; color: var(--muted); }
 
 #footer h3 {
   font-size: 36px;
