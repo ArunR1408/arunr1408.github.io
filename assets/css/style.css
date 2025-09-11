@@ -40,6 +40,7 @@ h6 {
   --fg: #272829;
   --muted: #728394;
   --primary: #0563bb;
+  --primary-rgb: 5, 99, 187; /* for rgba(var(--primary-rgb), a) usage */
   --card: #ffffff;
   --section-bg: #f7f8fa;
   --danger: #ed3c0d;
@@ -52,6 +53,7 @@ body.dark {
   --fg: #e6e9ee;
   --muted: #9aa6b2;
   --primary: #4ea8ff;
+  --primary-rgb: 78, 168, 255;
   --card: #16181a;
   --section-bg: #0b0c0d;
 }
@@ -91,11 +93,9 @@ body.aos-animate .about .about-photo, html.aos-enabled .about .about-photo { opa
 body.aos-animate .about .content, html.aos-enabled .about .content { opacity: 1; transform: translateY(0); }
 
 /* apply base variables */
-/* Ensure html and body use the theme variables (override vendor defaults) */
-html, body {
-  background: var(--bg) !important;
-  color: var(--fg) !important;
-}
+/* Use pitch-black page base; let sections/cards style their own backgrounds */
+html { background-color: #000 !important; }
+body { color: var(--fg); }
 
 /* Make hero name and typed text slightly lighter and unselectable for better UX */
 #hero h1, #hero .typed {
@@ -146,6 +146,34 @@ section, .section-title, .card, .portfolio-item, .resume-item, .service, .testim
   clip: rect(0 0 0 0) !important;
   white-space: nowrap !important;
   border: 0 !important;
+}
+
+/* Page background: pitch black with subtle color glows (blue, violet, red) */
+html, body { height: 100%; }
+body {
+  background-color: #000 !important; /* exact pitch black base */
+  /* Remove colored glows — use a plain black background */
+  background-image: none !important;
+  color: var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body { background-attachment: scroll; }
+}
+
+/* Hide scrollbars visually but keep scrolling functional
+   - Firefox: scrollbar-width
+   - IE/Edge: -ms-overflow-style
+   - WebKit: ::-webkit-scrollbar width/height 0
+   Note: this hides scrollbars site-wide; if you'd prefer thinner visible bars instead,
+   we can switch to a slim-styled scrollbar using scrollbar-color/width. */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 /* Buttons & links that rely on bootstrap text colors */
@@ -231,27 +259,24 @@ section { background: transparent; }
 /*--------------------------------------------------------------
 # Preloader
 --------------------------------------------------------------*/
-#preloader { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; overflow: hidden; background: var(--bg); }
+#preloader { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; overflow: hidden; background: transparent; }
 /* When using shimmer preloader, suppress legacy spinner circle to avoid flicker */
 #preloader.preloader-shimmer:before { display: none !important; content: none !important; }
 
 /* New: aesthetic circular preloader variant */
-#preloader.preloader-circle { display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, rgba(15,17,19,0.65), rgba(0,0,0,0.55)); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+#preloader.preloader-circle { display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.55)); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 #preloader.preloader-circle .loader { position: relative; width: 96px; height: 96px; display: inline-block; }
 #preloader.preloader-circle .loader .ring { position: absolute; inset: 0; border-radius: 50%; border: 6px solid rgba(255,255,255,0.06); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
 #preloader.preloader-circle .loader .ring-1 { border-top-color: var(--primary); animation: preloader-spin 1.6s linear infinite; }
 #preloader.preloader-circle .loader .ring-2 { top: 8px; left: 8px; right: 8px; bottom: 8px; border-left-color: rgba(78,168,255,0.6); animation: preloader-spin 2.2s linear reverse infinite; }
-#preloader.preloader-circle .loader .dot { position: absolute; width: 14px; height: 14px; background: var(--primary); border-radius: 50%; top: -7px; left: calc(50% - 7px); box-shadow: 0 8px 20px rgba(78,168,255,0.18); animation: preloader-bob 1.6s ease-in-out infinite; }
+/* dot removed: rings provide sufficient motion */
 
 @keyframes preloader-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-@keyframes preloader-bob {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(8px); opacity: 0.85; }
-}
+/* preloader-bob removed along with dot */
 
 /* Fallback legacy spinner for non-circle state (kept for compatibility) */
 #preloader:not(.preloader-shimmer):before {
@@ -275,7 +300,6 @@ section { background: transparent; }
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   #preloader.preloader-circle .loader .ring { animation: none !important; }
-  #preloader.preloader-circle .loader .dot { animation: none !important; }
 }
 
 /*--------------------------------------------------------------
@@ -570,6 +594,7 @@ button, a, .skill-chip, .cert-btn, .portfolio #portfolio-flters li, .nav-menu a 
 
 #hero:before {
   content: "";
+  /* Plain dark overlay to ensure the hero area remains pitch-black without colored accents */
   background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45));
   position: absolute;
   bottom: 0;
@@ -1018,20 +1043,25 @@ section {
   text-align: center;
   background: var(--card);
   border-radius: 50px;
-  padding: 2px 15px;
+  /* use inline-flex so items can be vertically centered inside the rounded pill */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 15px;
 }
 
 .portfolio #portfolio-flters li {
   cursor: pointer;
-  display: inline-block;
-  padding: 10px 15px;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
   color: var(--fg);
-  margin-bottom: 5px;
-  transition: all 0.3s ease-in-out;
+  margin-bottom: 0; /* remove extra bottom margin that nudged labels upward */
+  transition: all 0.18s ease-in-out;
 }
 
 .portfolio #portfolio-flters li:hover,
@@ -1634,9 +1664,9 @@ select.form-control {
   flex: 0 0 48px;
   border-radius: 10px;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  box-shadow: 0 6px 18px rgba(2,6,23,0.25);
-  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(0,0,0,0.70), rgba(0,0,0,0.40));
+  box-shadow: 0 6px 18px rgba(2,6,23,0.28);
+  border: 1px solid rgba(255,255,255,0.06);
   transition: transform .18s ease, box-shadow .18s ease;
 }
 .resume-item .exp-logo img {
@@ -1846,9 +1876,9 @@ select.form-control {
 .cred-type.cert { background: rgba(40, 199, 111, 0.18); color: #6fe3a1; }
 .cert-card h4 { font-size: 0.84rem; margin: 0 0 .12rem; font-weight:600; color: var(--fg); letter-spacing:.15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .cert-card .issuer { font-size: .6rem; text-transform: uppercase; color: var(--muted); letter-spacing: .6px; margin:0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.cert-btn { position:absolute; top:50%; transform:translateY(-50%); background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,0.12); color: var(--fg); width:40px; height:40px; border-radius:50px; display:flex; align-items:center; justify-content:center; font-size:1.02rem; cursor:pointer; z-index:6; transition: background .25s, transform .25s, box-shadow .25s, border-color .25s; }
+.cert-btn { position:absolute; top:48%; transform:translateY(-50%); background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,0.12); color: var(--fg); width:40px; height:40px; border-radius:50px; display:flex; align-items:center; justify-content:center; font-size:1.02rem; cursor:pointer; z-index:6; transition: background .25s, transform .25s, box-shadow .25s, border-color .25s; }
 .cert-btn:hover { background:rgba(78,168,255,0.18); border-color: rgba(255,255,255,0.22); box-shadow:0 6px 20px -6px rgba(0,0,0,0.6); transform: translateY(-50%) scale(1.04); }
-@media (max-width: 768px) { .cert-btn { top:44%; } }
+@media (max-width: 768px) { .cert-btn { top:46%; } }
 .cert-btn:hover { background:rgba(78,168,255,0.18); border-color: rgba(255,255,255,0.22); box-shadow:0 6px 20px -6px rgba(0,0,0,0.6); transform: translateY(-50%) scale(1.04); }
 .cert-btn.prev { left: -6px; }
 .cert-btn.next { right: -6px; }
@@ -1859,6 +1889,16 @@ select.form-control {
 @media (max-width: 991px) { .cert-slider-wrapper { padding: 0 2.25rem; } }
 @media (max-width: 768px) { .cert-slider-wrapper { padding: 0 1.25rem; } .cert-btn { width:40px; height:40px; font-size:1.05rem; } .cert-btn.prev { left: -4px; } .cert-btn.next { right: -4px; } }
 @media (max-width: 575px) { .cert-slider-wrapper { padding: 0 1.75rem; } .cert-btn { width:40px; height:40px; } }
+
+/* Ensure default Swiper nav arrows are vertically centered inside their slider containers
+   This is a safety rule for portfolio sliders that use Swiper's built-in nav buttons. */
+.swiper-button-next, .swiper-button-prev {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Slight upward nudge for portfolio section custom navs when they appear slightly low */
+.portfolio .swiper-button-next, .portfolio .swiper-button-prev { top: 49% !important; }
 
 /* Utility: heart icon accent (migrated from inline style) */
 .heart-icon { color: #e25555; }

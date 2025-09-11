@@ -757,11 +757,13 @@
           return r.width > 0 && r.height > 0;
         }) || previews[0];
         if (!preview) return;
-        const wRect = wrapper.getBoundingClientRect();
-        const pRect = preview.getBoundingClientRect();
-        const centerY = (pRect.top + pRect.height / 2) - wRect.top; // relative to wrapper
-        prevBtn.style.top = centerY + 'px';
-        nextBtn.style.top = centerY + 'px';
+  // Use wrapper's inner height to compute the vertical center so
+  // the arrows remain visually centered even when images/AOS
+  // animations change slide content sizing.
+  const wrapperHeight = wrapper.clientHeight || wrapper.getBoundingClientRect().height;
+  const centerY = Math.round(wrapperHeight / 2);
+  prevBtn.style.top = centerY + 'px';
+  nextBtn.style.top = centerY + 'px';
       };
 
       // Ensure the swiper container height matches current visible slide row (remove leftover gap)
