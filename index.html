@@ -22,6 +22,9 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
+  <!-- Preload hero background image for faster LCP -->
+  <link rel="preload" as="image" href="assets/img/hero-bg.jpg" imagesizes="100vw">
+
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
@@ -43,12 +46,45 @@
     "image": "assets/img/profile-img.jpg"
   }
   </script>
+  <!-- JSON-LD: Scholarly Articles -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ScholarlyArticle",
+        "headline": "Assessing the Impact of Pesticide Use on India’s Agriculture and Environment",
+        "datePublished": "2024-07-01",
+        "author": {"@type": "Person", "name": "Arun R"},
+        "isPartOf": {"@type": "Periodical", "name": "Journal of Environmental Nanotechnology"},
+        "url": "https://doi.org/10.13074/jent.2024.12.243795",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "ScholarlyArticle",
+        "headline": "Cost-Effective Solutions for Underwater Ultrasonic Flow Rate Sensors in Renewable Energy Applications",
+        "datePublished": "2024-02-01",
+        "author": {"@type": "Person", "name": "Arun R"},
+        "publisher": {"@type": "Organization", "name": "IEEE"},
+        "url": "https://doi.org/10.1109/SPECon61254.2024.10537410",
+        "inLanguage": "en"
+      }
+    ]
+  }
+  </script>
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Arun R - Electronics and Computer Engineer">
   <meta property="og:description" content="Portfolio of Arun R, Electronics and Computer Engineering student specializing in Python, IoT, and Machine Learning">
   <meta property="og:image" content="assets/img/profile-img.jpg">
+  <meta property="og:image:alt" content="Portrait of Arun R">
   <meta property="og:url" content="https://arunr1408.github.io/">
   <meta property="og:type" content="website">
+  <link rel="canonical" href="https://arunr1408.github.io/">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Arun R - Electronics and Computer Engineer">
+  <meta name="twitter:description" content="Portfolio of Arun R, Electronics and Computer Engineering student specializing in Python, IoT, and Machine Learning">
+  <meta name="twitter:image" content="assets/img/profile-img.jpg">
 </head>
 
 
@@ -63,9 +99,14 @@
     </div>
   </div>
 
-  <!-- ======= Mobile nav toggle button ======= -->
-  <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
-  <i class="bi bi-list mobile-nav-toggle d-lg-none"></i>
+  <!-- ======= Global nav toggle (always visible) ======= -->
+  <button type="button" class="mobile-nav-toggle" aria-label="Toggle navigation" aria-controls="header" aria-expanded="false">
+    <span class="hamburger" aria-hidden="true">
+      <span class="bar bar1"></span>
+      <span class="bar bar2"></span>
+      <span class="bar bar3"></span>
+    </span>
+  </button>
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex flex-column justify-content-center">
 
@@ -74,9 +115,9 @@
         <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
         <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
   <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-bulb"></i> <span>Skills</span></a></li>
-        <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-        <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Projects</span></a></li>
-  <li><a href="#certifications" class="nav-link scrollto"><i class="bx bx-badge-check"></i> <span>Certificates</span></a></li>
+  <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Edu & Work</span></a></li>
+    <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Projects</span></a></li>
+  <li><a href="#achievements" class="nav-link scrollto"><i class="bx bx-trophy"></i> <span>Publications &amp; Certificates</span></a></li>
         <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
@@ -85,14 +126,19 @@
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center">
+    <div class="parallax-layer" aria-hidden="true"></div>
     <div class="container" data-aos="zoom-in" data-aos-delay="100">
     <h1 class="hero-name" tabindex="0" role="button" aria-label="Animate name">Arun R</h1>
   <p>I'm <span class="typed" data-typed-items="Developer, Pythoneer, Photographer, Tech Enthusiast, Engineer, Curious Explorer, Problem Solver, Colorist, Researcher"></span></p>
-      <div class="social-links">
+  <div class="social-links">
         <a href="https://www.linkedin.com/in/arunr1408/" class="linkedin" aria-label="LinkedIn profile" title="LinkedIn"><i class="bx bxl-linkedin" aria-hidden="true"></i></a>
         <a href="https://github.com/ArunR1408" class="github" aria-label="GitHub profile" title="GitHub"><i class="bx bxl-github" aria-hidden="true"></i></a>
         <a href="https://x.com/ArunR1408" class="twitter" aria-label="X (Twitter) profile" title="X (Twitter)"><i class="bx bxl-twitter" aria-hidden="true"></i></a>
         <a href="https://www.instagram.com/arun__ravi__" class="instagram" aria-label="Instagram profile" title="Instagram"><i class="bx bxl-instagram" aria-hidden="true"></i></a>
+      </div>
+  <div class="mt-4 hero-ctas d-flex flex-wrap gap-3">
+  <a href="mailto:arunr1408@gmail.com" class="btn btn-primary btn-lg hero-primary btn-glass-pill shimmer" aria-label="Email Arun"><i class="bi bi-envelope me-2" aria-hidden="true"></i>Email Me</a>
+  <a href="https://flowcv.com/resume/khlsuskqbr9o" target="_blank" rel="noopener" class="btn btn-outline-mono btn-lg btn-glass-pill shimmer" aria-label="Download Resume (opens in new tab)"><i class="bi bi-download me-2" aria-hidden="true"></i>Resume</a>
       </div>
     </div>
   </section><!-- End Hero -->
@@ -109,7 +155,7 @@
 
       <div class="row">
         <div class="col-lg-4">
-          <img src="assets/img/profile-img.jpg" class="img-fluid about-photo" alt="Profile photo of Arun R" data-aos="fade-in" data-aos-delay="120">
+          <img src="assets/img/profile-img.jpg" class="img-fluid about-photo" alt="Profile photo of Arun R" data-aos="fade-in" data-aos-delay="120" loading="lazy" decoding="async">
         </div>
         <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-up" data-aos-delay="180">
           <h3 class="about-subtitle">Electronics and Computer Engineer &amp; Tech Enthusiast.</h3>
@@ -134,16 +180,17 @@
         </div>
     
         <!-- Interactive Filters -->
-  <div style="display:flex; justify-content:center;">
+  <div class="skills-filter-wrap">
   <ul class="skills-filter" id="skills-filter" aria-label="Filter skills by category">
           <span class="skills-pebble" aria-hidden="true"></span>
-          <li class="active" data-filter="languages" role="button" tabindex="0">Languages</li>
-          <li data-filter="ml" role="button" tabindex="0">ML/AI</li>
-          <li data-filter="embedded" role="button" tabindex="0">Embedded/IoT</li>
-          <li data-filter="datacloud" role="button" tabindex="0">Data/Cloud</li>
-          <li data-filter="tools" role="button" tabindex="0">Tools</li>
-          <li data-filter="soft" role="button" tabindex="0">Soft Skills</li>
+          <li class="active" data-filter="languages" tabindex="0">Languages</li>
+          <li data-filter="ml" tabindex="0">ML/AI</li>
+          <li data-filter="embedded" tabindex="0">Embedded/IoT</li>
+          <li data-filter="datacloud" tabindex="0">Data/Cloud</li>
+          <li data-filter="tools" tabindex="0">Tools</li>
+          <li data-filter="soft" tabindex="0">Soft Skills</li>
   </ul>
+  <div id="skills-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
   </div>
 
         <!-- Skills Grid (chips) -->
@@ -275,73 +322,43 @@
       </div>
     </section><!-- End Skills Section -->
 
-    <!-- ======= Resume Section ======= -->
-    <section id="resume" class="resume">
+  <!-- ======= Education & Work Experience ======= -->
+  <section id="resume" class="resume">
       <div class="container" data-aos="fade-up">
     
         <div class="section-title">
-          <h2>Resume</h2>
+          <h2>Education &amp; Work Experience</h2>
         </div>
     
         <div class="row">
           <div class="col-lg-6">
-            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="60">Summary</h3>
-            <div class="resume-item pb-0" data-aos="fade-up" data-aos-delay="100">
-              <p><em>Electronics and Computer Engineering graduate with practical experience in Python, Machine Learning, Deep Learning, Embedded Systems, and IoT. Skilled in building full-stack AI applications and real-time, data-driven systems that bridge hardware and software. Passionate about using technology to solve real-world problems through innovative and scalable solutions. Known for adaptability, critical thinking, and a strong collaborative mindset.</em></p>
-              <p>
-                <a href="https://flowcv.com/resume/khlsuskqbr9o" target="_blank" rel="noopener" class="btn btn-outline-primary" aria-label="View full resume (opens in new tab)"><i class="bi bi-file-earmark-text" aria-hidden="true"></i> <span class="visually-hidden">View Full Resume</span><span aria-hidden="true">View Full Resume</span></a>
-              </p>
-            </div>
+            <!-- Summary reduced and resume button moved to hero per request -->
     
             <h3 class="resume-title" data-aos="fade-up" data-aos-delay="140">Education</h3>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="180">
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="180" tabindex="0">
               <h4>Bachelor of Technology in Electronics and Computer Engineering</h4>
               <h5>Aug 2021 – Aug 2025</h5>
               <p><em>Amrita Vishwa Vidyapeetham, Amritapuri, India</em></p>
               <p>CGPA: <span id="cgpa-value">7.73</span></p>
             </div>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="220">
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="220" tabindex="0">
               <h4>Higher Secondary Education</h4>
               <h5>Jun 2019 – Mar 2021</h5>
               <p><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
               <p>Score: 86.6%</p>
             </div>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="260">
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="260" tabindex="0">
               <h4>Secondary Education</h4>
               <h5>Mar 2019</h5>
               <p><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
               <p>Score: 87.6%</p>
             </div>
             
-            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="300">Publications</h3>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="340">
-              <h4><a href="https://doi.org/10.13074/jent.2024.12.243795" target="_blank" rel="noopener">Assessing the Impact of Pesticide Use on India’s Agriculture and Environment</a></h4>
-              <h5>Jul 2024</h5>
-              <p><em>Journal of Environmental Nanotechnology</em></p>
-              <p>Mixed-method analysis of agricultural productivity, environmental risks, and socio-economic drivers; provided evidence-based recommendations for sustainable pest management.</p>
-            </div>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="380">
-              <h4><a href="https://doi.org/10.1109/SPECon61254.2024.10537410" target="_blank" rel="noopener">Cost-Effective Solutions for Underwater Ultrasonic Flow Rate Sensors in Renewable Energy Applications</a></h4>
-              <h5>Feb 2024</h5>
-              <p><em>IEEE</em></p>
-              <p>Surveyed cost drivers (materials, transducer design, signal processing) and proposed design/process optimizations to improve affordability of ultrasonic flow sensors for renewable energy systems.</p>
-            </div>
-            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="420">Organizations</h3>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="460">
-              <div class="exp-header">
-                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo1.png" alt="IEEE logo"></span>
-                <div>
-                  <h4>Institute of Electrical and Electronics Engineers (IEEE) — Kerala Section</h4>
-                  <h5>Apr 2024 – Dec 2025</h5>
-                </div>
-              </div>
-              <p><em>Student Member</em></p>
-            </div>
           </div>
           
           <div class="col-lg-6">
-            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="60">Professional Experience</h3>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="60">Work Experience</h3>
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="100" tabindex="0">
               <div class="exp-header">
                 <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo6.png" alt="TCSL logo"></span>
                 <div>
@@ -349,10 +366,10 @@
                   <h5>Assistant System Engineer-Trainee • 2025 – Present</h5>
                 </div>
               </div>
-              <p class="small mb-0"><em>The start of a new chapter.</em></p>
+              <p class="mb-0">The beginning of a new chapter.</p>
             </div>
 
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="120" tabindex="0">
               <div class="exp-header">
                 <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo2.png" alt="HuT Labs logo"></span>
                 <div>
@@ -360,14 +377,9 @@
                   <h5>Research Intern • Jan 2025 – Feb 2025</h5>
                 </div>
               </div>
-              <ul>
-                <li>Conducted a strategic feasibility analysis for Autonomous Vehicle (AV) deployment in India with the SMART Center and University of Tennessee, identifying key technological and operational challenges.</li>
-                <li>Evaluated object detection and path planning models on benchmark traffic datasets (e.g., JAAD, PIE), generating actionable insights for AV systems under Indian road conditions.</li>
-                <li>Co-authored a research paper proposing a practical roadmap for AV adoption, contributing to ongoing work in intelligent transportation systems.</li>
-              </ul>
-              <p class="small mb-0"><strong>Tech:</strong> Python, TensorFlow, PyTorch, OpenCV, YOLO (Ultralytics), MediaPipe, Pandas/NumPy, Jupyter, Git</p>
+              <p class="mb-0">Explored autonomous vehicle (AV) deployment in India by analyzing traffic datasets, evaluating object detection models, and co-authoring research papers in collaboration with the SMART Center &amp; University of Tennessee.</p>
             </div>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="140">
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="160" tabindex="0">
               <div class="exp-header">
                 <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo3.png" alt="AMMACHI Labs logo"></span>
                 <div>
@@ -375,15 +387,10 @@
                   <h5>Project Intern • Aug 2024 – Feb 2025</h5>
                 </div>
               </div>
-              <ul>
-                <li>Developed a full-stack coconut health monitoring platform: image capture (DJI Mavic Air), preprocessing, and DL-based disease detection trained on curated datasets.</li>
-                <li>Automated geospatial data extraction and ingest with Python scripts (e.g., Pillow, integration utilities) to Firebase, enabling a 100% hands-free pipeline and reducing manual work by &gt;95%.</li>
-                <li>Built a real-time Flask dashboard with map overlays for location-aware insights, accelerating field diagnosis and action.</li>
-              </ul>
-              <p class="small mb-0"><strong>Tech:</strong> ESP32, Arduino IDE, Python, TensorFlow, OpenCV, Flask, Pillow, Firebase, Google Cloud (GCP), DJI Mavic Air</p>
+              <p class="mb-0">Developed a coconut health monitoring platform using deep learning, automated geospatial data extraction from drone imagery, and built a real-time field diagnosis dashboard integrating Google Maps API.</p>
             </div>   
             <!-- B Rollers moved to Volunteering section per request -->
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="180">
+            <div class="resume-item" data-aos="fade-up" data-aos-delay="200" tabindex="0">
               <div class="exp-header">
                 <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo5.png" alt="Keltron"></span>
                 <div>
@@ -391,29 +398,10 @@
                   <h5>Intern • Sep 2023</h5>
                 </div>
               </div>
-              <ul>
-                <li>Programmed ESP32 microcontrollers for real-time environmental data collection using temperature, gas, and ultrasonic sensors with reliable telemetry.</li>
-                <li>Deployed wireless data transmission logic in Embedded C with a mobile interface, supporting remote monitoring and system reliability testing.</li>
-              </ul>
-              <p class="small mb-0"><strong>Tech:</strong> ESP32, Embedded C, Arduino IDE, IoT sensors</p>
+              <p class="mb-0">Programmed ESP32 microcontrollers with environmental sensors and deployed wireless data transmission systems, gaining practical experience in embedded systems and IoT.</p>
             </div>
             
-            <h3 class="resume-title" data-aos="fade-up" data-aos-delay="220">Volunteering</h3>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="260">
-              <div class="exp-header">
-                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo4.png" alt="B Rollers logo"></span>
-                <div>
-                  <h4>B Rollers</h4>
-                  <h5>Colorist & Photographer • Apr 2023 – May 2025</h5>
-                </div>
-              </div>
-              <ul>
-                <li>Enhanced 200+ event photos/videos through color correction and grading, improving visual impact and consistency.</li>
-                <li>Produced promotional media that increased event reach and engagement across campus channels.</li>
-                <li>Developed presets/workflows that reduced editing turnaround time by ~30%.</li>
-              </ul>
-              <p class="small mb-0"><strong>Tools:</strong> Adobe Photoshop, Lightroom</p>
-            </div>
+            
 
             <!-- Certifications heading removed (moved to dedicated section) -->
           </div>
@@ -445,113 +433,114 @@
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="Movie Recommendation Engine">
-              <div class="portfolio-info">
-                <h4>Movie Recommendation Engine</h4>
-                <p>Deep Learning</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Movie Recommendation Engine | Problem: discovery friction. Approach: item-based collaborative filtering + hybrid popularity features on 100k ratings. Outcome: 82% accuracy; +27% relevant recs."><i class="bx bx-plus"></i></a>
-                  <a href="https://github.com/ArunR1408/Movie-Recommendation-Engine-R" title="View Project"><i class="bx bx-link"></i></a>
-                </div>
+            <div class="portfolio-wrap surface-card project-card" data-problem="Discovery friction" data-approach="Item-based CF + hybrid features" data-outcome="82% accuracy; +27% relevant recs.">
+              <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="Movie Recommendation Engine" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Movie Recommendation Engine" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Movie Recommendation Engine</h4>
+                <p class="project-meta">Deep Learning</p>
+                <p class="project-snippet"><strong>Problem:</strong> discovery friction.<br><strong>Approach:</strong> item-based collaborative + popularity hybrid.<br><strong>Outcome:</strong> 82% accuracy; +27% relevant recs.</p>
+                <div class="project-actions"><a href="assets/img/portfolio/portfolio-1.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Movie Recommendation Engine screenshot" aria-label="Open image preview">View</a></div>
+                <a href="assets/img/portfolio/portfolio-1.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Movie Recommendation Engine screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
             
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-13.jpg" class="img-fluid" alt="Vocal Removal and Audio Analysis Tool">
-              <div class="portfolio-info">
-                <h4>Vocal Removal & Audio Analysis</h4>
-                <p>Signal Processing</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Vocal Removal & Audio Analysis | Problem: need quick vocal isolation and signal insights. Approach: stereo phase cancellation + spectral gating in a MATLAB app with waveform/spectrogram views. Outcome: ~18 dB vocal attenuation and faster analysis/exports."><i class="bx bx-plus"></i></a>
-                  <a href="https://github.com/ArunR1408/Vocal-Removal-and-Audio-Analysis-tool-MATLAB" title="View Project"><i class="bx bx-link"></i></a>
-                </div>
+            <div class="portfolio-wrap surface-card project-card" data-problem="Need quick vocal isolation" data-approach="Phase cancellation + spectral gating" data-outcome="~18 dB attenuation">
+              <img src="assets/img/portfolio/portfolio-13.jpg" class="img-fluid" alt="Vocal Removal and Audio Analysis Tool" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Vocal Removal &amp; Audio Analysis" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Vocal Removal & Audio Analysis</h4>
+                <p class="project-meta">Signal Processing</p>
+                <p class="project-snippet"><strong>Problem:</strong> quick vocal isolation & insight.<br><strong>Approach:</strong> phase cancel + spectral gating.<br><strong>Outcome:</strong> ~18 dB attenuation.</p>
+                <div class="project-actions"><a href="assets/img/portfolio/portfolio-2.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Vocal Removal & Audio Analysis screenshot" aria-label="Open image preview">View</a></div>
+                <a href="assets/img/portfolio/portfolio-2.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Vocal Removal & Audio Analysis screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="Employee Management System">
-              <div class="portfolio-info">
-                <h4>Employee Management System</h4>
-                <p>Application</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Employee Management System | Problem: manual HR records and error-prone updates. Approach: Python + MySQL CRUD with validation, search, and summary reports. Outcome: ~40% less data entry time and better data integrity."><i class="bx bx-plus"></i></a>
-                  <a href="https://github.com/ArunR1408/employee-management-system" title="View Project"><i class="bx bx-link"></i></a>
-                </div>
+            <div class="portfolio-wrap surface-card project-card" data-problem="Manual HR records" data-approach="Python + MySQL CRUD" data-outcome="~40% less data entry time">
+              <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="Employee Management System" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Employee Management System" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Employee Management System</h4>
+                <p class="project-meta">Application</p>
+                <p class="project-snippet"><strong>Problem:</strong> manual HR records.<br><strong>Approach:</strong> Python + MySQL CRUD.<br><strong>Outcome:</strong> ~40% less data entry time.</p>
+                <div class="project-actions"><a href="assets/img/portfolio/portfolio-3.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Employee Management System screenshot" aria-label="Open image preview">View</a></div>
+                <a href="assets/img/portfolio/portfolio-3.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Employee Management System screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="Instagram Impression Prediction">
-              <div class="portfolio-info">
-                <h4>InstaMetrics</h4>
-                <p>Web Application</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="InstaMetrics | Problem: unpredictable post reach. Approach: feature-engineered regression (RF/Linear) using captions, hashtags, and posting time. Outcome: ~9% MAE on hold-out and better posting-time selection."><i class="bx bx-plus"></i></a>
-                  <a href="https://github.com/ArunR1408/Insta_Metrics" title="View Project"><i class="bx bx-link"></i></a>
-                </div>
+            <div class="portfolio-wrap surface-card project-card" data-problem="Unpredictable post reach" data-approach="Feature-engineered regression" data-outcome="~9% MAE">
+              <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="Instagram Impression Prediction" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to InstaMetrics" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">InstaMetrics</h4>
+                <p class="project-meta">Web Application</p>
+                <p class="project-snippet"><strong>Problem:</strong> unpredictable reach.<br><strong>Approach:</strong> feature‑engineered regression.<br><strong>Outcome:</strong> ~9% MAE.</p>
+                <div class="project-actions"><a href="assets/img/portfolio/portfolio-4.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="InstaMetrics screenshot" aria-label="Open image preview">View</a></div>
+                <a href="assets/img/portfolio/portfolio-4.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="InstaMetrics screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="Early Diabetes Prediction">
-              <div class="portfolio-info">
-                <h4>Diabetes Prediction Model</h4>
-                <p>Machine Learning</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Diabetes Prediction Model | Problem: early risk screening from limited clinical attributes. Approach: compared classifiers (LogReg/SVM/RF) with scaling, class balance, and cross-validation. Outcome: ROC-AUC ~0.82 and improved sensitivity at low false-positive rates."><i class="bx bx-plus"></i></a>
-                  <a href="https://github.com/ArunR1408/Diabetes-Prediction " title="View Project"><i class="bx bx-link"></i></a>
-                </div>
+            <div class="portfolio-wrap surface-card project-card" data-problem="Early risk screening" data-approach="Compared classifiers" data-outcome="ROC-AUC ~0.82">
+              <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="Early Diabetes Prediction" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Diabetes Prediction Model" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Diabetes Prediction Model</h4>
+                <p class="project-meta">Machine Learning</p>
+                <p class="project-snippet"><strong>Problem:</strong> early risk screening.<br><strong>Approach:</strong> compared classifiers.<br><strong>Outcome:</strong> ROC‑AUC ~0.82.</p>
+                <div class="project-actions"><a href="assets/img/portfolio/portfolio-5.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Diabetes Prediction Model screenshot" aria-label="Open image preview">View</a></div>
+                <a href="assets/img/portfolio/portfolio-5.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Diabetes Prediction Model screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-embed">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="Traffic Light Simulation">
-              <div class="portfolio-info">
-                <h4>Traffic Light Controller</h4>
-                <p>Embedded Systems</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Traffic Light Controller | Problem: demonstrate reliable intersection timing on microcontroller. Approach: ARM7 (LPC2148) timers + state machine with seven-segment display. Outcome: deterministic signal cycles with under 1% timing drift."><i class="bx bx-plus"></i></a>
-                  <a href="https://github.com/ArunR1408/LPC2148-Interface-With-7-Segment-LED-For-Traffic-Light" title="View Project"><i class="bx bx-link"></i></a>
-                </div>
+            <div class="portfolio-wrap surface-card project-card" data-problem="Demonstrate reliable timing" data-approach="ARM7 timers + state machine" data-outcome="<1% timing drift">
+              <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="Traffic Light Simulation" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Traffic Light Controller" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Traffic Light Controller</h4>
+                <p class="project-meta">Embedded Systems</p>
+                <p class="project-snippet"><strong>Problem:</strong> reliable timing.<br><strong>Approach:</strong> ARM7 timers + state machine.<br><strong>Outcome:</strong> <1% drift.</p>
+                <div class="project-actions"><a href="assets/img/portfolio/portfolio-6.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Traffic Light Controller screenshot" aria-label="Open image preview">View</a></div>
+                <a href="assets/img/portfolio/portfolio-6.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Traffic Light Controller screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="NLP Chatbot">
-              <div class="portfolio-info">
-                <h4>NLP Chatbot</h4>
-                <p>Machine Learning</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="NLP Chatbot | Problem: automate FAQs and summarize long responses. Approach: NLTK intent classification + TF-IDF retrieval with extractive summarization. Outcome: ~85% intent match and sub-second responses."><i class="bx bx-plus"></i></a>
-                  <a href="https://github.com/ArunR1408/Chatbot-NLP" title="View Project"><i class="bx bx-link"></i></a>
-                </div>
+            <div class="portfolio-wrap surface-card project-card" data-problem="Automate FAQs" data-approach="Intent classification + retrieval" data-outcome="~85% intent match">
+              <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="NLP Chatbot" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to NLP Chatbot" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">NLP Chatbot</h4>
+                <p class="project-meta">Machine Learning</p>
+                <p class="project-snippet"><strong>Problem:</strong> automate FAQs.<br><strong>Approach:</strong> intent classification + retrieval.<br><strong>Outcome:</strong> ~85% intent match.</p>
+                <div class="project-actions"><a href="assets/img/portfolio/portfolio-9.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="NLP Chatbot screenshot" aria-label="Open image preview">View</a></div>
+                <a href="assets/img/portfolio/portfolio-9.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="NLP Chatbot screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-embed">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-10.jpg" class="img-fluid" alt="Fitness Tracking System">
-              <div class="portfolio-info">
-              <h4>Fitness Tracking System</h4>
-              <p>Embedded Systems</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-10.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Fitness Tracking System | Problem: lack of usage insight. Approach: low-power ESP32/LPC2148 telemetry prototype. Outcome: 7-day battery life; 22% reduction in equipment idle time."><i class="bx bx-plus"></i></a>
-                <a href="https://github.com/ArunR1408/Fitness-Trainer" title="View Project"><i class="bx bx-link"></i></a>
+            <div class="portfolio-wrap surface-card project-card" data-problem="Lack of usage insight" data-approach="Low-power telemetry prototype" data-outcome="22% idle reduction">
+              <img src="assets/img/portfolio/portfolio-10.jpg" class="img-fluid" alt="Fitness Tracking System" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Fitness Tracking System" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Fitness Tracking System</h4>
+                <p class="project-meta">Embedded Systems</p>
+                <p class="project-snippet"><strong>Problem:</strong> usage insight.<br><strong>Approach:</strong> low-power telemetry prototype.<br><strong>Outcome:</strong> 22% idle reduction.</p>
+                <div class="project-actions"><a href="assets/img/portfolio/portfolio-10.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Fitness Tracking System screenshot" aria-label="Open image preview">View</a></div>
+                <a href="assets/img/portfolio/portfolio-10.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Fitness Tracking System screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
             </div>
@@ -561,76 +550,130 @@
       </div>
     </section><!-- End Portfolio Section -->
 
+    <!-- Global CTA Section -->
+    <section id="cta-bottom" class="cta-bottom">
+      <div class="container" data-aos="fade-up">
+        <div class="cta-inner surface-card text-center p-5">
+          <h2 class="mb-3">Let’s Build Something</h2>
+          <p class="mb-4">Have a collaboration, research idea, or role in software, ML, or embedded systems? I’d love to hear from you.</p>
+          <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="mailto:arunr1408@gmail.com" class="btn btn-primary btn-lg"><i class="bi bi-envelope me-2" aria-hidden="true"></i>Email Me</a>
+            <a href="https://flowcv.com/resume/khlsuskqbr9o" target="_blank" rel="noopener" class="btn btn-outline-mono btn-lg"><i class="bi bi-download me-2" aria-hidden="true"></i>Resume</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   <!-- Case Studies section removed -->
 
   <!-- Volunteering moved into Resume (displayed as resume-item under Professional Experience) -->
 
-    <!-- ======= Certifications Section ======= -->
-    <section id="certifications" class="certifications section-bg">
+  <!-- ======= Publications & Certificates Section ======= -->
+    <section id="achievements" class="achievements publications section-bg">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
-          <h2>Certificates</h2>
+          <h2>Publications &amp; Certificates</h2>
         </div>
-
-        <div class="cert-slider-wrapper position-relative" data-aos="fade-up" data-aos-delay="100">
-          <!-- Navigation Arrows -->
-          <button class="cert-btn prev" aria-label="Previous" type="button"><i class="bi bi-chevron-left"></i></button>
-          <button class="cert-btn next" aria-label="Next" type="button"><i class="bi bi-chevron-right"></i></button>
-
-          <!-- Slider -->
-          <div class="swiper cert-swiper">
-            <div class="swiper-wrapper">
-              <!-- Slide Template Examples (replace src with real certificate images from assets/img/certifications) -->
-              <div class="swiper-slide">
-                <div class="cert-card">
-          <a href="assets/img/certifications/certificate-1.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Google Cloud Arcade: Future Ready Skills (Badge)">
-        <div class="preview">
-      <img src="assets/img/certifications/certificate-1.jpg" alt="Google Cloud Arcade: Future Ready Skills certificate" loading="lazy">
-        </div>
-                  </a>
-          <h4>Google Cloud Arcade: Future Ready Skills</h4>
-          <p class="issuer">Google Cloud (GCP) • Aug 2025</p>
-                </div>
+        <!-- Publications row (keep first) -->
+        <div class="row g-3 justify-content-center" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="pub-card surface-card">
+              <h4>Assessing the Impact of Pesticide Use on India’s Agriculture and Environment</h4>
+              <p class="venue">Journal of Environmental Nanotechnology • Jul 2024</p>
+              <p class="desc">Mixed-method study linking yield outcomes, environmental risk, and socio‑economic factors; recommends practical, evidence‑based steps for safer, sustainable pest management in India.</p>
+              <div class="actions">
+                <a class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener" href="https://doi.org/10.13074/jent.2024.12.243795">View Publication</a>
               </div>
-              <div class="swiper-slide">
-                <div class="cert-card">
-          <a href="assets/img/certifications/certificate-2.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Introduction to Generative AI (Badge)">
-        <div class="preview">
-      <img src="assets/img/certifications/certificate-2.jpg" alt="Introduction to Generative AI certificate" loading="lazy">
-        </div>
-                  </a>
-          <h4>Introduction to Generative AI</h4>
-          <p class="issuer">Google • May 2025</p>
-                </div>
+            </div>
+          </div>
+          <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="pub-card surface-card">
+              <h4>Cost-Effective Solutions for Underwater Ultrasonic Flow Rate Sensors in Renewable Energy Applications</h4>
+              <p class="venue">IEEE • Feb 2024</p>
+              <p class="desc">Reviews cost drivers—materials, transducer design, and signal processing—and outlines design and process optimizations to make underwater ultrasonic flow sensors more affordable for renewables.</p>
+              <div class="actions">
+                <a class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener" href="https://doi.org/10.1109/SPECon61254.2024.10537410">View Publication</a>
               </div>
-              <div class="swiper-slide">
-                <div class="cert-card">
-          <a href="assets/img/certifications/certificate-3.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Introduction to Responsible AI (Badge)">
-        <div class="preview">
-      <img src="assets/img/certifications/certificate-3.jpg" alt="Introduction to Responsible AI certificate" loading="lazy">
-        </div>
-                  </a>
-          <h4>Introduction to Responsible AI</h4>
-          <p class="issuer">Google • May 2025</p>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="cert-card">
-          <a href="assets/img/certifications/certificate-4.jpg" class="portfolio-lightbox" data-gallery="certsGallery" title="Intro to Machine Learning (Certificate)">
-        <div class="preview">
-      <img src="assets/img/certifications/certificate-4.jpg" alt="Intro to Machine Learning certificate" loading="lazy">
-        </div>
-                  </a>
-          <h4>Intro to Machine Learning</h4>
-          <p class="issuer">Kaggle • Aug 2023</p>
-                </div>
-              </div>
-              <!-- Add more slides as needed -->
             </div>
           </div>
         </div>
+        <!-- Certificates slider -->
+        <div class="certifications" data-aos="fade-up" data-aos-delay="200">
+          <div class="cert-slider-wrapper">
+            <button class="cert-btn prev" aria-label="Previous certificate"><i class="bi bi-chevron-left"></i></button>
+            <div class="swiper cert-swiper">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="cert-card surface-card">
+                    <div class="badge-header">
+                      <div class="badge-logo"><img src="assets/img/logos/Google.svg" alt="Google logo"/></div>
+                      <div class="badge-meta">
+                        <h4>Google Cloud Arcade: Future Ready Skills</h4>
+                        <a class="issuer" href="https://cloud.google.com" target="_blank" rel="noopener">Google</a>
+                        <div class="issued"><i class="bi bi-calendar-event"></i> Issued Aug 2025</div>
+                      </div>
+                    </div>
+                    <p class="credential-id small text-muted">Credential ID: 17662426</p>
+                    <div class="actions">
+                      <a href="https://www.cloudskillsboost.google/public_profiles" target="_blank" rel="noopener" class="btn btn-badge">View Badge</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="cert-card surface-card">
+                    <div class="badge-header">
+                      <div class="badge-logo"><img src="assets/img/logos/Google.svg" alt="Google logo"/></div>
+                      <div class="badge-meta">
+                        <h4>Introduction to Generative AI</h4>
+                        <a class="issuer" href="#" target="_blank" rel="noopener">Google</a>
+                        <div class="issued"><i class="bi bi-calendar-event"></i> Issued May 2025</div>
+                      </div>
+                    </div>
+                    <p class="credential-id small text-muted">Credential ID: —</p>
+                    <div class="actions">
+                      <a href="#" class="btn btn-badge" target="_blank" rel="noopener">View Certificate</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="cert-card surface-card">
+                    <div class="badge-header">
+                      <div class="badge-logo"><img src="assets/img/logos/Google.svg" alt="Google logo"/></div>
+                      <div class="badge-meta">
+                        <h4>Introduction to Responsible AI</h4>
+                        <a class="issuer" href="#" target="_blank" rel="noopener">Google</a>
+                        <div class="issued"><i class="bi bi-calendar-event"></i> Issued May 2025</div>
+                      </div>
+                    </div>
+                    <p class="credential-id small text-muted">Credential ID: —</p>
+                    <div class="actions">
+                      <a href="#" class="btn btn-badge" target="_blank" rel="noopener">View Certificate</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="cert-card surface-card">
+                    <div class="badge-header">
+                      <div class="badge-logo"><img src="assets/img/logos/kaggle.png" alt="Kaggle logo"/></div>
+                      <div class="badge-meta">
+                        <h4>Intro to Machine Learning</h4>
+                        <a class="issuer" href="https://www.kaggle.com" target="_blank" rel="noopener">Kaggle</a>
+                        <div class="issued"><i class="bi bi-calendar-event"></i> Issued Aug 2023</div>
+                      </div>
+                    </div>
+                    <p class="credential-id">Credential ID: —</p>
+                    <div class="actions">
+                      <a href="https://www.kaggle.com/learn/certification" class="btn btn-badge" target="_blank" rel="noopener">View Certificate</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="cert-btn next" aria-label="Next certificate"><i class="bi bi-chevron-right"></i></button>
+          </div>
+        </div>
       </div>
-    </section><!-- End Certifications Section -->
+  </section><!-- End Publications & Certificates -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">

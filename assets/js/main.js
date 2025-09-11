@@ -82,33 +82,94 @@
   /**
    * Navbar links active state on scroll
    */
-  let navbarlinks = select('#navbar .scrollto', true)
-  const navbarlinksActive = () => {
-    let position = window.scrollY + 200
-    navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return
-      let section = select(navbarlink.hash)
-      if (!section) return
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        navbarlink.classList.add('active')
+  let navbarlinks = select('#navbar .scrollto', true);
+  const sections = navbarlinks.map(l => l.hash).filter(Boolean).map(h => select(h)).filter(Boolean);
+  // Ensure each nav link has a progress element
+  navbarlinks.forEach(l => { if (!l.querySelector('.nav-progress')) { const p=document.createElement('span'); p.className='nav-progress'; l.appendChild(p);} });
+  const activateLink = (id) => {
+    navbarlinks.forEach(l => {
+      const isActive = l.hash === id;
+      l.classList.toggle('active', isActive);
+      if (isActive) {
+        l.setAttribute('aria-current','true');
       } else {
-        navbarlink.classList.remove('active')
+        l.removeAttribute('aria-current');
       }
-    })
+    });
+  };
+  const updateActiveProgress = () => {
+    const activeLink = navbarlinks.find(l => l.classList.contains('active'));
+    if (!activeLink) return;
+    const hash = activeLink.hash;
+    const sec = hash ? select(hash) : null;
+    if (!sec) return;
+    const rect = sec.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const total = rect.height || 1;
+    // progress = how much of section consumed in viewport scroll band
+    const visibleTop = Math.min(Math.max(-rect.top, 0), total);
+    let progress = visibleTop / total;
+    progress = Math.max(0, Math.min(1, progress));
+    const bar = activeLink.querySelector('.nav-progress');
+    if (bar) bar.style.width = (progress*100).toFixed(1)+'%';
+  };
+  const fallbackScroll = () => {
+    const pos = window.scrollY + 180; // slightly larger to allow current section dominance
+    let current = null;
+    sections.forEach(sec => { if (pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) current = '#' + sec.id; });
+    if (current) activateLink(current);
+    updateActiveProgress();
+  };
+  if ('IntersectionObserver' in window) {
+    try {
+      const observer = new IntersectionObserver((entries) => {
+        let topCandidate = null;
+        entries.forEach(ent => {
+          if (ent.isIntersecting) {
+            if (!topCandidate || ent.intersectionRatio > topCandidate.intersectionRatio) topCandidate = ent;
+          }
+        });
+        if (topCandidate) {
+          activateLink('#' + topCandidate.target.id);
+          updateActiveProgress();
+        }
+      }, { rootMargin: '-25% 0px -55% 0px', threshold: [0.1, 0.25, 0.5, 0.75] });
+      sections.forEach(sec => observer.observe(sec));
+    } catch(e) { window.addEventListener('scroll', fallbackScroll, { passive:true }); }
+  } else {
+    window.addEventListener('scroll', fallbackScroll, { passive:true });
   }
-  window.addEventListener('load', navbarlinksActive)
-  onscroll(document, navbarlinksActive)
+  window.addEventListener('load', () => { fallbackScroll(); updateActiveProgress(); });
+  window.addEventListener('scroll', () => { updateActiveProgress(); }, { passive:true });
 
   /**
    * Scrolls to an element with header offset
    */
+  // Cancellable smooth scroll
+  let activeScrollAnim = null;
+  const cancelIfScrolling = () => { if (activeScrollAnim) { cancelAnimationFrame(activeScrollAnim.raf); activeScrollAnim=null; } };
+  ['wheel','touchstart','keydown','mousedown'].forEach(evt => window.addEventListener(evt, cancelIfScrolling, { passive:true }));
+  const easeInOut = (t) => t<0.5 ? 2*t*t : -1+(4-2*t)*t;
   const scrollto = (el) => {
-    let elementPos = select(el).offsetTop
-    window.scrollTo({
-      top: elementPos,
-      behavior: 'smooth'
-    })
-  }
+    cancelIfScrolling();
+    const headerOffset = 40;
+    const target = select(el); if (!target) return;
+    const startY = window.scrollY;
+    const endY = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+    const dist = endY - startY;
+    const dur = Math.min(1200, Math.max(300, Math.abs(dist) * 0.6));
+    const startTime = performance.now();
+    const state = { raf:0 };
+    const step = (now) => {
+      const t = Math.min(1, (now - startTime)/dur);
+      const eased = easeInOut(t);
+      window.scrollTo(0, startY + dist * eased);
+      updateActiveProgress();
+      if (t < 1 && state === activeScrollAnim) { state.raf = requestAnimationFrame(step); } else { activeScrollAnim=null; }
+    };
+    activeScrollAnim = state;
+    state.raf = requestAnimationFrame(step);
+  };
 
   /**
    * Back to top button
@@ -132,8 +193,10 @@
   on('click', '.mobile-nav-toggle', function(e) {
     const body = select('body');
     const isActive = body.classList.toggle('mobile-nav-active');
-  // keep the hamburger icon class present
-  this.classList.add('bi-list')
+    // update aria-expanded for accessibility
+    try { this.setAttribute('aria-expanded', isActive ? 'true' : 'false'); } catch(_){}
+  // ensure we are only toggling body class; hamburger is pure CSS (3 bars) so remove stray icon font classes that distort layout
+  this.classList.remove('bi-list','bi-x');
     // Manage overlay for outside-tap-to-close on mobile
     if (isActive) {
       // create overlay
@@ -147,7 +210,7 @@
   // close nav when clicking outside
   body.classList.remove('mobile-nav-active');
   const tgl = select('.mobile-nav-toggle');
-  if (tgl) { tgl.classList.add('bi-list'); }
+  if (tgl) { tgl.classList.remove('bi-list','bi-x'); }
         // cleanup drag handlers if present
         const headerElCleanup = document.getElementById('header');
         if (headerElCleanup && headerElCleanup._mobileDragCleanup) headerElCleanup._mobileDragCleanup();
@@ -184,7 +247,7 @@
           if (dx < threshold) {
             body.classList.remove('mobile-nav-active');
             const tgl = select('.mobile-nav-toggle');
-            if (tgl) { tgl.classList.add('bi-list'); }
+            if (tgl) { tgl.classList.remove('bi-list','bi-x'); }
             headerEl.style.transform = '';
             const existing = document.querySelector('.mobile-nav-overlay'); if (existing) existing.remove();
           } else {
@@ -251,7 +314,7 @@
       if (body.classList.contains('mobile-nav-active')) {
         body.classList.remove('mobile-nav-active');
         const tgl = select('.mobile-nav-toggle');
-        if (tgl) { tgl.classList.add('bi-list'); }
+  if (tgl) { tgl.classList.remove('bi-list','bi-x'); tgl.setAttribute('aria-expanded','false'); }
         const existing = document.querySelector('.mobile-nav-overlay');
         if (existing) existing.remove();
         const headerElCleanup = document.getElementById('header');
@@ -271,8 +334,9 @@
       if (body.classList.contains('mobile-nav-active')) {
         body.classList.remove('mobile-nav-active')
         let navbarToggle = select('.mobile-nav-toggle')
-        // ensure toggle shows hamburger
-        navbarToggle.classList.add('bi-list')
+  // ensure toggle shows clean hamburger (remove injected icon classes)
+  navbarToggle.classList.remove('bi-list','bi-x');
+        navbarToggle.setAttribute('aria-expanded','false');
         navbarToggle.classList.remove('bi-x')
         const existing = document.querySelector('.mobile-nav-overlay');
         if (existing) existing.remove();
@@ -332,7 +396,7 @@
   window.addEventListener('DOMContentLoaded', () => {
     const supportsTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const interactiveSelectors = [
-      '.btn', '.skill-chip', '.portfolio .portfolio-wrap', '.nav-menu a', '.cert-btn', '.portfolio .portfolio-wrap .portfolio-links a', '.contact .info-item', '.social-links a', '#portfolio-flters li'
+  '.btn', '.skill-chip', '.portfolio .portfolio-wrap', '.nav-menu a', '.portfolio .portfolio-wrap .portfolio-links a', '.contact .info-item', '.social-links a', '#portfolio-flters li'
     ];
     const hosts = document.querySelectorAll(interactiveSelectors.join(','));
     hosts.forEach(h => h.classList.add('ripple-host'));
@@ -372,7 +436,7 @@
     });
 
     // Hero name: wavy flair on hover/touch/keyboard (no bounce)
-    const heroName = document.querySelector('.hero-name');
+  const heroName = document.querySelector('.hero-name');
     if (heroName) {
       // For touch/click, toggle a class briefly to show the flair when there's no hover
       const pulseFlair = () => {
@@ -409,6 +473,37 @@
       nav.addEventListener('touchend', reset, { passive: true });
       nav.addEventListener('touchcancel', reset, { passive: true });
     }
+    // Parallax & subtle tilt (respect reduced motion)
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReduced) {
+      const parallaxLayer = document.querySelector('#hero .parallax-layer');
+      let lastY = 0, ticking = false;
+      if (parallaxLayer) {
+        const onScroll = () => {
+          lastY = window.scrollY;
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              parallaxLayer.style.transform = `translate3d(0, ${lastY * 0.15}px, 0)`;
+              ticking = false;
+            });
+            ticking = true;
+          }
+        };
+        document.addEventListener('scroll', onScroll, { passive: true });
+      }
+      if (heroName) {
+        const tilt = (e) => {
+          const rect = heroName.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          heroName.style.transform = `perspective(900px) rotateY(${x*6}deg) rotateX(${ -y*6}deg) translateZ(4px)`;
+          heroName.style.textShadow = `${-x*12}px ${y*12}px 22px rgba(0,0,0,0.55)`;
+        };
+        const resetTilt = () => { heroName.style.transform=''; heroName.style.textShadow=''; };
+        heroName.addEventListener('mousemove', tilt);
+        heroName.addEventListener('mouseleave', resetTilt);
+      }
+    }
   });
 
   /**
@@ -432,206 +527,162 @@
    * Skills filter (chips)
    */
   window.addEventListener('DOMContentLoaded', () => {
-    const filterEl = document.getElementById('skills-filter');
-    const gridEl = document.getElementById('skills-grid');
-    if (!filterEl || !gridEl) return;
-    const chips = Array.from(gridEl.querySelectorAll('.skill-chip'));
-    // Pebble indicator setup
-    const pebble = filterEl.querySelector('.skills-pebble');
-    const movePebble = (target) => {
-      if (!pebble || !target) return;
-      const wrapRect = filterEl.getBoundingClientRect();
-      const tRect = target.getBoundingClientRect();
-      const x = tRect.left - wrapRect.left + filterEl.scrollLeft;
-      const y = Math.max(0, tRect.top - wrapRect.top + filterEl.scrollTop);
-      pebble.style.setProperty('--sx', `${x}px`);
-      pebble.style.setProperty('--sy', `${y}px`);
-      pebble.style.width = `${tRect.width}px`;
-      pebble.style.height = `${tRect.height}px`;
-      // Place pebble behind items (z-index handled in CSS)
-    };
-    // Follow pebble under pointer for fluid dragging, anchored to nearest tab row
-    const followPebble = (clientX, clientY) => {
-      if (!pebble) return;
-      const wrapRect = filterEl.getBoundingClientRect();
-      const nearest = nearestCatAt(clientX, clientY) || filterEl.querySelector('li.active');
-      if (!nearest) return;
-      const r = nearest.getBoundingClientRect();
-      const width = r.width; const height = r.height;
-      // center pebble around pointer X, clamp within wrapper
-      const desiredLeft = clientX - wrapRect.left - width / 2;
-      const minLeft = 0; const maxLeft = wrapRect.width - width;
-      const x = Math.max(minLeft, Math.min(maxLeft, desiredLeft)) + filterEl.scrollLeft;
-      const y = Math.max(0, r.top - wrapRect.top + filterEl.scrollTop);
-      pebble.style.setProperty('--sx', `${x}px`);
-      pebble.style.setProperty('--sy', `${y}px`);
-      pebble.style.width = `${width}px`;
-      pebble.style.height = `${height}px`;
-    };
-    // Initialize pebble to active
-    const initActive = () => {
-      const act = filterEl.querySelector('li.active') || filterEl.querySelector('li[data-filter]');
-      if (act) movePebble(act);
-    };
-  const setFilter = (cat) => {
+    const list = document.getElementById('skills-filter');
+    const grid = document.getElementById('skills-grid');
+    if (!list || !grid) return;
+
+  const wrapper = list.closest('.skills-filter-wrap');
+  const pebble = list.querySelector('.skills-pebble');
+  const live = document.getElementById('skills-live');
+    const items = Array.from(list.querySelectorAll('li[data-filter]'));
+    const chips = Array.from(grid.querySelectorAll('.skill-chip'));
+
+    const setFilter = (cat) => {
+      let count = 0;
       chips.forEach(chip => {
-        const match = cat === 'all' || chip.getAttribute('data-cat') === cat;
-        if (match) {
-          chip.removeAttribute('hidden');
-        } else {
-          chip.setAttribute('hidden', '');
-        }
+        const show = chip.dataset.cat === cat;
+        chip.style.display = show ? '' : 'none';
+        if (show) count++;
       });
-      // AOS refresh if present
-      if (window.AOS && typeof AOS.refresh === 'function') {
-        try { AOS.refresh(); } catch(e){}
-      }
-      // keep pebble aligned with active tab
-      const act = filterEl.querySelector('li.active');
-      if (act) movePebble(act);
-    };
-    let animTimer = null;
-    const animateGridSwap = (cb) => {
-      // make animation robust against rapid re-triggers
-      if (animTimer) { clearTimeout(animTimer); animTimer = null; }
-      gridEl.classList.add('animating-out');
-      animTimer = setTimeout(() => {
-        cb();
-        requestAnimationFrame(() => {
-          gridEl.classList.remove('animating-out');
-        });
-        animTimer = null;
-      }, 200);
+      if (live) live.textContent = `Showing ${count} ${cat} skill${count===1?'':'s'}`;
     };
 
-    filterEl.addEventListener('click', (e) => {
-      const li = e.target.closest('li[data-filter]');
-      if (!li) return;
-      filterEl.querySelectorAll('li').forEach(el => el.classList.remove('active'));
-      li.classList.add('active');
-      movePebble(li);
-      animateGridSwap(() => setFilter(li.getAttribute('data-filter')));
-    });
-    // keyboard support
-    filterEl.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      const li = document.activeElement.closest('li[data-filter]');
-      if (!li) return;
-      e.preventDefault();
-      filterEl.querySelectorAll('li').forEach(el => el.classList.remove('active'));
-      li.classList.add('active');
-      movePebble(li);
-      animateGridSwap(() => setFilter(li.getAttribute('data-filter')));
-    });
-  // initial -> default to Languages
-  setFilter('languages');
-  initActive();
-  // realign on resize
-  window.addEventListener('resize', initActive);
-
-  // Drag-to-select for pebble
-  const cats = Array.from(filterEl.querySelectorAll('li[data-filter]'));
-  let dragging = false;
-  let rafPending = false;
-  let lastTarget = filterEl.querySelector('li.active');
-  let dragArmed = false;
-  let armStart = { x:0, y:0 };
-  const nearestCatAt = (clientX, clientY) => {
-    let nearest = null; let best = Infinity;
-    for (const li of cats) {
+    const movePebble = (li) => {
+      if (!pebble || !wrapper || !li) return;
+      const x = li.offsetLeft;
+      const y = li.offsetTop;
       const r = li.getBoundingClientRect();
-      const cx = r.left + r.width/2; const cy = r.top + r.height/2;
-      const dx = clientX - cx; const dy = clientY - cy;
-      const d = dx*dx + dy*dy;
-      if (d < best) { best = d; nearest = li; }
-    }
-    return nearest;
-  };
-  const applyActive = (li) => {
-    if (!li || li === lastTarget) return;
-    filterEl.querySelectorAll('li').forEach(el => el.classList.remove('active'));
-    li.classList.add('active');
-    lastTarget = li;
-    movePebble(li);
-    setFilter(li.getAttribute('data-filter'));
-  };
-  let lastPoint = { x: 0, y: 0 };
-  const onPointerMove = (e) => {
-    if (!dragging) return;
-    if (rafPending) return;
-    rafPending = true;
-    requestAnimationFrame(() => {
-      rafPending = false;
-  // subtle visual feedback without blocking updates
-  gridEl.classList.add('drag-fade');
-      lastPoint = { x: e.clientX, y: e.clientY };
-      // fluidly follow pointer without changing category yet
-      followPebble(e.clientX, e.clientY);
+      pebble.style.setProperty('--sx', `${x}px`);
+      pebble.style.setProperty('--sy', `${y}px`);
+      pebble.style.width = `${r.width}px`;
+      pebble.style.height = `${r.height}px`;
+    };
+
+    const activate = (li, focus = false) => {
+      if (!li) return;
+      items.forEach(el => el.classList.remove('active'));
+      li.classList.add('active');
+      movePebble(li);
+      setFilter(li.getAttribute('data-filter'));
+      try { localStorage.setItem('skillsFilter', li.getAttribute('data-filter')); } catch(_){ }
+      // Auto-center active item on mobile small screens when horizontally scrollable
+      if (window.innerWidth < 576) {
+        try {
+          const listRect = list.getBoundingClientRect();
+          const liRect = li.getBoundingClientRect();
+          const delta = (liRect.left + liRect.width/2) - (listRect.left + listRect.width/2);
+          list.scrollBy({ left: delta, behavior: 'smooth' });
+        } catch(_){}
+      }
+      if (focus) li.focus();
+    };
+
+    items.forEach(li => {
+      li.addEventListener('click', () => activate(li));
+      li.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(li, true); }
+      });
     });
-  };
-  const endDrag = () => {
-    if (!dragging) return;
-    dragging = false;
-    filterEl.classList.remove('dragging');
-  gridEl.classList.remove('drag-fade');
-  // restore slower transitions after drag ends
-  if (pebble) pebble.style.transitionDuration = '';
-    // snap to nearest and animate content update
-    const target = nearestCatAt(lastPoint.x, lastPoint.y) || filterEl.querySelector('li.active');
-    if (target) {
-      filterEl.querySelectorAll('li').forEach(el => el.classList.remove('active'));
-      target.classList.add('active');
-      movePebble(target);
-      animateGridSwap(() => setFilter(target.getAttribute('data-filter')));
+
+    // Edge shadow helper
+    const updateEdgeShadows = () => {
+      if (!wrapper) return;
+      const scrollLeft = list.scrollLeft;
+      const max = list.scrollWidth - list.clientWidth - 1;
+      wrapper.classList.toggle('has-left', scrollLeft > 4);
+      wrapper.classList.toggle('has-right', scrollLeft < max);
+    };
+    list.addEventListener('scroll', updateEdgeShadows, { passive:true });
+
+  let stored = null; try { stored = localStorage.getItem('skillsFilter'); } catch(_){ }
+  let initial = null;
+  if (stored) { initial = items.find(li => li.getAttribute('data-filter') === stored) || null; }
+  if (!initial) initial = list.querySelector('li.active') || items[0];
+  if (initial) activate(initial);
+  updateEdgeShadows();
+    window.addEventListener('resize', () => {
+      const act = list.querySelector('li.active');
+      if (act) movePebble(act);
+    }, { passive: true });
+    window.addEventListener('load', () => {
+      const act = list.querySelector('li.active');
+      if (act) movePebble(act);
+    });
+
+    // --- Free-drag pebble feature (restored) ---
+    if (pebble && items.length) {
+      let pebbleDragging = false;
+      let startX = 0;
+      let pebbleStartLeft = 0;
+      const positions = () => items.map(li => ({ li, x: li.offsetLeft + li.offsetWidth/2 }));
+      let centers = positions();
+      const refreshCenters = () => { centers = positions(); };
+      window.addEventListener('resize', refreshCenters, { passive:true });
+
+      const setPebbleRaw = (xPx) => {
+        const maxX = list.scrollWidth - pebble.offsetWidth - 4;
+        const clamped = Math.max(0, Math.min(xPx, maxX));
+        pebble.style.transform = `translate(${clamped}px, var(--sy,0))`;
+      };
+      const nearest = (xPx) => {
+        const mid = xPx + pebble.offsetWidth/2;
+        return centers.reduce((a,c) => Math.abs(c.x - mid) < Math.abs(a.x - mid) ? c : a, centers[0]).li;
+      };
+      const startPebble = (clientX) => {
+        pebbleDragging = true;
+        startX = clientX;
+        refreshCenters();
+        // current translateX
+        const m = getComputedStyle(pebble).transform.match(/matrix\(([^)]+)\)/);
+        pebbleStartLeft = 0;
+        if (m) { const parts = m[1].split(','); pebbleStartLeft = parseFloat(parts[4]) || 0; }
+        pebble.style.transition = 'none';
+        list.classList.add('dragging');
+      };
+      const movePebbleDrag = (clientX) => {
+        if (!pebbleDragging) return;
+        const delta = clientX - startX;
+        setPebbleRaw(pebbleStartLeft + delta);
+      };
+      const endPebble = () => {
+        if (!pebbleDragging) return;
+        pebbleDragging = false;
+        list.classList.remove('dragging');
+        pebble.style.transition = '';
+        let tx = 0; const m = getComputedStyle(pebble).transform.match(/matrix\(([^)]+)\)/); if (m) { const parts = m[1].split(','); tx = parseFloat(parts[4]) || 0; }
+        const targetLi = nearest(tx);
+        pebble.classList.add('snap'); setTimeout(()=>pebble.classList.remove('snap'), 400);
+        activate(targetLi);
+      };
+
+      // Inertia scroll for bar (separate from pebble drag)
+      let barDragging = false; let lastX=0; let vel=0; let frame=0;
+      const momentum = () => {
+        if (Math.abs(vel) < .12) { cancelAnimationFrame(frame); return; }
+        list.scrollLeft -= vel; vel *= 0.92; updateEdgeShadows(); frame = requestAnimationFrame(momentum);
+      };
+      const startBar = (x) => { barDragging = true; lastX = x; vel=0; cancelAnimationFrame(frame); };
+      const moveBar = (x) => { if (!barDragging) return; const dx = x - lastX; lastX = x; list.scrollLeft -= dx; vel = dx; updateEdgeShadows(); };
+      const endBar = () => { if (!barDragging) return; barDragging=false; momentum(); };
+
+      // Distinguish pebble drag vs bar drag: if pointer starts over pebble bounding rect, treat as pebble drag
+      const isOverPebble = (clientX, clientY) => {
+        const r = pebble.getBoundingClientRect();
+        return clientX >= r.left && clientX <= r.right && clientY >= r.top && clientY <= r.bottom;
+      };
+
+      list.addEventListener('pointerdown', (e) => {
+        if (e.button!==0) return;
+        if (isOverPebble(e.clientX, e.clientY)) startPebble(e.clientX); else startBar(e.clientX);
+      });
+      window.addEventListener('pointermove', (e) => { movePebbleDrag(e.clientX); moveBar(e.clientX); });
+      window.addEventListener('pointerup', () => { endPebble(); endBar(); }, { passive:true });
+      window.addEventListener('pointercancel', () => { endPebble(); endBar(); }, { passive:true });
+      list.addEventListener('touchstart', (e) => { if (e.touches.length!==1) return; const t=e.touches[0]; if (isOverPebble(t.clientX, t.clientY)) startPebble(t.clientX); else startBar(t.clientX); }, { passive:true });
+      window.addEventListener('touchmove', (e) => { if (e.touches.length!==1) return; const t=e.touches[0]; movePebbleDrag(t.clientX); moveBar(t.clientX); }, { passive:true });
+      window.addEventListener('touchend', () => { endPebble(); endBar(); }, { passive:true });
+      window.addEventListener('touchcancel', () => { endPebble(); endBar(); }, { passive:true });
     }
-    // ripple flair
-    if (pebble) {
-      pebble.classList.remove('snap');
-      // retrigger animation
-      void pebble.offsetWidth;
-      pebble.classList.add('snap');
-      setTimeout(() => pebble.classList.remove('snap'), 420);
-    }
-    window.removeEventListener('pointermove', onPointerMove);
-    window.removeEventListener('pointerup', endDrag);
-    window.removeEventListener('pointercancel', endDrag);
-  };
-  const startDrag = (e) => {
-    dragging = true;
-    filterEl.classList.add('dragging');
-    // speed up pebble tracking during drag for responsiveness
-    if (pebble) pebble.style.transitionDuration = '180ms, 180ms, 180ms';
-    // position pebble under pointer immediately without changing active/content yet
-    followPebble(e.clientX, e.clientY);
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', endDrag);
-    window.addEventListener('pointercancel', endDrag);
-  };
-  // Start drag on pebble or filter background
-  const armMove = (e) => {
-    const dx = e.clientX - armStart.x; const dy = e.clientY - armStart.y;
-    if (!dragArmed && Math.hypot(dx, dy) > 6) {
-      dragArmed = true;
-      startDrag(e);
-      // after drag starts, stop arm listeners
-      window.removeEventListener('pointermove', armMove, true);
-      window.removeEventListener('pointerup', armUp, true);
-      window.removeEventListener('pointercancel', armUp, true);
-    }
-  };
-  const armUp = () => {
-    window.removeEventListener('pointermove', armMove, true);
-    window.removeEventListener('pointerup', armUp, true);
-    window.removeEventListener('pointercancel', armUp, true);
-  };
-  filterEl.addEventListener('pointerdown', (e) => {
-    // arm drag; do not prevent click, and do not start drag immediately
-    dragArmed = false;
-    armStart = { x: e.clientX, y: e.clientY };
-    window.addEventListener('pointermove', armMove, true);
-    window.addEventListener('pointerup', armUp, true);
-    window.addEventListener('pointercancel', armUp, true);
-  });
   });
 
   /**
@@ -661,6 +712,17 @@
           AOS.refresh()
         });
       }, true);
+
+      // Improve first-load layout: relayout after images load and a short delay
+      const relayout = () => { try { portfolioIsotope.layout(); AOS.refresh(); } catch(e){} };
+      const imgs = portfolioContainer.querySelectorAll('img');
+      imgs.forEach(img => {
+        if (img.complete) return;
+        img.addEventListener('load', relayout, { once: true });
+      });
+      setTimeout(relayout, 120);
+      setTimeout(relayout, 400);
+      setTimeout(relayout, 900);
     }
 
   });
@@ -746,24 +808,15 @@
       prevBtn.addEventListener('click', () => certSwiper.slidePrev());
       nextBtn.addEventListener('click', () => certSwiper.slideNext());
 
-      // Precisely center arrows on the middle of the certificate image preview
+      // Center arrows vertically relative to the visible slider area (works with or without images)
       const wrapper = document.querySelector('.cert-slider-wrapper');
       const positionArrows = () => {
         if (!wrapper) return;
-        // Prefer the first visible slide's preview; fallback to any preview
-        const previews = Array.from(wrapper.querySelectorAll('.swiper-slide .preview'));
-        const preview = previews.find(p => {
-          const r = p.getBoundingClientRect();
-          return r.width > 0 && r.height > 0;
-        }) || previews[0];
-        if (!preview) return;
-  // Use wrapper's inner height to compute the vertical center so
-  // the arrows remain visually centered even when images/AOS
-  // animations change slide content sizing.
-  const wrapperHeight = wrapper.clientHeight || wrapper.getBoundingClientRect().height;
-  const centerY = Math.round(wrapperHeight / 2);
-  prevBtn.style.top = centerY + 'px';
-  nextBtn.style.top = centerY + 'px';
+        const host = certSwiperEl;
+        const h = (host && host.clientHeight) ? host.clientHeight : wrapper.clientHeight;
+        const centerY = Math.round((h || 0) / 2);
+        prevBtn.style.top = centerY + 'px';
+        nextBtn.style.top = centerY + 'px';
       };
 
       // Ensure the swiper container height matches current visible slide row (remove leftover gap)
@@ -791,11 +844,7 @@
   certSwiper.on('resize', recalc);
   certSwiper.on('slideChangeTransitionEnd', recalc);
   certSwiper.on('transitionEnd', recalc);
-      // When images load (object-fit: contain), heights can change
-      wrapper.querySelectorAll('.preview img').forEach(img => {
-        if (img.complete) return; // already loaded
-        img.addEventListener('load', recalc, { once: true });
-      });
+  // Recalc even without images
       // Initial positions shortly after init to allow layout to settle
       setTimeout(recalc, 60);
       // Second tick after fonts/images/AOS might tweak layout
@@ -822,6 +871,73 @@
    * Initiate Pure Counter 
    */
   new PureCounter();
+
+  /**
+   * Hero micro-interactions: 3D tilt on name + gentle parallax layer
+   */
+  (function initHeroTilt() {
+    const hero = document.querySelector('#hero');
+    if (!hero) return;
+    const nameEl = hero.querySelector('.hero-name');
+    const parallax = hero.querySelector('.parallax-layer');
+    if (!nameEl && !parallax) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    let rafId = 0;
+    let bounds = null;
+    const maxTilt = 8; // deg
+    const maxParallax = 12; // px
+
+    const compute = (x, y) => {
+      if (!bounds) bounds = hero.getBoundingClientRect();
+      const cx = bounds.left + bounds.width / 2;
+      const cy = bounds.top + bounds.height / 2;
+      const dx = (x - cx) / (bounds.width / 2);
+      const dy = (y - cy) / (bounds.height / 2);
+      const tiltX = (+dy * maxTilt);
+      const tiltY = (-dx * maxTilt);
+      const px = (-dx * maxParallax);
+      const py = (-dy * maxParallax);
+      return { tiltX, tiltY, px, py };
+    };
+
+    const apply = (vals) => {
+      if (nameEl) {
+        nameEl.classList.add('tilted');
+        nameEl.style.transform = `perspective(600px) rotateX(${vals.tiltX.toFixed(2)}deg) rotateY(${vals.tiltY.toFixed(2)}deg)`;
+      }
+      if (parallax) {
+        parallax.style.transform = `translate3d(${vals.px.toFixed(1)}px, ${vals.py.toFixed(1)}px, 0)`;
+      }
+    };
+
+    const onMove = (clientX, clientY) => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => apply(compute(clientX, clientY)));
+    };
+
+    const onPointerMove = (e) => {
+      const pt = e.touches ? e.touches[0] : e;
+      onMove(pt.clientX, pt.clientY);
+    };
+
+    const reset = () => {
+      cancelAnimationFrame(rafId);
+      if (nameEl) {
+        nameEl.classList.remove('tilted');
+        nameEl.style.transform = '';
+      }
+      if (parallax) parallax.style.transform = '';
+    };
+
+    hero.addEventListener('mousemove', onPointerMove, { passive: true });
+    hero.addEventListener('touchmove', onPointerMove, { passive: true });
+    hero.addEventListener('mouseleave', reset, { passive: true });
+    hero.addEventListener('touchend', reset, { passive: true });
+    window.addEventListener('resize', () => { bounds = null; }, { passive: true });
+  })();
 
   /**
    * Contact form: Formspree submission with toast feedback
