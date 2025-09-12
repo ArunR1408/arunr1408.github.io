@@ -15,123 +15,19 @@
   <div class="card">
     <div>Views</div>
     <div id="count" class="num">—</div>
-    <div style="margin-top:12px; text-align:left;">
-      <label style="font-size:13px; color: #aab3c6; display:block; margin-bottom:6px">API URL (you can paste a tokenized URL here)</label>
-      <input id="apiUrl" type="text" style="width:100%; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:#0f1112; color:#e6e9ee;" />
-      <div style="display:flex; gap:8px; margin-top:8px; align-items:center;">
-        <input id="apiToken" type="password" placeholder="Optional: paste API token here (won't be saved)" style="flex:1; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:#0f1112; color:#e6e9ee;" />
-      </div>
-      <div style="display:flex; gap:8px; margin-top:8px; align-items:center;">
-        <label style="display:flex; gap:8px; align-items:center; color:#c6d3ea"><input id="useToken" type="checkbox" style="width:16px; height:16px;"> Use token</label>
-      </div>
-      <div style="display:flex; gap:8px; margin-top:8px;">
-        <button id="testBtn" style="flex:1; padding:8px 10px; border-radius:8px; border:0; background:#1f6feb; color:#fff; cursor:pointer">Test / Retry</button>
-        <button id="openConsole" style="padding:8px 10px; border-radius:8px; border:0; background:#2b2f33; color:#d0d6dd; cursor:pointer">Show Raw</button>
-      </div>
-    </div>
-    <div id="status" style="margin-top:12px; font-size:13px; color:#c7d2e8; text-align:left; opacity:0.95"></div>
-    <pre id="raw" style="display:none; margin-top:8px; background:#0b0c0d; color:#9fb7ff; padding:12px; border-radius:8px; overflow:auto; font-size:13px; max-height:240px"></pre>
-    <div style="margin-top:12px; text-align:left; font-size:13px; color:#aab3c6">
-      <strong style="color:#dbeafe">CounterAPI (help)</strong>
-      <div style="margin-top:6px">The URL you gave (`https://app.counterapi.dev/team/vc/counters/790`) is the dashboard link. To make the count show on this page you need the API request URL (or a tokenized URL) that returns the counter value. Two quick ways to test:</div>
-      <ol style="margin-top:8px; padding-left:18px;">
-        <li>Open your CounterAPI dashboard and look for the API request URL or an example curl request (the endpoint that returns the counter data).</li>
-        <li>Paste that exact full URL into the <em>API URL</em> field above and click <em>Test / Retry</em>.</li>
-      </ol>
-      <div style="margin-top:8px">If your CounterAPI requires a Bearer token instead of a tokenized URL, you can run this in your browser console (edit <code>COUNTER_HOST</code>, <code>COUNTER_ID</code>, and <code>YOUR_TOKEN</code>):</div>
-      <pre style="background:#071126; color:#9fd1ff; padding:10px; border-radius:6px; overflow:auto; font-size:12px">// Example (edit host/id/token as needed)
-fetch('https://api.counterapi.dev/counters/790', {
-  method: 'GET',
-  headers: { 'Authorization': 'Bearer YOUR_TOKEN' }
-})
-.then(r =&gt; r.json())
-.then(console.log)
-.catch(console.error);
-</pre>
-      <div style="margin-top:6px">If that returns JSON with a numeric field (e.g. <code>value</code>, <code>count</code>, or <code>total</code>), copy the full request URL (or the response content) into the diagnostic input and test here. If you run into a CORS error you will see it in the browser console or in the <em>Raw</em> output.</div>
-    </div>
   </div>
   <script>
-    // Client-side diagnostic counter tester.
-    (function(){
+    (async function(){
       const NAMESPACE = 'arunr1408.github.io';
       const KEY = 'site';
-      const DEFAULT_URL = `https://api.countapi.xyz/hit/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}`;
-
-      const elCount = document.getElementById('count');
-      const elApi = document.getElementById('apiUrl');
-      const elTest = document.getElementById('testBtn');
-      const elStatus = document.getElementById('status');
-      const elRaw = document.getElementById('raw');
-      const elOpen = document.getElementById('openConsole');
-
-      // Prefill API input from query param or default
-      const params = new URLSearchParams(location.search);
-      elApi.value = params.get('apiUrl') || DEFAULT_URL;
-
-      function setStatus(txt, isError){
-        elStatus.textContent = txt || '';
-        elStatus.style.color = isError ? '#ff7b7b' : '#9fd1ff';
+      const url = `https://api.countapi.xyz/hit/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}`;
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        document.getElementById('count').textContent = (data && (data.value || data.count)) ?? '0';
+      } catch (e) {
+        document.getElementById('count').textContent = 'offline';
       }
-
-      async function fetchWithTimeout(url, timeout = 7000, options = {}){
-        const controller = new AbortController();
-        const id = setTimeout(()=>controller.abort(), timeout);
-        try {
-          const res = await fetch(url, Object.assign({}, options, { signal: controller.signal }));
-          clearTimeout(id);
-          return res;
-        } catch (e){
-          clearTimeout(id);
-          throw e;
-        }
-      }
-
-      async function run(url){
-        setStatus('Testing...');
-        elRaw.style.display = 'none';
-        try {
-          // Build headers if token usage is requested
-          const headers = {};
-          if (document.getElementById('useToken')?.checked) {
-            const t = (document.getElementById('apiToken')?.value || '').trim();
-            if (t) headers['Authorization'] = 'Bearer ' + t;
-          }
-          const res = await fetchWithTimeout(url, 8000, headers && Object.keys(headers).length ? { headers } : {});
-          const text = await res.text();
-          let json = null;
-          try { json = JSON.parse(text); } catch(e) { /* not json */ }
-
-          // Show the value if present, prefer 'value' or 'count'
-          const value = json && (json.value ?? json.count ?? json.total) ;
-          if (value !== undefined && value !== null) {
-            elCount.textContent = String(value);
-            setStatus(`OK — HTTP ${res.status}`);
-          } else if (res.ok) {
-            elCount.textContent = String(json || text || '0');
-            setStatus(`OK — HTTP ${res.status}`);
-          } else {
-            elCount.textContent = 'offline';
-            setStatus(`HTTP ${res.status} — ${res.statusText}`, true);
-          }
-
-          elRaw.textContent = `URL: ${url}\nHTTP: ${res.status} ${res.statusText}\n\nRESPONSE:\n${text}`;
-        } catch (err) {
-          // Network error, CORS, or timeout
-          elCount.textContent = 'offline';
-          if (err.name === 'AbortError') setStatus('Request timed out (network or slow server)', true);
-          else setStatus('Network error (CORS blocked or offline) — see console/raw output', true);
-          try { elRaw.textContent = String(err); } catch(e) { elRaw.textContent = 'error'; }
-        }
-      }
-
-      elTest.addEventListener('click', ()=> run(elApi.value.trim() || DEFAULT_URL));
-      elOpen.addEventListener('click', ()=> {
-        elRaw.style.display = elRaw.style.display === 'none' ? 'block' : 'none';
-      });
-
-      // Auto-run once on load
-      setTimeout(()=> run(elApi.value.trim() || DEFAULT_URL), 200);
     })();
   </script>
 </body>
