@@ -985,4 +985,431 @@
     });
   });
 
+  /**
+   * Project Detail Modal (custom implementation)
+   * Enhances .project-card elements (inside portfolio) with rich detail view.
+   * - Extracts title, category, snippet meta (problem/approach/outcome) from DOM & data-* attributes
+   * - Attempts to find two representative images (primary = current img, secondary = lightbox target or fallback)
+   * - Accessible focus trap, ESC & backdrop close, inert background scroll lock
+   */
+  (function initProjectModal(){
+    const modal = document.getElementById('project-modal');
+    if(!modal) return; // Graceful if markup removed
+  const dialog = modal.querySelector('.project-modal-dialog');
+  const btnClose = modal.querySelector('.project-modal-close');
+    const pmTitle = modal.querySelector('.pm-title');
+    const pmCategory = modal.querySelector('.pm-category');
+    const pmDesc = modal.querySelector('.pm-description');
+    const pmLinks = modal.querySelector('.pm-links');
+    const pmImgPrimary = modal.querySelector('.pm-primary-media img');
+
+  let activeTrigger = null;
+  let lastFocus = null;
+  let isOpen = false;
+  // Guard to ignore stray clicks that may bubble during the opening click
+  let ignoreModalClicks = false;
+  // Cleanup timer and listener references to ensure unlockScroll runs
+  let closeCleanupTimer = null;
+  let closeTransitionListener = null;
+
+    const scrollBarComp = () => window.innerWidth - document.documentElement.clientWidth;
+    const lockScroll = () => {
+      const sb = scrollBarComp();
+      document.documentElement.style.setProperty('--sbw', sb + 'px');
+      document.body.style.overflow = 'hidden';
+      if(sb>0) document.body.style.paddingRight = sb + 'px';
+    };
+    const unlockScroll = () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      document.documentElement.style.removeProperty('--sbw');
+    };
+
+    const focusableSelectors = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+    const getFocusable = () => Array.from(modal.querySelectorAll(focusableSelectors)).filter(el => el.offsetParent !== null);
+
+    const trapFocus = (e) => {
+      if(!isOpen) return;
+      if(e.key !== 'Tab') return;
+      const focusables = getFocusable();
+      if(!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length-1];
+      if(e.shiftKey && document.activeElement === first){
+        e.preventDefault();
+        last.focus();
+      } else if(!e.shiftKey && document.activeElement === last){
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    const closeModal = () => {
+      if(!isOpen) return;
+      isOpen = false;
+      // Add closing class to run reverse animation
+      dialog.classList.remove('pm-opening');
+      dialog.classList.add('pm-closing');
+      modal.setAttribute('aria-hidden','true');
+
+      // Cleanup handler (shared between transitionend and timeout fallback)
+      const onFinish = (e) => {
+        // If called from transitionend ensure target matches dialog
+        if(e && e.target && e.target !== dialog) return;
+        // Clear any pending fallback timer or listener
+        if(closeCleanupTimer){ clearTimeout(closeCleanupTimer); closeCleanupTimer = null; }
+        if(closeTransitionListener){ dialog.removeEventListener('transitionend', closeTransitionListener); closeTransitionListener = null; }
+        // Final cleanup
+        try { dialog.classList.remove('pm-closing', 'pm-open'); } catch(_){}
+        try { modal.classList.remove('active'); } catch(_){}
+        try { unlockScroll(); } catch(_){}
+        try { document.removeEventListener('keydown', onKey); } catch(_){}
+        try { document.removeEventListener('keydown', trapFocus, true); } catch(_){}
+        if(lastFocus) { setTimeout(()=> { try { lastFocus.focus(); } catch(_){} }, 30); }
+      };
+
+      // Attach listener and also set a fallback timeout in case transitionend never fires
+      closeTransitionListener = onFinish;
+      dialog.addEventListener('transitionend', closeTransitionListener);
+      // Fallback: ensure cleanup after reasonable timeout
+      closeCleanupTimer = setTimeout(()=> { try { onFinish({ target: dialog }); } catch(_){} }, 500);
+    };
+
+    const sanitize = (str) => {
+      const div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    };
+
+    const openModal = (card) => {
+      activeTrigger = card;
+      lastFocus = document.activeElement;
+      // Title & category
+      const titleEl = card.querySelector('.project-title'); 
+      const catEl = card.querySelector('.project-meta');
+      pmTitle.textContent = titleEl ? titleEl.textContent.trim() : 'Project';
+      pmCategory.textContent = catEl ? catEl.textContent.trim() : '';
+      const longDesc = card.getAttribute('data-description') || '';
+      if(longDesc.includes('||')){
+        const parts = longDesc.split('||').map(p=>sanitize(p.trim())).filter(Boolean);
+        const list = `<ul class="pm-bullets">${parts.map(p=>`<li>${p}</li>`).join('')}</ul>`;
+        pmDesc.innerHTML = list;
+      } else {
+        pmDesc.innerHTML = `<p class="mb-2">${sanitize(longDesc)}</p>`;
+      }
+
+      // Images
+      const imgEl = card.querySelector('img');
+      const primarySrc = imgEl ? imgEl.getAttribute('src') : '';
+      const primaryAlt = imgEl ? imgEl.getAttribute('alt') : 'Project primary image';
+      if(pmImgPrimary){
+        // Try to ensure image is loaded/decoded before showing modal to avoid paint-on-hover issues
+        try {
+          const pre = new Image();
+          pre.src = primarySrc;
+          pre.decode && pre.decode().catch(()=>{});
+          pre.onload = () => {
+            pmImgPrimary.src = primarySrc;
+            pmImgPrimary.alt = primaryAlt;
+          };
+          // In case onload doesn't fire (cached), set immediately
+          if(pre.complete){ pmImgPrimary.src = primarySrc; pmImgPrimary.alt = primaryAlt; }
+        } catch(e){ pmImgPrimary.src = primarySrc; pmImgPrimary.alt = primaryAlt; }
+      }
+
+      // Links
+      pmLinks.innerHTML = '';
+      const ext = card.querySelector('.project-ext');
+      if(ext && ext.getAttribute('href') && ext.getAttribute('href') !== '#'){
+        const a = document.createElement('a');
+        a.className = 'btn btn-sm btn-outline-primary';
+        a.href = ext.getAttribute('href');
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML = '<i class="bi bi-github me-1"></i>GitHub';
+        pmLinks.appendChild(a);
+      }
+      
+      // Add close button to links area
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'btn btn-sm btn-secondary';
+      closeBtn.type = 'button';
+      closeBtn.setAttribute('data-close', 'pm');
+      closeBtn.innerHTML = '<i class="bi bi-x-lg me-1"></i>Close';
+      pmLinks.appendChild(closeBtn);
+
+  // If a previous close cleanup is pending, clear it to avoid double cleanup
+  if(closeCleanupTimer){ clearTimeout(closeCleanupTimer); closeCleanupTimer = null; }
+  if(closeTransitionListener){ dialog.removeEventListener('transitionend', closeTransitionListener); closeTransitionListener = null; }
+  // Show with animation classes
+  dialog.classList.remove('pm-closing');
+  dialog.classList.add('pm-opening');
+  // Prevent the click that triggered open from immediately closing the modal
+  ignoreModalClicks = true;
+  setTimeout(()=> { ignoreModalClicks = false; }, 350);
+  // Ensure any stale scroll lock is cleared before locking again
+  try { unlockScroll(); } catch(_){}
+  modal.classList.add('active');
+      // Allow next frame then switch to open state so transition runs
+      requestAnimationFrame(()=>{
+        dialog.classList.remove('pm-opening');
+        dialog.classList.add('pm-open');
+      });
+      modal.setAttribute('aria-hidden','false');
+      lockScroll();
+      isOpen = true;
+      setTimeout(()=> {
+        // Focus first meaningful element
+        if(pmTitle) pmTitle.setAttribute('tabindex','-1');
+        pmTitle && pmTitle.focus();
+      }, 30);
+      document.addEventListener('keydown', onKey);
+      document.addEventListener('keydown', trapFocus, true);
+    };
+
+    const onKey = (e) => {
+      if(e.key === 'Escape') { e.preventDefault(); closeModal(); }
+    };
+
+    // Click binding on project cards
+    const cards = document.querySelectorAll('.project-card');
+    cards.forEach(card => {
+      // Make card accessible by keyboard
+      card.setAttribute('tabindex','0');
+      card.addEventListener('click', (e) => {
+        // Avoid conflict if user clicked explicit lightbox link
+        const a = e.target.closest('a');
+        if(a && (a.classList.contains('portfolio-lightbox') || a.classList.contains('project-ext'))) return; // let default
+        e.preventDefault();
+        openModal(card);
+      });
+      card.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card); }
+      });
+    });
+
+    // Close triggers
+    modal.addEventListener('click', (e) => {
+      // If we just opened the modal, ignore residual click events for a short window
+      if(ignoreModalClicks) return;
+      const closer = e.target && (e.target.getAttribute && e.target.getAttribute('data-close') === 'pm');
+      if(closer) {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+    if(btnClose){
+      btnClose.addEventListener('click', (e)=> { e.preventDefault(); closeModal(); });
+    }
+  })();
+
+  /** Timeline card external links (experience) */
+  (function bindTimelineLinks(){
+    const items = document.querySelectorAll('.timeline-item[data-link]');
+    items.forEach(item => {
+      const url = item.getAttribute('data-link');
+      if(!url) return;
+      const card = item.querySelector('.timeline-card');
+      if(!card) return;
+      card.classList.add('has-link');
+      card.setAttribute('role','button');
+      card.setAttribute('tabindex','0');
+      card.setAttribute('aria-label', 'Open external document in new tab');
+      const open = () => window.open(url,'_blank','noopener');
+      card.addEventListener('click', (e)=>{ e.preventDefault(); open(); });
+      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); open(); }});
+    });
+  })();
+
+  /** Debounce utility function */
+  const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  };
+
+  /** Timeline vertical line precise origin */
+  (function timelineOriginManager(){
+    const styleId = 'timeline-origin-style';
+    if(!document.getElementById(styleId)){
+      const s = document.createElement('style');
+      s.id = styleId;
+      s.textContent = `.timeline:before, .timeline-column:before{ top: var(--timeline-top, 10px); }`;
+      document.head.appendChild(s);
+    }
+
+    const calcForTimeline = (timeline) => {
+      const firstMarker = timeline.querySelector('.timeline-item .timeline-marker');
+      if(!firstMarker) return;
+      const tlRect = timeline.getBoundingClientRect();
+      const markerRect = firstMarker.getBoundingClientRect();
+  // Align the line to the vertical center of the first marker circle
+  const visualNudge = 0; // small positive values can nudge the line down if needed
+  // Extend the line upwards so it reaches the outer edge of the marker circle
+  // Try to read the marker's border width from computed styles; fall back to 3px (CSS default)
+  let markerBorder = 3;
+  try {
+    const cs = window.getComputedStyle(firstMarker);
+    const bw = cs.getPropertyValue('border-top-width');
+    if(bw) markerBorder = parseInt(bw, 10) || markerBorder;
+  } catch(e){}
+
+  // Set the top of the line to marker's top minus its border so the vertical line begins where the circular dot starts
+  const offset = Math.max(0, Math.round(markerRect.top - tlRect.top - markerBorder + visualNudge));
+      timeline.style.setProperty('--timeline-top', offset + 'px');
+      // Optional visual debug helper (enable by running in console:
+      // localStorage.setItem('timelineDebug','1'); location.reload(); )
+      try{
+        const debugOn = String(localStorage.getItem('timelineDebug')) === '1';
+        if(debugOn){
+          console.log('timeline-debug', { markerTop: markerRect.top, timelineTop: tlRect.top, markerBorder, offset });
+          let dbg = timeline.querySelector('.__timeline_debug_bar');
+          if(!dbg){ dbg = document.createElement('div'); dbg.className = '__timeline_debug_bar'; dbg.setAttribute('aria-hidden','true'); timeline.appendChild(dbg); }
+          dbg.style.position = 'absolute'; dbg.style.left = '0'; dbg.style.right = '0'; dbg.style.height = '2px'; dbg.style.background = 'rgba(255,0,0,0.7)'; dbg.style.top = offset + 'px'; dbg.style.zIndex = '9999'; dbg.style.pointerEvents = 'none';
+        }
+      } catch(e){}
+      // also set on columns as fallback
+      const cols = timeline.querySelectorAll('.timeline-column');
+      cols.forEach(col => col.style.setProperty('--timeline-top', offset + 'px'));
+    };
+
+    const calcAll = () => {
+      const timelines = document.querySelectorAll('.timeline');
+      timelines.forEach(tl => calcForTimeline(tl));
+    };
+
+    const recalc = debounce(calcAll, 120);
+    window.addEventListener('resize', recalc, { passive:true });
+    
+    // Immediate calculation on load
+    window.addEventListener('load', calcAll);
+    document.addEventListener('DOMContentLoaded', calcAll);
+
+    // Wait for logos/images to load in each timeline before calculating
+    const timelines = Array.from(document.querySelectorAll('.timeline'));
+    let pendingTimelines = timelines.length;
+    if(!pendingTimelines){ calcAll(); return; }
+    timelines.forEach(tl => {
+      const imgs = Array.from(tl.querySelectorAll('.tl-logo img'));
+      if(imgs.length === 0){ if(--pendingTimelines===0) calcAll(); return; }
+      let pending = imgs.length;
+      imgs.forEach(img => {
+        if(img.complete){ if(--pending===0 && --pendingTimelines===0) calcAll(); }
+        else {
+          img.addEventListener('load', ()=>{ if(--pending===0 && --pendingTimelines===0) calcAll(); }, { once:true });
+          img.addEventListener('error', ()=>{ if(--pending===0 && --pendingTimelines===0) calcAll(); }, { once:true });
+        }
+      });
+    });
+    // Extra safety: run calculation again after short delays to catch layout shifts
+    setTimeout(calcAll, 250);
+    setTimeout(calcAll, 800);
+
+    // Watch for DOM/layout changes in timelines and recalc when they occur
+    try{
+      const mo = new MutationObserver(debounce(calcAll, 120));
+      timelines.forEach(tl => mo.observe(tl, { attributes: true, childList: true, subtree: true }));
+      // Small guard: if body changes significantly (class toggles) recalc as well
+      mo.observe(document.body, { attributes: true, childList: false, subtree: false });
+    } catch(e){}
+  })();
+
+  /**
+   * Intersection-based image prefetch for project cards
+   * Upgrades fetchPriority and triggers a low priority fetch when cards approach viewport
+   */
+  (function prefetchProjectImages(){
+    if(!('IntersectionObserver' in window)) return;
+    const cards = document.querySelectorAll('.project-card img');
+    const opts = { root:null, rootMargin:'200px 0px', threshold:0.01 };
+    const seen = new WeakSet();
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const img = entry.target;
+          if(!seen.has(img)){
+            try { img.loading = 'eager'; img.fetchPriority = 'high'; } catch(_){}
+            // Create a prefetch link for potential larger version if data-secondary exists
+            const card = img.closest('.project-card');
+            const second = card && card.getAttribute('data-secondary');
+            if(second){
+              const link = document.createElement('link');
+              link.rel = 'prefetch';
+              link.as = 'image';
+              link.href = second;
+              document.head.appendChild(link);
+            }
+            seen.add(img);
+          }
+          io.unobserve(img);
+        }
+      })
+    }, opts);
+    cards.forEach(img => io.observe(img));
+  })();
+  // Eagerly decode project card images on DOMContentLoaded to avoid hover-triggered paints
+  window.addEventListener('DOMContentLoaded', () => {
+    try{
+      const imgs = Array.from(document.querySelectorAll('.project-card img'));
+      imgs.forEach(img => {
+        // If image has data-src (lazy) swap it first
+        if(img.dataset && img.dataset.src){ img.src = img.dataset.src; }
+        try{
+          // Hint browser to prioritize visible images
+          img.loading = img.loading === 'lazy' ? 'eager' : img.loading;
+        } catch(_){}
+        // Attempt to decode so it's painted when needed
+        if(img.decode) img.decode().catch(()=>{});
+      });
+    }catch(e){}
+  });
+
+  /** Performance optimizations and error handling */
+  (function optimizeAndHandleErrors(){
+    // Add passive event listeners for better scroll performance
+    const addPassiveListener = (element, event, callback) => {
+      element.addEventListener(event, callback, { passive: true });
+    };
+
+    // Optimize scroll-based animations
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      // Observe elements that benefit from scroll optimization
+      document.querySelectorAll('.portfolio-item, .timeline-item, .cert-card').forEach(el => {
+        observer.observe(el);
+      });
+    }
+
+    // Error boundary for critical functions
+    window.addEventListener('error', function(e) {
+      console.warn('Non-critical error caught:', e.error);
+      // Continue execution - don't break the site
+    });
+
+    // Preload critical resources on idle
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        // Preload next section images when browser is idle
+        document.querySelectorAll('img[data-src]').forEach(img => {
+          if (img.dataset.src) {
+            img.src = img.dataset.src;
+          }
+        });
+      });
+    }
+  })();
+
 })()

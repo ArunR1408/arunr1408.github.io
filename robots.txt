@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://arunr1408.github.io/sitemap.xml
