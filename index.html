@@ -101,11 +101,12 @@
 
   <!-- ======= Global nav toggle (always visible) ======= -->
   <button type="button" class="mobile-nav-toggle" aria-label="Toggle navigation" aria-controls="header" aria-expanded="false">
-    <span class="hamburger" aria-hidden="true">
-      <span class="bar bar1"></span>
-      <span class="bar bar2"></span>
-      <span class="bar bar3"></span>
-    </span>
+    <!-- Inline SVG hamburger for consistent rendering -->
+    <svg class="hamburger-icon" width="20" height="14" viewBox="0 0 20 14" aria-hidden="true" focusable="false">
+      <rect class="h-bar h-bar-1" x="0" y="0" width="20" height="2" rx="1"></rect>
+      <rect class="h-bar h-bar-2" x="0" y="6" width="20" height="2" rx="1"></rect>
+      <rect class="h-bar h-bar-3" x="0" y="12" width="20" height="2" rx="1"></rect>
+    </svg>
   </button>
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex flex-column justify-content-center">
@@ -117,7 +118,7 @@
   <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-bulb"></i> <span>Skills</span></a></li>
   <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Edu & Work</span></a></li>
     <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Projects</span></a></li>
-  <li><a href="#achievements" class="nav-link scrollto"><i class="bx bx-trophy"></i> <span>Publications &amp; Certificates</span></a></li>
+  <li><a href="#achievements" class="nav-link scrollto"><i class="bx bx-trophy"></i> <span>Achievements</span></a></li>
         <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
@@ -330,80 +331,71 @@
           <h2>Education &amp; Work Experience</h2>
         </div>
     
-        <div class="row">
-          <div class="col-lg-6">
-            <!-- Summary reduced and resume button moved to hero per request -->
-    
+  <div class="row timeline" aria-label="Education and Work timeline">
+          <div class="col-lg-6 timeline-column">
             <h3 class="resume-title" data-aos="fade-up" data-aos-delay="140">Education</h3>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="180" tabindex="0">
-              <h4>Bachelor of Technology in Electronics and Computer Engineering</h4>
-              <h5>Aug 2021 – Aug 2025</h5>
-              <p><em>Amrita Vishwa Vidyapeetham, Amritapuri, India</em></p>
-              <p>CGPA: <span id="cgpa-value">7.73</span></p>
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="180">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-card">
+                <h4 class="tl-title">Bachelor of Technology in Electronics and Computer Engineering</h4>
+                <div class="tl-meta"><span class="tl-duration">Aug 2021 – Aug 2025</span></div>
+                <p class="tl-place"><em>Amrita Vishwa Vidyapeetham, Amritapuri, India</em></p>
+                <p class="tl-desc">CGPA: <span id="cgpa-value">7.73</span></p>
+              </div>
             </div>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="220" tabindex="0">
-              <h4>Higher Secondary Education</h4>
-              <h5>Jun 2019 – Mar 2021</h5>
-              <p><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
-              <p>Score: 86.6%</p>
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="220">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-card">
+                <h4 class="tl-title">Higher Secondary Education</h4>
+                <div class="tl-meta"><span class="tl-duration">Jun 2019 – Mar 2021</span></div>
+                <p class="tl-place"><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
+                <p class="tl-desc">Score: 86.6%</p>
+              </div>
             </div>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="260" tabindex="0">
-              <h4>Secondary Education</h4>
-              <h5>Mar 2019</h5>
-              <p><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
-              <p>Score: 87.6%</p>
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="260">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-card">
+                <h4 class="tl-title">Secondary Education</h4>
+                <div class="tl-meta"><span class="tl-duration">Mar 2019</span></div>
+                <p class="tl-place"><em>Amrita Vidyalayam, Thiruvalla, India</em></p>
+                <p class="tl-desc">Score: 87.6%</p>
+              </div>
             </div>
-            
           </div>
-          
-          <div class="col-lg-6">
+          <div class="col-lg-6 timeline-column">
             <h3 class="resume-title" data-aos="fade-up" data-aos-delay="60">Work Experience</h3>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="100" tabindex="0">
-              <div class="exp-header">
-                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo6.png" alt="TCSL logo"></span>
-                <div>
-                  <h4>Tata Consultancy Services Limited (TCS)</h4>
-                  <h5>Assistant System Engineer-Trainee • 2025 – Present</h5>
-                </div>
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="100" data-link="" >
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-card clickable">
+                <div class="tl-header d-flex align-items-center gap-2"><div class="tl-logo"><img src="assets/img/logos/logo6.png" alt="TCS logo" loading="lazy"></div><h4 class="tl-title m-0">Tata Consultancy Services Limited (TCS)</h4></div>
+                <div class="tl-meta stack"><span class="tl-role">Assistant System Engineer-Trainee</span><span class="tl-duration">2025 – Present</span></div>
+                <p class="tl-desc mb-0">The beginning of a new chapter.</p>
               </div>
-              <p class="mb-0">The beginning of a new chapter.</p>
             </div>
-
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="120" tabindex="0">
-              <div class="exp-header">
-                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo2.png" alt="HuT Labs logo"></span>
-                <div>
-                  <h4>Humanitarian Technology (HuT) Labs</h4>
-                  <h5>Research Intern • Jan 2025 – Feb 2025</h5>
-                </div>
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="120" data-link="https://drive.google.com/file/d/1uWiV-UpTmeInSXOsxvpl9CxanaTQLCLp/view?usp=sharing">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-card clickable">
+                <div class="tl-header d-flex align-items-center gap-2"><div class="tl-logo"><img src="assets/img/logos/logo2.png" alt="HuT Labs logo" loading="lazy"></div><h4 class="tl-title m-0">Humanitarian Technology (HuT) Labs</h4></div>
+                <div class="tl-meta stack"><span class="tl-role">Research Intern</span><span class="tl-duration">Jan 2025 – Feb 2025</span></div>
+                <p class="tl-desc mb-0">Explored autonomous vehicle deployment in India by analyzing traffic datasets, evaluating object detection models, and co-authoring research papers in collaboration with Smart Mobility and Automotive Research Technology Centre (SMART) &amp; University of Tennessee.</p>
               </div>
-              <p class="mb-0">Explored autonomous vehicle (AV) deployment in India by analyzing traffic datasets, evaluating object detection models, and co-authoring research papers in collaboration with the SMART Center &amp; University of Tennessee.</p>
             </div>
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="160" tabindex="0">
-              <div class="exp-header">
-                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo3.png" alt="AMMACHI Labs logo"></span>
-                <div>
-                  <h4>Amrita Multi Modal Applications Using Computer &amp; Human Interaction — AMMACHI Labs</h4>
-                  <h5>Project Intern • Aug 2024 – Feb 2025</h5>
-                </div>
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="160" data-link="https://drive.google.com/file/d/1BdjhBcW7eJwamrYsGHRgndJBFYYxYfMl/view?usp=sharing">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-card clickable">
+                <div class="tl-header d-flex align-items-center gap-2"><div class="tl-logo"><img src="assets/img/logos/logo3.png" alt="AMMACHI Labs logo" loading="lazy"></div><h4 class="tl-title m-0">AMMACHI Labs</h4></div>
+                <div class="tl-meta stack"><span class="tl-role">Project Intern</span><span class="tl-duration">Aug 2024 – Feb 2025</span></div>
+                <p class="tl-desc mb-0">Developed coconut health monitoring platform using deep learning, automated geospatial data extraction from drone imagery, and built a real-time field diagnosis dashboard integrating Google Maps API.</p>
               </div>
-              <p class="mb-0">Developed a coconut health monitoring platform using deep learning, automated geospatial data extraction from drone imagery, and built a real-time field diagnosis dashboard integrating Google Maps API.</p>
-            </div>   
-            <!-- B Rollers moved to Volunteering section per request -->
-            <div class="resume-item" data-aos="fade-up" data-aos-delay="200" tabindex="0">
-              <div class="exp-header">
-                <span class="exp-logo" aria-hidden="true"><img src="assets/img/logos/logo5.png" alt="Keltron"></span>
-                <div>
-                  <h4>Kerala State Electronics Development Corporation Ltd (Keltron)</h4>
-                  <h5>Intern • Sep 2023</h5>
-                </div>
-              </div>
-              <p class="mb-0">Programmed ESP32 microcontrollers with environmental sensors and deployed wireless data transmission systems, gaining practical experience in embedded systems and IoT.</p>
             </div>
-            
-            
-
-            <!-- Certifications heading removed (moved to dedicated section) -->
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="200" data-link="https://drive.google.com/file/d/1vPBDyOzbkJCBSVBlSN0lp_R11h4f-IjH/view?usp=sharing">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-card clickable">
+                <div class="tl-header d-flex align-items-center gap-2"><div class="tl-logo"><img src="assets/img/logos/logo5.png" alt="Keltron logo" loading="lazy"></div><h4 class="tl-title m-0">Kerala State Electronics Development Corporation Ltd (Keltron)</h4></div>
+                <div class="tl-meta stack"><span class="tl-role">Intern</span><span class="tl-duration">Sep 2023</span></div>
+                <p class="tl-desc mb-0">Programmed ESP32 microcontrollers with environmental sensors and deployed wireless data transmission systems, gaining practical experience in embedded systems and IoT.</p>
+              </div>
+            </div>
           </div>
         </div>
     
@@ -433,136 +425,162 @@
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
-            <div class="portfolio-wrap surface-card project-card" data-problem="Discovery friction" data-approach="Item-based CF + hybrid features" data-outcome="82% accuracy; +27% relevant recs.">
+            <div class="portfolio-wrap surface-card project-card" data-description="Developed a movie recommendation system using Item-Based Collaborative Filtering (IBCF) on a dataset of 100,000+ movie ratings (MovieLens dataset).||Achieved 82% accuracy in predicting user preferences by implementing preprocessing, similarity matrices, and optimized recommendations." >
               <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="Movie Recommendation Engine" loading="lazy" decoding="async">
               <div class="portfolio-overlay">
-                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Movie Recommendation Engine" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <div class="project-links"><a href="https://github.com/ArunR1408/Movie-Recommendation-System" class="project-ext" aria-label="External link to Movie Recommendation Engine" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
                 <h4 class="project-title">Movie Recommendation Engine</h4>
-                <p class="project-meta">Deep Learning</p>
-                <p class="project-snippet"><strong>Problem:</strong> discovery friction.<br><strong>Approach:</strong> item-based collaborative + popularity hybrid.<br><strong>Outcome:</strong> 82% accuracy; +27% relevant recs.</p>
-                <div class="project-actions"><a href="assets/img/portfolio/portfolio-1.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Movie Recommendation Engine screenshot" aria-label="Open image preview">View</a></div>
-                <a href="assets/img/portfolio/portfolio-1.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Movie Recommendation Engine screenshot" aria-label="Open image preview" tabindex="-1"></a>
+                <p class="project-meta">Machine Learning</p>
               </div>
             </div>
           </div>
     
             
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
-            <div class="portfolio-wrap surface-card project-card" data-problem="Need quick vocal isolation" data-approach="Phase cancellation + spectral gating" data-outcome="~18 dB attenuation">
+            <div class="portfolio-wrap surface-card project-card" data-description="A desktop utility for vocal removal and audio feature visualization using phase cancellation and spectral gating techniques.">
               <img src="assets/img/portfolio/portfolio-13.jpg" class="img-fluid" alt="Vocal Removal and Audio Analysis Tool" loading="lazy" decoding="async">
               <div class="portfolio-overlay">
-                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Vocal Removal &amp; Audio Analysis" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <div class="project-links"><a href="https://github.com/ArunR1408/Vocal-Removal-Tool" class="project-ext" aria-label="External link to Vocal Removal &amp; Audio Analysis" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
                 <h4 class="project-title">Vocal Removal & Audio Analysis</h4>
                 <p class="project-meta">Signal Processing</p>
-                <p class="project-snippet"><strong>Problem:</strong> quick vocal isolation & insight.<br><strong>Approach:</strong> phase cancel + spectral gating.<br><strong>Outcome:</strong> ~18 dB attenuation.</p>
-                <div class="project-actions"><a href="assets/img/portfolio/portfolio-2.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Vocal Removal & Audio Analysis screenshot" aria-label="Open image preview">View</a></div>
-                <a href="assets/img/portfolio/portfolio-2.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Vocal Removal & Audio Analysis screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap surface-card project-card" data-problem="Manual HR records" data-approach="Python + MySQL CRUD" data-outcome="~40% less data entry time">
+            <div class="portfolio-wrap surface-card project-card" data-description="An internal application to manage employee records with CRUD operations backed by MySQL and Python." >
               <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="Employee Management System" loading="lazy" decoding="async">
               <div class="portfolio-overlay">
-                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Employee Management System" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <div class="project-links"><a href="https://github.com/ArunR1408/Employee-Management-System" class="project-ext" aria-label="External link to Employee Management System" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
                 <h4 class="project-title">Employee Management System</h4>
-                <p class="project-meta">Application</p>
-                <p class="project-snippet"><strong>Problem:</strong> manual HR records.<br><strong>Approach:</strong> Python + MySQL CRUD.<br><strong>Outcome:</strong> ~40% less data entry time.</p>
-                <div class="project-actions"><a href="assets/img/portfolio/portfolio-3.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Employee Management System screenshot" aria-label="Open image preview">View</a></div>
-                <a href="assets/img/portfolio/portfolio-3.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Employee Management System screenshot" aria-label="Open image preview" tabindex="-1"></a>
+                <p class="project-meta">Web & Apps</p>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap surface-card project-card" data-problem="Unpredictable post reach" data-approach="Feature-engineered regression" data-outcome="~9% MAE">
+            <div class="portfolio-wrap surface-card project-card" data-description="A predictive analytics tool that estimates Instagram post impressions using regression models to inform posting strategy.">
               <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="Instagram Impression Prediction" loading="lazy" decoding="async">
               <div class="portfolio-overlay">
-                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to InstaMetrics" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <div class="project-links"><a href="https://github.com/ArunR1408/InstaMetrics" class="project-ext" aria-label="External link to InstaMetrics" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
                 <h4 class="project-title">InstaMetrics</h4>
-                <p class="project-meta">Web Application</p>
-                <p class="project-snippet"><strong>Problem:</strong> unpredictable reach.<br><strong>Approach:</strong> feature‑engineered regression.<br><strong>Outcome:</strong> ~9% MAE.</p>
-                <div class="project-actions"><a href="assets/img/portfolio/portfolio-4.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="InstaMetrics screenshot" aria-label="Open image preview">View</a></div>
-                <a href="assets/img/portfolio/portfolio-4.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="InstaMetrics screenshot" aria-label="Open image preview" tabindex="-1"></a>
+                <p class="project-meta">Machine Learning</p>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
-            <div class="portfolio-wrap surface-card project-card" data-problem="Early risk screening" data-approach="Compared classifiers" data-outcome="ROC-AUC ~0.82">
+            <div class="portfolio-wrap surface-card project-card" data-description="A health risk assessment model comparing multiple classifiers to aid early detection of diabetes.">
               <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="Early Diabetes Prediction" loading="lazy" decoding="async">
               <div class="portfolio-overlay">
-                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Diabetes Prediction Model" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <div class="project-links"><a href="https://github.com/ArunR1408/Diabetes-Prediction-Model" class="project-ext" aria-label="External link to Diabetes Prediction Model" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
                 <h4 class="project-title">Diabetes Prediction Model</h4>
                 <p class="project-meta">Machine Learning</p>
-                <p class="project-snippet"><strong>Problem:</strong> early risk screening.<br><strong>Approach:</strong> compared classifiers.<br><strong>Outcome:</strong> ROC‑AUC ~0.82.</p>
-                <div class="project-actions"><a href="assets/img/portfolio/portfolio-5.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Diabetes Prediction Model screenshot" aria-label="Open image preview">View</a></div>
-                <a href="assets/img/portfolio/portfolio-5.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Diabetes Prediction Model screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-embed">
-            <div class="portfolio-wrap surface-card project-card" data-problem="Demonstrate reliable timing" data-approach="ARM7 timers + state machine" data-outcome="<1% timing drift">
+            <div class="portfolio-wrap surface-card project-card" data-description="An embedded controller implementing traffic signal sequencing with precise timer management.">
               <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="Traffic Light Simulation" loading="lazy" decoding="async">
               <div class="portfolio-overlay">
-                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Traffic Light Controller" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <div class="project-links"><a href="https://github.com/ArunR1408/Traffic-Light-Controller" class="project-ext" aria-label="External link to Traffic Light Controller" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
                 <h4 class="project-title">Traffic Light Controller</h4>
                 <p class="project-meta">Embedded Systems</p>
-                <p class="project-snippet"><strong>Problem:</strong> reliable timing.<br><strong>Approach:</strong> ARM7 timers + state machine.<br><strong>Outcome:</strong> <1% drift.</p>
-                <div class="project-actions"><a href="assets/img/portfolio/portfolio-6.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Traffic Light Controller screenshot" aria-label="Open image preview">View</a></div>
-                <a href="assets/img/portfolio/portfolio-6.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Traffic Light Controller screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
     
           <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
-            <div class="portfolio-wrap surface-card project-card" data-problem="Automate FAQs" data-approach="Intent classification + retrieval" data-outcome="~85% intent match">
+            <div class="portfolio-wrap surface-card project-card" data-description="Conversational agent using intent classification and retrieval-based response selection for FAQ automation.">
               <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="NLP Chatbot" loading="lazy" decoding="async">
               <div class="portfolio-overlay">
-                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to NLP Chatbot" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <div class="project-links"><a href="https://github.com/ArunR1408/Chatbot-NLP" class="project-ext" aria-label="External link to NLP Chatbot" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
                 <h4 class="project-title">NLP Chatbot</h4>
                 <p class="project-meta">Machine Learning</p>
-                <p class="project-snippet"><strong>Problem:</strong> automate FAQs.<br><strong>Approach:</strong> intent classification + retrieval.<br><strong>Outcome:</strong> ~85% intent match.</p>
-                <div class="project-actions"><a href="assets/img/portfolio/portfolio-9.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="NLP Chatbot screenshot" aria-label="Open image preview">View</a></div>
-                <a href="assets/img/portfolio/portfolio-9.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="NLP Chatbot screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
           </div>
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-embed">
-            <div class="portfolio-wrap surface-card project-card" data-problem="Lack of usage insight" data-approach="Low-power telemetry prototype" data-outcome="22% idle reduction">
+            <div class="portfolio-wrap surface-card project-card" data-description="Wearable/embedded fitness tracking prototype capturing movement and usage metrics for optimization.">
               <img src="assets/img/portfolio/portfolio-10.jpg" class="img-fluid" alt="Fitness Tracking System" loading="lazy" decoding="async">
               <div class="portfolio-overlay">
-                <div class="project-links"><a href="#" class="project-ext" aria-label="External link to Fitness Tracking System" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <div class="project-links"><a href="https://github.com/ArunR1408/Fitness-Tracking-System" class="project-ext" aria-label="External link to Fitness Tracking System" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
                 <h4 class="project-title">Fitness Tracking System</h4>
                 <p class="project-meta">Embedded Systems</p>
-                <p class="project-snippet"><strong>Problem:</strong> usage insight.<br><strong>Approach:</strong> low-power telemetry prototype.<br><strong>Outcome:</strong> 22% idle reduction.</p>
-                <div class="project-actions"><a href="assets/img/portfolio/portfolio-10.jpg" class="btn btn-sm btn-light portfolio-lightbox" data-gallery="portfolioGallery" title="Fitness Tracking System screenshot" aria-label="Open image preview">View</a></div>
-                <a href="assets/img/portfolio/portfolio-10.jpg" class="portfolio-lightbox stretched-link" data-gallery="portfolioGallery" title="Fitness Tracking System screenshot" aria-label="Open image preview" tabindex="-1"></a>
               </div>
             </div>
             </div>
+
+          <!-- Newly Added Projects -->
+          <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
+            <div class="portfolio-wrap surface-card project-card" data-description="Detection utility that flags AI-generated text using stylometric signals and perplexity heuristics.">
+              <img src="assets/img/portfolio/portfolio-11.jpg" class="img-fluid" alt="AI Generated Text Detection" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="https://github.com/ArunR1408/AI-Generated-Text-Detection" class="project-ext" aria-label="External link to AI Generated Text Detection" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">AI Generated Text Detection</h4>
+                <p class="project-meta">Machine Learning</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-embed">
+            <div class="portfolio-wrap surface-card project-card" data-description="Microcontroller based fan controller that dynamically adjusts speed via temperature sensing and PWM.">
+              <img src="assets/img/portfolio/portfolio-12.jpg" class="img-fluid" alt="Temperature Controlled DC Fan" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="https://github.com/ArunR1408/Temperature-Controlled-DC-Fan" class="project-ext" aria-label="External link to Temperature Controlled DC Fan" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Temperature Controlled DC Fan</h4>
+                <p class="project-meta">Embedded Systems</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <div class="portfolio-wrap surface-card project-card" data-description="A logically segmented network design for a hospital environment employing subnetting and VLAN isolation.">
+              <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="Hospital System Network Design" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="https://github.com/ArunR1408/Hospital-System-Network-Design" class="project-ext" aria-label="External link to Hospital System Network Design" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Hospital System Network Design</h4>
+                <p class="project-meta">Web & Apps</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-ml">
+            <div class="portfolio-wrap surface-card project-card" data-description="A regression modeling project benchmarking multiple approaches to predict medical insurance costs.">
+              <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="Medical Insurance Cost Prediction" loading="lazy" decoding="async">
+              <div class="portfolio-overlay">
+                <div class="project-links"><a href="https://github.com/ArunR1408/Medical-Insurance-Cost-Prediction" class="project-ext" aria-label="External link to Medical Insurance Cost Prediction" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+                <h4 class="project-title">Medical Insurance Cost Prediction</h4>
+                <p class="project-meta">Machine Learning</p>
+              </div>
+            </div>
+          </div>
     
         </div>
     
       </div>
     </section><!-- End Portfolio Section -->
 
-    <!-- Global CTA Section -->
-    <section id="cta-bottom" class="cta-bottom">
-      <div class="container" data-aos="fade-up">
-        <div class="cta-inner surface-card text-center p-5">
-          <h2 class="mb-3">Let’s Build Something</h2>
-          <p class="mb-4">Have a collaboration, research idea, or role in software, ML, or embedded systems? I’d love to hear from you.</p>
-          <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="mailto:arunr1408@gmail.com" class="btn btn-primary btn-lg"><i class="bi bi-envelope me-2" aria-hidden="true"></i>Email Me</a>
-            <a href="https://flowcv.com/resume/khlsuskqbr9o" target="_blank" rel="noopener" class="btn btn-outline-mono btn-lg"><i class="bi bi-download me-2" aria-hidden="true"></i>Resume</a>
+    <!-- Project Detail Modal (custom) -->
+    <div id="project-modal" class="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Project detail">
+      <div class="project-modal-backdrop" data-close="pm" tabindex="-1"></div>
+      <div class="project-modal-dialog single" role="document">
+        <div class="project-modal-body">
+          <div class="pm-header single-center">
+            <div class="pm-primary-media centered-img"><img src="" alt="Project image" class="pm-img" loading="lazy"></div>
+          </div>
+          <div class="pm-content centered">
+            <h3 class="pm-title text-center"></h3>
+            <p class="pm-category text-muted small mb-3 text-center"></p>
+            <div class="pm-description"></div>
+            <div class="pm-links d-flex flex-wrap gap-2 justify-content-center mt-4"></div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+
 
   <!-- Case Studies section removed -->
 
@@ -597,79 +615,75 @@
             </div>
           </div>
         </div>
-        <!-- Certificates slider -->
-        <div class="certifications" data-aos="fade-up" data-aos-delay="200">
-          <div class="cert-slider-wrapper">
-            <button class="cert-btn prev" aria-label="Previous certificate"><i class="bi bi-chevron-left"></i></button>
-            <div class="swiper cert-swiper">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <div class="cert-card surface-card">
-                    <div class="badge-header">
-                      <div class="badge-logo"><img src="assets/img/logos/Google.svg" alt="Google logo"/></div>
-                      <div class="badge-meta">
-                        <h4>Google Cloud Arcade: Future Ready Skills</h4>
-                        <a class="issuer" href="https://cloud.google.com" target="_blank" rel="noopener">Google</a>
-                        <div class="issued"><i class="bi bi-calendar-event"></i> Issued Aug 2025</div>
-                      </div>
-                    </div>
-                    <p class="credential-id small text-muted">Credential ID: 17662426</p>
-                    <div class="actions">
-                      <a href="https://www.cloudskillsboost.google/public_profiles" target="_blank" rel="noopener" class="btn btn-badge">View Badge</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="cert-card surface-card">
-                    <div class="badge-header">
-                      <div class="badge-logo"><img src="assets/img/logos/Google.svg" alt="Google logo"/></div>
-                      <div class="badge-meta">
-                        <h4>Introduction to Generative AI</h4>
-                        <a class="issuer" href="#" target="_blank" rel="noopener">Google</a>
-                        <div class="issued"><i class="bi bi-calendar-event"></i> Issued May 2025</div>
-                      </div>
-                    </div>
-                    <p class="credential-id small text-muted">Credential ID: —</p>
-                    <div class="actions">
-                      <a href="#" class="btn btn-badge" target="_blank" rel="noopener">View Certificate</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="cert-card surface-card">
-                    <div class="badge-header">
-                      <div class="badge-logo"><img src="assets/img/logos/Google.svg" alt="Google logo"/></div>
-                      <div class="badge-meta">
-                        <h4>Introduction to Responsible AI</h4>
-                        <a class="issuer" href="#" target="_blank" rel="noopener">Google</a>
-                        <div class="issued"><i class="bi bi-calendar-event"></i> Issued May 2025</div>
-                      </div>
-                    </div>
-                    <p class="credential-id small text-muted">Credential ID: —</p>
-                    <div class="actions">
-                      <a href="#" class="btn btn-badge" target="_blank" rel="noopener">View Certificate</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="cert-card surface-card">
-                    <div class="badge-header">
-                      <div class="badge-logo"><img src="assets/img/logos/kaggle.png" alt="Kaggle logo"/></div>
-                      <div class="badge-meta">
-                        <h4>Intro to Machine Learning</h4>
-                        <a class="issuer" href="https://www.kaggle.com" target="_blank" rel="noopener">Kaggle</a>
-                        <div class="issued"><i class="bi bi-calendar-event"></i> Issued Aug 2023</div>
-                      </div>
-                    </div>
-                    <p class="credential-id">Credential ID: —</p>
-                    <div class="actions">
-                      <a href="https://www.kaggle.com/learn/certification" class="btn btn-badge" target="_blank" rel="noopener">View Certificate</a>
-                    </div>
-                  </div>
-                </div>
+        <!-- Certificates grid (restored classic style) -->
+        <div class="certificates-grid" data-aos="fade-up" data-aos-delay="180">
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+              <div class="certificate-box">
+                <div class="cert-preview"><img src="assets/img/portfolio/portfolio-details-1.jpg" alt="Future Ready Skills badge" loading="lazy"></div>
+                <h5 class="cert-title">Future Ready Skills</h5>
+                <p class="cert-issuer">Google Cloud Arcade • Aug 19, 2025</p>
+                <ul class="cert-tags">
+                  <li>Cloud</li><li>Compute</li><li>IAM</li>
+                </ul>
+                <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/17664868" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
               </div>
             </div>
-            <button class="cert-btn next" aria-label="Next certificate"><i class="bi bi-chevron-right"></i></button>
+            <div class="col-md-6 col-lg-4">
+              <div class="certificate-box">
+                <div class="cert-preview"><img src="assets/img/portfolio/portfolio-details-2.jpg" alt="Introduction to Responsible AI" loading="lazy"></div>
+                <h5 class="cert-title">Introduction to Responsible AI</h5>
+                <p class="cert-issuer">Google • May 6, 2025</p>
+                <ul class="cert-tags">
+                  <li>Responsible AI</li><li>Ethics</li><li>Governance</li>
+                </ul>
+                <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/15567442" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="certificate-box">
+                <div class="cert-preview"><img src="assets/img/portfolio/portfolio-details-3.jpg" alt="Introduction to Generative AI" loading="lazy"></div>
+                <h5 class="cert-title">Introduction to Generative AI</h5>
+                <p class="cert-issuer">Google • May 6, 2025</p>
+                <ul class="cert-tags">
+                  <li>Generative AI</li><li>LLMs</li><li>Foundations</li>
+                </ul>
+                <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/15567221" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="certificate-box">
+                <div class="cert-preview"><img src="assets/img/portfolio/portfolio-7.jpg" alt="AWS Fundamentals Udemy certificate" loading="lazy"></div>
+                <h5 class="cert-title">Cloud Computing & AWS Fundamentals</h5>
+                <p class="cert-issuer">Udemy • Aug 23, 2023</p>
+                <ul class="cert-tags">
+                  <li>AWS</li><li>S3</li><li>EC2</li>
+                </ul>
+                <div class="cert-actions"><a href="https://www.udemy.com/certificate/UC-9e03548a-3100-40b0-8992-bf2c60377426/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="certificate-box">
+                <div class="cert-preview"><img src="assets/img/portfolio/portfolio-8.jpg" alt="Data Science & ML Udemy certificate" loading="lazy"></div>
+                <h5 class="cert-title">Data Science & ML Basic to Advanced</h5>
+                <p class="cert-issuer">Udemy • Apr 16, 2023</p>
+                <ul class="cert-tags">
+                  <li>Data Science</li><li>ML</li><li>Deployment</li>
+                </ul>
+                <div class="cert-actions"><a href="https://www.udemy.com/certificate/UC-0ec55c49-634f-465c-87dc-b3dd00ebdd12/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="certificate-box">
+                <div class="cert-preview"><img src="assets/img/logos/kaggle.png" alt="Kaggle Intro to Machine Learning" loading="lazy"></div>
+                <h5 class="cert-title">Intro to Machine Learning</h5>
+                <p class="cert-issuer">Kaggle • Aug 2023</p>
+                <ul class="cert-tags">
+                  <li>ML</li><li>Feature Eng</li><li>Validation</li>
+                </ul>
+                <div class="cert-actions"><a href="https://www.kaggle.com/learn/certification/arunr1408/intro-to-machine-learning" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -679,9 +693,10 @@
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
 
-        <div class="section-title">
+        <div class="section-title text-center">
           <h2>Contact</h2>
-          <p>Feel free to reach out to me for collaborations, questions, or just to connect. I'm always interested in discussing new projects and opportunities.</p>
+          <p class="lead">Let’s build something. Have a collaboration, research idea, or role in software, ML, or embedded systems? I’d love to hear from you. Feel free to reach out for opportunities, questions, or just to connect.</p>
+
         </div>
 
         <div class="row mt-1">
@@ -696,7 +711,9 @@
                 </div>
               </div>
               <div class="info-item email">
-                <i class="bi bi-envelope"></i>
+                <a href="mailto:arun1892003@gmail.com" class="email-icon-link" aria-label="Send email to arun1892003@gmail.com">
+                  <i class="bi bi-envelope"></i>
+                </a>
                 <div>
                   <h4 class="mb-1">Email</h4>
                   <p class="mb-0 small"><a href="mailto:arun1892003@gmail.com" class="text-decoration-none">arun1892003@gmail.com</a></p>
