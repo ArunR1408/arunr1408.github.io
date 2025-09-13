@@ -147,7 +147,7 @@
   <main id="main">
 
   <!-- ======= About Section ======= -->
-  <section id="about" class="about">
+  <section id="about" class="about section-gap">
     <div class="container" data-aos="fade-up">
       <div class="section-title">
         <h2>About</h2>
@@ -159,13 +159,11 @@
           <img src="assets/img/profile-img.jpg" class="img-fluid about-photo" alt="Profile photo of Arun R" data-aos="fade-in" data-aos-delay="120" loading="lazy" decoding="async">
         </div>
         <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-up" data-aos-delay="180">
-          <h3 class="about-subtitle">Electronics and Computer Engineer &amp; Tech Enthusiast.</h3>
           <hr class="about-divider" aria-hidden="true" />
-          <p data-aos="fade-up" data-aos-delay="200">I’ve had the opportunity to work with research groups like Humanitarian Technology (HUT) Labs, the Centre for Flexible Electronics and Advanced Materials, and AMMACHI Labs (Amrita Multi Modal Applications Using Computer &amp; Human Interaction). During this time, I collaborated on projects with the University of Tennessee and contributed to the academic community as a conference presenter and reviewer. I also co-authored publications, which gave me valuable experience in research and technical writing.</p>
-          <!-- Removed City & Email (already present in Contact) -->
-          <p data-aos="fade-up" data-aos-delay="240">Right now, I’m expanding my skills in software engineering, focusing on Java and modern development practices, and I’m also working on a journal paper on autonomous vehicle technology.</p>
-          <p class="spaced-before" data-aos="fade-up" data-aos-delay="280">Outside of academics and work, I often find myself drawn to creative and curious pursuits. Photography and color grading let me see the world differently, while gaming and cinema open doors to new kinds of storytelling. I’ve always been fascinated by maps and cultures, which makes travel and geography a natural interest. And above all, I like staying curious—whether it’s exploring the latest in tech or simply learning something new about the world around me.</p>
-          <p data-aos="fade-up" data-aos-delay="320">I’m always open to new opportunities, collaborations, and conversations that lead to learning and growth.</p>
+          <p data-aos="fade-up" data-aos-delay="200">I’ve worked with research groups like Humanitarian Technology Labs, the Centre for Flexible Electronics and Advanced Materials, and AMMACHI Labs. I collaborated on projects with the University of Tennessee, presented at conferences, reviewed papers, and co-authored publications—gaining strong research and technical writing experience.</p>
+          <p data-aos="fade-up" data-aos-delay="240">Currently, I’m building skills in software engineering with Java and modern practices, while also expanding my knowledge and staying updated with the latest in technology.</p>
+          <p class="spaced-before" data-aos="fade-up" data-aos-delay="280">Beyond academics and work, I enjoy photography, color grading, gaming, and cinema for their creativity and storytelling. Maps, travel, and cultures fuel my curiosity, and I’m always eager to explore new ideas and technologies.</p>
+          <p data-aos="fade-up" data-aos-delay="320">I’m open to new opportunities, collaborations, and conversations that encourage learning and growth.</p>
         </div>
       </div>
     </div>
@@ -285,9 +283,6 @@
           </button>
           <button class="skill-chip" data-cat="tools">
             <span class="name"><i class="bi bi-terminal"></i>Linux</span>
-          </button>
-          <button class="skill-chip" data-cat="tools">
-            <span class="name"><i class="bi bi-journal-code"></i>Jupyter Notebook</span>
           </button>
           <button class="skill-chip" data-cat="tools">
             <span class="name"><i class="bi bi-braces"></i>Flask</span>
@@ -625,115 +620,126 @@
             </div>
           </div>
         </div>
-        <!-- Certificates grid (restored classic style) -->
-        <div class="certificates-grid" data-aos="fade-up" data-aos-delay="180">
-          <div class="row g-4">
-            <!-- 1. Future Ready Skills -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-1.jpg" alt="Future Ready Skills badge" loading="lazy"></div>
-                <h5 class="cert-title">Future Ready Skills</h5>
-                <p class="cert-issuer">Google Cloud Arcade • Aug 19, 2025</p>
-                <ul class="cert-tags">
-                  <li>Cloud</li><li>Compute</li><li>IAM</li>
-                </ul>
-                <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/17664868" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
+        <!-- Certificates Carousel -->
+        <div class="certificates-carousel-container" data-aos="fade-up" data-aos-delay="180">
+          <!-- Navigation Arrows -->
+          <button class="cert-nav cert-nav-prev" aria-label="Previous certificates">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <button class="cert-nav cert-nav-next" aria-label="Next certificates">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+          
+          <!-- Carousel Track -->
+          <div class="certificates-carousel" tabindex="0" role="region" aria-label="Certificates slider">
+            <div class="cert-track">
+              <!-- 1. Future Ready Skills -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-1.jpg" alt="Future Ready Skills badge" loading="lazy"></div>
+                  <h5 class="cert-title">Future Ready Skills</h5>
+                  <p class="cert-issuer">Google Cloud Arcade • Aug 19, 2025</p>
+                  <ul class="cert-tags">
+                    <li>Cloud</li><li>Compute</li><li>IAM</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/17664868" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
+                </div>
               </div>
-            </div>
-            <!-- 2. Data Science & Machine Learning -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-5.jpg" alt="Data Science & ML Udemy certificate" loading="lazy"></div>
-                <h5 class="cert-title">Data Science & Machine Learning</h5>
-                <p class="cert-issuer">Udemy • Apr 16, 2023</p>
-                <ul class="cert-tags">
-                  <li>Data Science</li><li>ML</li><li>Deployment</li>
-                </ul>
-                <div class="cert-actions"><a href="https://www.udemy.com/certificate/UC-0ec55c49-634f-465c-87dc-b3dd00ebdd12/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              <!-- 2. Data Science & Machine Learning -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-5.jpg" alt="Data Science & ML Udemy certificate" loading="lazy"></div>
+                  <h5 class="cert-title">Data Science & Machine Learning</h5>
+                  <p class="cert-issuer">Udemy • Apr 16, 2023</p>
+                  <ul class="cert-tags">
+                    <li>Data Science</li><li>ML</li><li>Deployment</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://www.udemy.com/certificate/UC-0ec55c49-634f-465c-87dc-b3dd00ebdd12/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+                </div>
               </div>
-            </div>
-            <!-- 3. Cloud Computing & AWS Fundamentals -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-4.jpg" alt="AWS Fundamentals Udemy certificate" loading="lazy"></div>
-                <h5 class="cert-title">Cloud Computing & AWS Fundamentals</h5>
-                <p class="cert-issuer">Udemy • Aug 23, 2023</p>
-                <ul class="cert-tags">
-                  <li>AWS</li><li>S3</li><li>EC2</li>
-                </ul>
-                <div class="cert-actions"><a href="https://www.udemy.com/certificate/UC-9e03548a-3100-40b0-8992-bf2c60377426/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              <!-- 3. Cloud Computing & AWS Fundamentals -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-4.jpg" alt="AWS Fundamentals Udemy certificate" loading="lazy"></div>
+                  <h5 class="cert-title">Cloud Computing & AWS Fundamentals</h5>
+                  <p class="cert-issuer">Udemy • Aug 23, 2023</p>
+                  <ul class="cert-tags">
+                    <li>AWS</li><li>S3</li><li>EC2</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://www.udemy.com/certificate/UC-9e03548a-3100-40b0-8992-bf2c60377426/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+                </div>
               </div>
-            </div>
-            <!-- 4. IEEE Young Professionals Certificate -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-9.jpg" alt="Young Professionals Membership Certificate" loading="lazy"></div>
-                <h5 class="cert-title">IEEE Young Professionals Certificate</h5>
-                <p class="cert-issuer">IEEE • 2025</p>
-                <ul class="cert-tags">
-                  <li>IEEE</li>
-                </ul>
-                <div class="cert-actions"><a href="https://drive.google.com/file/d/1deB_cU4Vd7ES3yUKLf0c9Hp54Q2m4xRe/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              <!-- 4. IEEE Young Professionals Certificate -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-9.jpg" alt="Young Professionals Membership Certificate" loading="lazy"></div>
+                  <h5 class="cert-title">IEEE Young Professionals Certificate</h5>
+                  <p class="cert-issuer">IEEE • 2025</p>
+                  <ul class="cert-tags">
+                    <li>IEEE</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://drive.google.com/file/d/1deB_cU4Vd7ES3yUKLf0c9Hp54Q2m4xRe/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+                </div>
               </div>
-            </div>
-            <!-- 5. Introduction to Generative AI -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-2.jpg" alt="Introduction to Generative AI" loading="lazy"></div>
-                <h5 class="cert-title">Introduction to Generative AI</h5>
-                <p class="cert-issuer">Google • May 6, 2025</p>
-                <ul class="cert-tags">
-                  <li>Generative AI</li><li>LLMs</li><li>Foundations</li>
-                </ul>
-                <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/15567221" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
+              <!-- 5. Introduction to Generative AI -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-2.jpg" alt="Introduction to Generative AI" loading="lazy"></div>
+                  <h5 class="cert-title">Introduction to Generative AI</h5>
+                  <p class="cert-issuer">Google • May 6, 2025</p>
+                  <ul class="cert-tags">
+                    <li>Generative AI</li><li>LLMs</li><li>Foundations</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/15567221" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
+                </div>
               </div>
-            </div>
-            <!-- 6. Introduction to Responsible AI -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-3.jpg" alt="Introduction to Responsible AI" loading="lazy"></div>
-                <h5 class="cert-title">Introduction to Responsible AI</h5>
-                <p class="cert-issuer">Google • May 6, 2025</p>
-                <ul class="cert-tags">
-                  <li>Responsible AI</li><li>Ethics</li><li>Governance</li>
-                </ul>
-                <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/15567442" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
+              <!-- 6. Introduction to Responsible AI -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-3.jpg" alt="Introduction to Responsible AI" loading="lazy"></div>
+                  <h5 class="cert-title">Introduction to Responsible AI</h5>
+                  <p class="cert-issuer">Google • May 6, 2025</p>
+                  <ul class="cert-tags">
+                    <li>Responsible AI</li><li>Ethics</li><li>Governance</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://www.cloudskillsboost.google/public_profiles/424e35c4-8f2e-4a53-8388-505384174865/badges/15567442" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Badge</a></div>
+                </div>
               </div>
-            </div>
-            <!-- 7. Signal Processing Onramp -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-8.jpg" alt="Signal Processing Onramp certificate" loading="lazy"></div>
-                <h5 class="cert-title">Signal Processing Onramp</h5>
-                <p class="cert-issuer">MathWorks • Apr 14, 2023</p>
-                <ul class="cert-tags">
-                  <li>Signal Processing</li>
-                </ul>
-                <div class="cert-actions"><a href="https://drive.google.com/file/d/1EjDFVqR5UpW_EmW2NaWiVHOx41XgtndP/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              <!-- 7. Signal Processing Onramp -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-8.jpg" alt="Signal Processing Onramp certificate" loading="lazy"></div>
+                  <h5 class="cert-title">Signal Processing Onramp</h5>
+                  <p class="cert-issuer">MathWorks • Apr 14, 2023</p>
+                  <ul class="cert-tags">
+                    <li>Signal Processing</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://drive.google.com/file/d/1EjDFVqR5UpW_EmW2NaWiVHOx41XgtndP/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+                </div>
               </div>
-            </div>
-            <!-- 8. Intro to Machine Learning -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-6.jpg" alt="Kaggle Intro to Machine Learning" loading="lazy"></div>
-                <h5 class="cert-title">Intro to Machine Learning</h5>
-                <p class="cert-issuer">Kaggle • Aug 2023</p>
-                <ul class="cert-tags">
-                  <li>ML</li><li>Feature Eng</li><li>Validation</li>
-                </ul>
-                <div class="cert-actions"><a href="https://www.kaggle.com/learn/certification/arunr1408/intro-to-machine-learning" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              <!-- 8. Intro to Machine Learning -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-6.jpg" alt="Kaggle Intro to Machine Learning" loading="lazy"></div>
+                  <h5 class="cert-title">Intro to Machine Learning</h5>
+                  <p class="cert-issuer">Kaggle • Aug 2023</p>
+                  <ul class="cert-tags">
+                    <li>ML</li><li>Feature Eng</li><li>Validation</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://www.kaggle.com/learn/certification/arunr1408/intro-to-machine-learning" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+                </div>
               </div>
-            </div>
-            <!-- 9. MATLAB Onramp -->
-            <div class="col-md-6 col-lg-4">
-              <div class="certificate-box">
-                <div class="cert-preview"><img src="assets/img/certifications/certificate-7.jpg" alt="MATLAB Onramp certificate" loading="lazy"></div>
-                <h5 class="cert-title">MATLAB Onramp</h5>
-                <p class="cert-issuer">MathWorks • Apr 01, 2023</p>
-                <ul class="cert-tags">
-                  <li>MATLAB</li>
-                </ul>
-                <div class="cert-actions"><a href="https://drive.google.com/file/d/1PdlRzBcX2V8z6Vmu70GemYdADCVsTcQ8/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+              <!-- 9. MATLAB Onramp -->
+              <div class="cert-slide">
+                <div class="certificate-box">
+                  <div class="cert-preview"><img src="assets/img/certifications/certificate-7.jpg" alt="MATLAB Onramp certificate" loading="lazy"></div>
+                  <h5 class="cert-title">MATLAB Onramp</h5>
+                  <p class="cert-issuer">MathWorks • Apr 01, 2023</p>
+                  <ul class="cert-tags">
+                    <li>MATLAB</li>
+                  </ul>
+                  <div class="cert-actions"><a href="https://drive.google.com/file/d/1PdlRzBcX2V8z6Vmu70GemYdADCVsTcQ8/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">View Certificate</a></div>
+                </div>
               </div>
             </div>
           </div>

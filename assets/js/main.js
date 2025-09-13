@@ -1412,4 +1412,293 @@
     }
   })();
 
+  /**
+   * Certificates Carousel Functionality
+   */
+  (function initCertificatesCarousel() {
+    document.addEventListener('DOMContentLoaded', () => {
+      const carousel = document.querySelector('.certificates-carousel');
+      const track = document.querySelector('.cert-track');
+      const slides = document.querySelectorAll('.cert-slide');
+      const prevBtn = document.querySelector('.cert-nav-prev');
+      const nextBtn = document.querySelector('.cert-nav-next');
+      
+      if (!carousel || !track || !slides.length || !prevBtn || !nextBtn) return;
+      
+      let currentIndex = 0;
+      let isTransitioning = false;
+      let startX = 0;
+      let currentX = 0;
+      let isDragging = false;
+      let startTransform = 0;
+      
+      // Get visible slides count based on screen size
+      const getVisibleSlidesCount = () => {
+        const width = window.innerWidth;
+        if (width >= 1200) return 3;
+        if (width >= 768) return 2;
+        if (width >= 576) return 2;
+        return 1;
+      };
+      
+      // Get slide width including gap
+      const getSlideWidth = () => {
+        const slideElement = slides[0];
+        const style = window.getComputedStyle(slideElement);
+        const width = slideElement.offsetWidth;
+        const marginRight = parseInt(style.marginRight) || 0;
+        return width + marginRight;
+      };
+      
+      // Calculate maximum index
+      const getMaxIndex = () => {
+        const visibleCount = getVisibleSlidesCount();
+        return Math.max(0, slides.length - visibleCount);
+      };
+      
+      // Update carousel position
+      const updateCarousel = (animate = true, customDuration = 0.5) => {
+        if (!animate) {
+          track.style.transition = 'none';
+        } else {
+          track.style.transition = `transform ${customDuration}s cubic-bezier(0.25, 0.1, 0.25, 1)`;
+        }
+        
+        const slideWidth = getSlideWidth();
+        const translateX = -currentIndex * slideWidth;
+        track.style.transform = `translateX(${translateX}px)`;
+        
+        // Update button states
+        prevBtn.disabled = currentIndex <= 0;
+        nextBtn.disabled = currentIndex >= getMaxIndex();
+        
+        if (!animate) {
+          // Re-enable transition after a frame
+          requestAnimationFrame(() => {
+            track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+          });
+        }
+      };
+      
+      // Bounce animation
+      const addBounceEffect = (direction) => {
+        track.classList.remove('bounce-left', 'bounce-right');
+        requestAnimationFrame(() => {
+          track.classList.add(`bounce-${direction}`);
+        });
+        setTimeout(() => {
+          track.classList.remove('bounce-left', 'bounce-right');
+        }, 300);
+      };
+      
+      // Move to specific slide
+      const goToSlide = (index) => {
+        if (isTransitioning) return;
+        
+        const maxIndex = getMaxIndex();
+        const newIndex = Math.max(0, Math.min(index, maxIndex));
+        
+        if (newIndex === currentIndex) {
+          // Add bounce effect if trying to go beyond limits
+          if (index < 0) addBounceEffect('left');
+          if (index > maxIndex) addBounceEffect('right');
+          return;
+        }
+        
+        isTransitioning = true;
+        currentIndex = newIndex;
+        updateCarousel();
+        
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 400);
+      };
+      
+      // Navigation handlers
+      const goNext = () => goToSlide(currentIndex + 1);
+      const goPrev = () => goToSlide(currentIndex - 1);
+      
+      // Event listeners
+      prevBtn.addEventListener('click', goPrev);
+      nextBtn.addEventListener('click', goNext);
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        // Only handle arrow keys when carousel is in view or focused
+        const carouselRect = carousel.getBoundingClientRect();
+        const isInView = carouselRect.top < window.innerHeight && carouselRect.bottom > 0;
+        
+        if (isInView && !isTransitioning) {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            goPrev();
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            goNext();
+          }
+        }
+      });
+      
+      // Enhanced mouse drag functionality with smoother animations
+      let dragVelocity = 0;
+      let lastDragTime = 0;
+      let lastDragX = 0;
+      
+      const handleDragStart = (clientX) => {
+        if (isTransitioning) return false;
+        
+        isDragging = true;
+        startX = clientX;
+        currentX = clientX;
+        lastDragX = clientX;
+        lastDragTime = Date.now();
+        dragVelocity = 0;
+        
+        // Get current transform value
+        const style = window.getComputedStyle(track);
+        const matrix = new DOMMatrix(style.transform);
+        startTransform = matrix.m41; // translateX value
+        
+        carousel.style.cursor = 'grabbing';
+        track.style.transition = 'none';
+        track.style.willChange = 'transform';
+        return true;
+      };
+      
+      const handleDragMove = (clientX) => {
+        if (!isDragging) return;
+        
+        const now = Date.now();
+        const timeDelta = now - lastDragTime;
+        
+        currentX = clientX;
+        const deltaX = currentX - startX;
+        const moveDelta = clientX - lastDragX;
+        
+        // Calculate velocity for momentum
+        if (timeDelta > 0) {
+          dragVelocity = moveDelta / timeDelta;
+        }
+        
+        lastDragX = clientX;
+        lastDragTime = now;
+        
+        const newTransform = startTransform + deltaX;
+        
+        // Add smoother resistance at boundaries
+        const slideWidth = getSlideWidth();
+        const maxTransform = 0;
+        const minTransform = -getMaxIndex() * slideWidth;
+        
+        let resistanceTransform = newTransform;
+        if (newTransform > maxTransform) {
+          const excess = newTransform - maxTransform;
+          // Smoother resistance curve
+          resistanceTransform = maxTransform + excess * (0.4 / (1 + excess * 0.01));
+        } else if (newTransform < minTransform) {
+          const excess = minTransform - newTransform;
+          resistanceTransform = minTransform - excess * (0.4 / (1 + excess * 0.01));
+        }
+        
+        track.style.transform = `translateX(${resistanceTransform}px)`;
+      };
+      
+      const handleDragEnd = () => {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        carousel.style.cursor = 'grab';
+        track.style.willChange = 'auto';
+        
+        const deltaX = currentX - startX;
+        const slideWidth = getSlideWidth();
+        
+        // Enhanced momentum-based navigation
+        const velocityThreshold = 0.5;
+        const distanceThreshold = slideWidth * 0.15;
+        
+        let newIndex = currentIndex;
+        
+        // Use velocity for quick swipes or distance for slow drags
+        if (Math.abs(dragVelocity) > velocityThreshold) {
+          if (dragVelocity > 0) {
+            newIndex = currentIndex - 1;
+          } else {
+            newIndex = currentIndex + 1;
+          }
+        } else if (Math.abs(deltaX) > distanceThreshold) {
+          if (deltaX > 0) {
+            newIndex = currentIndex - 1;
+          } else {
+            newIndex = currentIndex + 1;
+          }
+        }
+        
+        // Smoother transition based on drag distance
+        const dragRatio = Math.min(Math.abs(deltaX) / slideWidth, 1);
+        const duration = 0.3 + (dragRatio * 0.3); // 0.3s to 0.6s based on drag
+        
+        isTransitioning = true;
+        const maxIndex = getMaxIndex();
+        const finalIndex = Math.max(0, Math.min(newIndex, maxIndex));
+        
+        if (finalIndex === currentIndex) {
+          // Add bounce effect with smoother animation
+          if (newIndex < 0) addBounceEffect('left');
+          if (newIndex > maxIndex) addBounceEffect('right');
+          track.style.transition = `transform ${duration}s cubic-bezier(0.25, 0.1, 0.25, 1)`;
+          updateCarousel(true, duration);
+        } else {
+          currentIndex = finalIndex;
+          updateCarousel(true, duration);
+        }
+        
+        setTimeout(() => {
+          isTransitioning = false;
+        }, duration * 1000);
+      };
+      
+      // Mouse events
+      carousel.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        handleDragStart(e.clientX);
+      });
+      
+      document.addEventListener('mousemove', (e) => {
+        handleDragMove(e.clientX);
+      });
+      
+      document.addEventListener('mouseup', handleDragEnd);
+      
+      // Touch events for mobile
+      carousel.addEventListener('touchstart', (e) => {
+        handleDragStart(e.touches[0].clientX);
+      }, { passive: true });
+      
+      carousel.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        handleDragMove(e.touches[0].clientX);
+      }, { passive: false });
+      
+      carousel.addEventListener('touchend', handleDragEnd);
+      
+      // Handle resize
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          // Reset to valid index on resize
+          const maxIndex = getMaxIndex();
+          if (currentIndex > maxIndex) {
+            currentIndex = maxIndex;
+          }
+          updateCarousel(false);
+        }, 150);
+      });
+      
+      // Initialize
+      updateCarousel(false);
+    });
+  })();
+
 })()
