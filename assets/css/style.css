@@ -1,10 +1,3 @@
-/**
-* Template Name: MyResume - v4.10.0
-* Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
@@ -2292,19 +2285,9 @@ select.form-control {
 .publications .pub-card .venue { font-size: .9rem; color: var(--muted); margin-bottom: .75rem; font-weight: 500; text-align: center; }
 .publications .pub-card .desc { text-align: center; }
 .publications .pub-card .actions { margin-top: auto; display:flex; justify-content:center; }
-/* Newspaper tear decorative edge (desktop only) */
+/* Newspaper tear decorative edge removed per request */
 @media (min-width: 992px) {
   .publications .pub-card { position: relative; }
-  .publications .pub-card::after {
-    content:""; position:absolute; left:0; right:0; bottom:-14px; height:14px;
-    background: radial-gradient(circle at 8px 8px, rgba(255,255,255,0.12) 0 6px, transparent 7px) repeat-x;
-    background-size:16px 16px;
-    mask:linear-gradient(to bottom, #000 40%, transparent 100%);
-    opacity:.45; pointer-events:none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .publications .pub-card::after { opacity:.3; }
-  }
 }
 
 /* Unified surface card */
@@ -2839,4 +2822,34 @@ select.form-control {
 .cert-card .badge-meta .issuer { margin:0 0 4px; }
 .cert-card .issued { margin:0; font-size:.85rem; }
 .cert-card .skill-tags { display:none !important; }
+
+/* ------------------------------------------------------------------
+   Featured publication highlight (single-card) — simplified
+   Keeps a subtle gold border on hover but removes the pill and any
+   gold-tinted box-shadow per user's request.
+------------------------------------------------------------------ */
+.publications .pub-card.featured {
+  /* subtle gold-tinged border (muted) so the card is still distinguished */
+  border: 1px solid rgba(255, 215, 0, 0.10);
+  position: relative;
+  overflow: visible;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease, border-color .24s ease;
+}
+
+.publications .pub-card.featured h4 {
+  /* keep title crisp — remove warm text-shadow */
+  text-shadow: none;
+}
+
+.publications .pub-card.featured:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(255,215,0,0.20);
+  /* revert to the neutral elevated shadow used by other cards */
+  box-shadow: 0 12px 32px -10px rgba(0,0,0,0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .publications .pub-card.featured { transition: none !important; transform: none !important; }
+}
+
 
