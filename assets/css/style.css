@@ -649,6 +649,62 @@ section { background: transparent; }
 .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
 .btn:active { transform: translateY(0) scale(0.98); box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
 
+/* Footer Connect button: pill-shaped, aligned with other buttons */
+.connect-btn {
+  border-radius: 999px; /* pill */
+  padding: 8px 16px; /* wider horizontal padding */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  font-weight: 600;
+}
+.connect-btn i { font-size: 1rem; line-height: 0; }
+
+/* Strong footer override: ensure pill-shaped large button replacing small social icons */
+#footer .social-links .connect-btn {
+  border-radius: 999px !important;
+  padding: 10px 20px !important;
+  min-width: 220px;
+  min-height: 44px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Match the contact form send button theme: primary background + dark text */
+#footer .social-links .connect-btn {
+  background: var(--primary) !important;
+  color: #ffffff !important; /* white text as requested */
+  border: 0 !important;
+}
+#footer .social-links .connect-btn:hover,
+#footer .social-links .connect-btn:focus {
+  background: #0678e3 !important; /* same hover as contact send button */
+  color: #ffffff !important;
+}
+
+/* Extra polish: shadow, hover lift, focus ring, responsive layout */
+#footer .social-links .connect-btn {
+  box-shadow: 0 8px 30px rgba(var(--primary-rgb), 0.16);
+  transition: transform .18s ease, box-shadow .18s ease, background .12s ease;
+}
+#footer .social-links .connect-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(var(--primary-rgb), 0.22); }
+#footer .social-links .connect-btn:focus-visible { outline: 3px solid rgba(78,168,255,0.14); outline-offset: 3px; }
+
+@media (max-width: 576px) {
+  /* full-width pill on small screens for better tap target */
+  #footer .social-links .connect-btn {
+    display: block !important;
+    width: calc(100% - 40px);
+    max-width: 420px;
+    margin: 8px auto;
+    min-width: 0;
+  }
+}
+
 /* Skill chips interactions */
 .skill-chip { transition: transform .18s ease, box-shadow .22s ease, background-color .22s ease; will-change: transform; }
 .skill-chip:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.22); }
