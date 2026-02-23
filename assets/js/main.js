@@ -188,6 +188,22 @@
   }
 
   /**
+   * Header scroll effect - adds "scrolled" class for enhanced backdrop
+   */
+  const header = select('#header');
+  if (header) {
+    const handleHeaderScroll = () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    };
+    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+    handleHeaderScroll(); // Call on load
+  }
+
+  /**
    * Mobile nav toggle
    */
   on('click', '.mobile-nav-toggle', function(e) {

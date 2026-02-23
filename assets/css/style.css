@@ -38,6 +38,19 @@ h6 {
   --section-bg: #f7f8fa;
   --danger: #ed3c0d;
   --success: #18d26e;
+
+  /* Motion tokens (centralized) */
+  --dur-instant: 120ms;
+  --dur-fast: 180ms;
+  --dur-short: 220ms;
+  --dur-medium: 360ms;
+  --dur-long: 600ms;
+  --dur-float: 6.8s;
+  --stagger: 80ms;
+
+  --ease-std: cubic-bezier(.18,.8,.25,1);
+  --ease-snappy: cubic-bezier(.2,0,.35,1);
+  --ease-soft: cubic-bezier(.22,.9,.27,1);
 }
 
 /* Dark theme overrides */
@@ -64,17 +77,17 @@ body.dark {
   border: 1px solid rgba(255,255,255,0.04);
   box-shadow: 0 18px 40px rgba(2,6,23,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
   background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
-  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, filter .35s ease;
+  transition: transform var(--dur-medium) var(--ease-std), box-shadow var(--dur-short) var(--ease-std), filter var(--dur-short) var(--ease-std);
   -webkit-user-drag: none;
 }
 @media (min-width: 992px) { .about .about-photo { top: 16px; } }
 @media (max-width: 991.98px) { .about .about-photo { margin-left: auto; margin-right: auto; } }
 
 /* Fallback fade-in for about photo when AOS is unavailable */
-.about .about-photo { opacity: 0; transform: translateY(8px); transition: opacity .6s ease, transform .6s ease; }
+.about .about-photo { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-medium) var(--ease-std), transform var(--dur-medium) var(--ease-std); }
 body.aos-animate .about .about-photo, html.aos-enabled .about .about-photo { opacity: 1; transform: translateY(0); }
 
-.about .about-photo:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 26px 56px rgba(2,6,23,0.55); filter: saturate(1.03); }
+.about .about-photo:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 26px 56px rgba(2,6,23,0.55); filter: saturate(1.03); transition: transform var(--dur-short) var(--ease-snappy), box-shadow var(--dur-short) var(--ease-std), filter var(--dur-short) var(--ease-std); }
 
 /* Gentle floating animation for the about photo (subtle, slow) */
 @keyframes aboutFloat {
@@ -82,7 +95,7 @@ body.aos-animate .about .about-photo, html.aos-enabled .about .about-photo { opa
   50% { transform: translateY(-6px) translateZ(0); }
   100% { transform: translateY(0) translateZ(0); }
 }
-.about .about-photo { animation: aboutFloat 6.8s ease-in-out infinite; }
+.about .about-photo { animation: aboutFloat var(--dur-float) var(--ease-soft) infinite; }
 /* Slightly speed up on hover but keep it smooth */
 .about .about-photo:hover { animation-duration: 4s; }
 
@@ -280,6 +293,22 @@ section { background: transparent; }
 .portfolio .portfolio-wrap .portfolio-info h4, .portfolio .portfolio-wrap .portfolio-info p { color: var(--fg); }
 .contact .info { background: var(--card); }
 #footer { background: transparent; color: var(--fg); }
+
+/* Footer small note styling: compact, centered, and consistent with theme */
+.site-footer-note {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1;
+}
+.site-footer-note .footer-year { font-weight: 600; color: var(--fg); }
+.site-footer-note .footer-made strong { color: var(--fg); font-weight: 600; }
+.footer-heart { color: #ef4444; display: inline-block; transform: translateY(1px); font-size: 1.05em; }
+.footer-heart[aria-hidden="true"] { opacity: 0.95; }
 .btn { border-radius: 8px; }
 .social-links a { transition: transform .18s ease, color .18s ease; }
 .social-links a:hover { transform: translateY(-3px); color: var(--primary); }
@@ -1475,12 +1504,13 @@ section { scroll-margin-top: 70px; }
 }
 
 .portfolio .portfolio-wrap {
-  transition: 0.3s;
   position: relative;
   overflow: hidden;
   z-index: 1;
   background: var(--card);
   cursor: pointer;
+  will-change: transform, box-shadow;
+  transition: transform var(--dur-medium) var(--ease-std), box-shadow var(--dur-medium) var(--ease-std);
 }
 
 /* Slight lift to suggest clickability */
@@ -1494,13 +1524,14 @@ section { scroll-margin-top: 70px; }
   right: 30px;
   top: 30px;
   bottom: 30px;
-  transition: all ease-in-out 0.3s;
+  transition: opacity var(--dur-medium) var(--ease-std), transform var(--dur-medium) var(--ease-std);
   z-index: 2;
   opacity: 0;
 }
 
 .portfolio .portfolio-wrap .portfolio-info {
   opacity: 0;
+  transform: translateY(8px) translateZ(0);
   position: absolute;
   top: 0;
   left: 0;
@@ -1508,7 +1539,8 @@ section { scroll-margin-top: 70px; }
   bottom: 0;
   text-align: center;
   z-index: 3;
-  transition: all ease-in-out 0.3s;
+  will-change: transform, opacity;
+  transition: transform var(--dur-medium) var(--ease-std), opacity var(--dur-medium) var(--ease-std);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1599,10 +1631,12 @@ section { scroll-margin-top: 70px; }
   right: 0;
   bottom: 0;
   opacity: 1;
+  transform: translateY(0);
 }
 
 .portfolio .portfolio-wrap:hover .portfolio-info {
   opacity: 1;
+  transform: translateY(0) translateZ(0);
 }
 
 .portfolio .portfolio-wrap:hover .portfolio-info::before {
@@ -2365,13 +2399,27 @@ select.form-control {
 .project-card { cursor:pointer; }
 .project-card img { display:block; width:100%; height:260px; object-fit:cover; }
 @media (max-width: 575.98px){ .project-card img { height:200px; } }
-.project-card .portfolio-overlay { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:1rem 1rem 1.15rem; background:linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0.15) 70%); opacity:0; transition:opacity .4s var(--ease); }
+.project-card .portfolio-overlay { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:1rem 1rem 1.15rem; /* background moved to ::before for smooth fade */ background: transparent; opacity:1; transform: translateY(6px) translateZ(0); will-change: transform, opacity; transition: transform var(--dur-medium) var(--ease-std), opacity var(--dur-medium) var(--ease-std); }
+/* fading backdrop layer so hover-out blends smoothly */
+.project-card .portfolio-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0.12) 70%);
+  opacity: 0.62;
+  transition: opacity var(--dur-medium) var(--ease-std), transform var(--dur-medium) var(--ease-std);
+  will-change: opacity, transform;
+}
+.project-card .portfolio-overlay > * { position: relative; z-index: 2; }
 .project-card .project-links { position:absolute; top:8px; right:8px; display:flex; gap:8px; z-index:5; }
 .project-card .project-links a { width:36px; height:36px; display:grid; place-items:center; background:rgba(0,0,0,0.55); color:#fff; border-radius:10px; text-decoration:none; font-size:17px; line-height:1; transition: background .25s var(--ease), transform .25s var(--ease); }
 .project-card .project-links a:hover { background:rgba(0,0,0,0.75); transform:translateY(-2px); }
 .project-card .project-links a:active { transform:translateY(0); }
 .project-card .project-links a:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
-.project-card:hover .portfolio-overlay, .project-card:focus-within .portfolio-overlay { opacity:1; }
+.project-card:hover .portfolio-overlay, .project-card:focus-within .portfolio-overlay { opacity:1; transform: translateY(0) translateZ(0); }
+.project-card:hover .portfolio-overlay::before, .project-card:focus-within .portfolio-overlay::before { opacity: 0.9; }
 .project-title { margin:0 0 .35rem; font-size:1.05rem; font-weight:700; color:#fff; line-height:1.25; }
 .project-meta { margin:0 0 .35rem; font-size:.75rem; letter-spacing:1px; text-transform:uppercase; color: var(--muted); }
 .project-snippet { font-size:.72rem; line-height:1.3; color:rgba(255,255,255,0.78); margin:0 0 .65rem; }
@@ -2857,7 +2905,7 @@ select.form-control {
 .project-modal-close:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
 
 /* Hover polish for project cards (ensure consistent transitions) */
-.portfolio .portfolio-item .portfolio-wrap { transition: transform .45s var(--ease), box-shadow .45s var(--ease), border-color .45s var(--ease); }
+.portfolio .portfolio-item .portfolio-wrap { transition: transform var(--dur-medium) var(--ease-std), box-shadow var(--dur-medium) var(--ease-std), border-color var(--dur-medium) var(--ease-std); }
 .portfolio .portfolio-item .portfolio-wrap:hover { transform: translateY(-6px); box-shadow:0 18px 38px -16px rgba(0,0,0,0.7); }
 
 /* Reduced motion respect */
